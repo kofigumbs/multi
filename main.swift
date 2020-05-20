@@ -5,17 +5,23 @@ import WebKit
 let _ = NSApplication.shared
 NSApp.setActivationPolicy(NSApplication.ActivationPolicy.regular)
 
-let menu = NSMenu()
-let item = NSMenuItem()
-let subment = NSMenu()
-menu.addItem(item)
-item.submenu = subment
-NSApp.mainMenu = menu
-subment.addItem(NSMenuItem.init(
-    title: "Quit",
-    action: #selector(NSApplication.terminate),
-    keyEquivalent: "q"
-));
+let appMenuItem = NSMenuItem()
+let appMenu = NSMenu()
+appMenuItem.submenu = appMenu
+appMenu.addItem(NSMenuItem(title: "Quit", action: #selector(NSApplication.terminate), keyEquivalent: "q"));
+
+let editMenuItem = NSMenuItem()
+let editMenu = NSMenu(title: "Edit")
+editMenuItem.submenu = editMenu
+editMenu.addItem(NSMenuItem(title: "Cut", action: #selector(NSText.cut(_:)), keyEquivalent: "x"))
+editMenu.addItem(NSMenuItem(title: "Copy", action: #selector(NSText.copy(_:)), keyEquivalent: "c"))
+editMenu.addItem(NSMenuItem(title: "Paste", action: #selector(NSText.paste(_:)), keyEquivalent: "v"))
+editMenu.addItem(NSMenuItem(title: "Select All", action: #selector(NSText.selectAll(_:)), keyEquivalent: "a"))
+
+let mainMenu = NSMenu()
+mainMenu.addItem(appMenuItem)
+mainMenu.addItem(editMenuItem)
+NSApp.mainMenu = mainMenu
 
 let bounds = NSMakeRect(0, 0, 1440, 1600)
 let window = NSWindow.init(
