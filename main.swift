@@ -1,5 +1,7 @@
 import WebKit
 
+let WINDOW_NAME = "Chat"
+
 // These seem to be the right values for fullscreen on my 13-inch
 let WINDOW_WIDTH = 1440
 let WINDOW_HEIGHT = 1600
@@ -21,7 +23,7 @@ class Browser {
             defer: false
         )
         window.cascadeTopLeft(from: .zero)
-        window.title = ProcessInfo.processInfo.processName
+        window.title = WINDOW_NAME
         window.makeKeyAndOrderFront(nil)
         return window
     }()
@@ -50,7 +52,7 @@ class Browser {
 
 
     /*
-     * CONFIGURATION
+     * Configuration
      */
 
     private struct Config: Codable {
@@ -81,40 +83,55 @@ class Browser {
 }
 
 
+/*
+ * DSL for nicer menu creation
+ */
+
+extension NSMenu {
+    enum Entry {
+        case one(String, String, AnyObject?, Selector)
+        case sub(NSMenu)
+    }
+
+    func items(_ items: [Entry]) -> NSMenu {
+        for item in items {
+            switch item {
+            case let .sub(menu):
+                let i = NSMenuItem()
+                i.submenu = menu
+                addItem(i)
+            case let .one(shortcut, title, target, selector):
+                let i = NSMenuItem(title: title, action: selector, keyEquivalent: shortcut)
+                i.target = target
+                addItem(i)
+            }
+        }
+        return self
+    }
+}
+
+
+// Setup app
+
 let browsers = Browser.configure(path: "./config.json")
 browsers.first?.view()
 
-// Setup menu
-let appMenuItem = NSMenuItem()
-let appMenu = NSMenu()
-appMenuItem.submenu = appMenu
-appMenu.addItem(NSMenuItem(title: "Quit", action: #selector(NSApplication.terminate), keyEquivalent: "q"))
+NSApp.mainMenu = NSMenu().items([
+    .sub(NSMenu().items([ .one("q", "Quit", nil, #selector(NSApplication.terminate)) ])),
+    .sub(NSMenu(title: "Edit").items([
+        .one("x", "Cut", nil, #selector(NSText.cut)),
+        .one("c", "Copy", nil, #selector(NSText.copy)),
+        .one("v", "Paste", nil, #selector(NSText.paste)),
+        .one("a", "Select All", nil, #selector(NSText.selectAll)),
+    ])),
+    .sub(NSMenu(title: "View").items(
+        browsers.enumerated().map { (index, browser) in
+            NSMenu.Entry.one("\(index + 1)", browser.title, browser, #selector(Browser.view))
+        }
+    ))
+])
 
-let editMenuItem = NSMenuItem()
-let editMenu = NSMenu(title: "Edit")
-editMenuItem.submenu = editMenu
-editMenu.addItem(NSMenuItem(title: "Cut", action: #selector(NSText.cut), keyEquivalent: "x"))
-editMenu.addItem(NSMenuItem(title: "Copy", action: #selector(NSText.copy), keyEquivalent: "c"))
-editMenu.addItem(NSMenuItem(title: "Paste", action: #selector(NSText.paste), keyEquivalent: "v"))
-editMenu.addItem(NSMenuItem(title: "Select All", action: #selector(NSText.selectAll), keyEquivalent: "a"))
-
-let viewMenuItem = NSMenuItem()
-let viewMenu = NSMenu(title: "View")
-viewMenuItem.submenu = viewMenu
-for (index, browser) in browsers.enumerated() {
-    let item = NSMenuItem(title: browser.title, action: #selector(Browser.view), keyEquivalent: "\(index + 1)")
-    item.target = browser
-    viewMenu.addItem(item)
-}
-
-let mainMenu = NSMenu()
-mainMenu.addItem(appMenuItem)
-mainMenu.addItem(editMenuItem)
-mainMenu.addItem(viewMenuItem)
-
-// Setup app
 let _ = NSApplication.shared
 NSApp.setActivationPolicy(NSApplication.ActivationPolicy.regular)
-NSApp.mainMenu = mainMenu
 NSApp.activate(ignoringOtherApps: true)
 NSApp.run()
