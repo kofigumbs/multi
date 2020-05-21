@@ -11,6 +11,9 @@ let VIEW_HEIGHT = 855 // not sure why this is so different
 let USER_AGENT = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.1 Safari/605.1.15"
 
 
+/*
+ * WebKit UI wrappers
+ */
 class Browser {
     let title: String
     private let webview: WKWebView
@@ -49,12 +52,13 @@ class Browser {
         Browser.window.contentView?.subviews.forEach { $0.removeFromSuperview() }
         Browser.window.contentView?.addSubview(webview)
     }
+}
 
 
-    /*
-     * Configuration
-     */
-
+/*
+ * Configuration
+ */
+extension Browser {
     private struct Config: Codable {
         let title: String
         let url: URL
@@ -86,47 +90,54 @@ class Browser {
 /*
  * DSL for nicer menu creation
  */
-
 extension NSMenu {
-    enum Entry {
-        case one(String, String, AnyObject?, Selector)
-        case sub(NSMenu)
+    struct Entry {
+        let item: NSMenuItem
+
+        static func sub(_ menu: NSMenu) -> Entry {
+            let entry = Entry(item: NSMenuItem())
+            entry.item.submenu = menu
+            return entry
+        }
+
+        static func shortcut(_ keyEquivalent: String, _ title: String, _ action: Selector) -> Entry {
+            return Entry(
+                item: NSMenuItem(title: title, action: action, keyEquivalent: keyEquivalent)
+            )
+        }
+
+        func target(_ this: AnyObject) -> Entry {
+            self.item.target = this
+            return self
+        }
     }
 
     func items(_ items: [Entry]) -> NSMenu {
-        for item in items {
-            switch item {
-            case let .sub(menu):
-                let i = NSMenuItem()
-                i.submenu = menu
-                addItem(i)
-            case let .one(shortcut, title, target, selector):
-                let i = NSMenuItem(title: title, action: selector, keyEquivalent: shortcut)
-                i.target = target
-                addItem(i)
-            }
-        }
+        items.forEach { addItem($0.item) }
         return self
     }
 }
 
 
-// Setup app
-
+/*
+ * "main"
+ */
 let browsers = Browser.configure(path: "./config.json")
 browsers.first?.view()
 
 NSApp.mainMenu = NSMenu().items([
-    .sub(NSMenu().items([ .one("q", "Quit", nil, #selector(NSApplication.terminate)) ])),
+    .sub(NSMenu().items([ .shortcut("q", "Quit", #selector(NSApplication.terminate)) ])),
     .sub(NSMenu(title: "Edit").items([
-        .one("x", "Cut", nil, #selector(NSText.cut)),
-        .one("c", "Copy", nil, #selector(NSText.copy)),
-        .one("v", "Paste", nil, #selector(NSText.paste)),
-        .one("a", "Select All", nil, #selector(NSText.selectAll)),
+        .shortcut("x", "Cut", #selector(NSText.cut)),
+        .shortcut("c", "Copy", #selector(NSText.copy)),
+        .shortcut("v", "Paste", #selector(NSText.paste)),
+        .shortcut("a", "Select All", #selector(NSText.selectAll)),
     ])),
     .sub(NSMenu(title: "View").items(
         browsers.enumerated().map { (index, browser) in
-            NSMenu.Entry.one("\(index + 1)", browser.title, browser, #selector(Browser.view))
+            NSMenu.Entry
+                .shortcut("\(index + 1)", browser.title, #selector(Browser.view))
+                .target(browser)
         }
     ))
 ])
