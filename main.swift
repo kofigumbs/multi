@@ -34,8 +34,9 @@ class Browser {
     private init(_ title: String) {
         self.title = title
         self.webview = WKWebView(frame: CGRect(x: 0, y: 0, width: WINDOW_WIDTH, height: VIEW_HEIGHT))
-        webview.configuration.preferences.setValue(true, forKey: "developerExtrasEnabled")
         webview.customUserAgent = USER_AGENT
+        webview.configuration.preferences.setValue(true, forKey: "developerExtrasEnabled")
+        webview.bridgeNotifications()
     }
 
     private convenience init(_ title: String, url: URL) {
@@ -51,6 +52,75 @@ class Browser {
     @objc func view(_: Any? = nil) {
         Browser.window.contentView?.subviews.forEach { $0.removeFromSuperview() }
         Browser.window.contentView?.addSubview(webview)
+    }
+}
+
+
+/*
+ * Notifications
+ */
+extension WKWebView: WKScriptMessageHandler {
+    func bridgeNotifications() {
+        let js = """
+            window.Notification = class {
+                static get permission() {
+                    return "granted";
+                }
+                static requestPermission(callback) {
+                    if (typeof callback === "function")
+                        callback(Notification.permission);
+                    return Promise.resolve(Notification.permission);
+                }
+                constructor(...x) {
+                    window.webkit.messageHandlers.notify.postMessage(x);
+                }
+            }
+        """
+        let script = WKUserScript(source: js, injectionTime: .atDocumentStart, forMainFrameOnly: false)
+        self.configuration.userContentController.addUserScript(script)
+        self.configuration.userContentController.add(self, name: "notify")
+    }
+
+    public func userContentController(_: WKUserContentController, didReceive: WKScriptMessage) {
+        guard let arguments = didReceive.body as? NSArray,
+              let title = arguments[0] as? String,
+              let options = arguments[1] as? NSObject,
+              let body = options.value(forKey: "body") as? String else {
+            print(didReceive.body)
+            return
+        }
+        let notification = NSUserNotification()
+        notification.identifier = UUID().uuidString
+        notification.title = title
+        notification.informativeText = body
+        // NSUserNotificationCenter.default.delegate = self
+        NSUserNotificationCenter.default.deliver(notification)
+    }
+
+    // public func userNotificationCenter(_: NSUserNotificationCenter, shouldPresent: NSUserNotification) -> Bool {
+    //     print(dump(shouldPresent))
+    //     return true
+    // }
+}
+
+
+/*
+ * Shim for Swift scripts <https://gist.github.com/rsattar/ed74982428003db8e875>
+ */
+extension Bundle {
+    @objc func bundleIdentifier_shim() -> NSString {
+        return self == Bundle.main
+            ? "main.bundle.id.shim"
+            : self.bundleIdentifier_shim() // Not recursive! See transformation below
+    }
+
+    static func setupScriptIdentifier() {
+        if let aClass = objc_getClass("NSBundle") as? AnyClass {
+            method_exchangeImplementations(
+                class_getInstanceMethod(aClass, #selector(getter: Bundle.bundleIdentifier))!,
+                class_getInstanceMethod(aClass, #selector(Bundle.bundleIdentifier_shim))!
+            )
+        }
     }
 }
 
@@ -122,6 +192,8 @@ extension NSMenu {
 /*
  * "main"
  */
+Bundle.setupScriptIdentifier()
+
 let browsers = Browser.configure(path: "./config.json")
 browsers.first?.view()
 
