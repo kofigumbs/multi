@@ -86,14 +86,12 @@ extension WKWebView: WKScriptMessageHandler {
               let title = arguments[0] as? String,
               let options = arguments[1] as? NSObject,
               let body = options.value(forKey: "body") as? String else {
-            print(didReceive.body)
             return
         }
         let notification = NSUserNotification()
         notification.identifier = UUID().uuidString
         notification.title = title
         notification.informativeText = body
-        // NSUserNotificationCenter.default.delegate = self
         NSUserNotificationCenter.default.deliver(notification)
     }
 
@@ -101,27 +99,6 @@ extension WKWebView: WKScriptMessageHandler {
     //     print(dump(shouldPresent))
     //     return true
     // }
-}
-
-
-/*
- * Shim for Swift scripts <https://gist.github.com/rsattar/ed74982428003db8e875>
- */
-extension Bundle {
-    @objc func bundleIdentifier_shim() -> NSString {
-        return self == Bundle.main
-            ? "main.bundle.id.shim"
-            : self.bundleIdentifier_shim() // Not recursive! See transformation below
-    }
-
-    static func setupScriptIdentifier() {
-        if let aClass = objc_getClass("NSBundle") as? AnyClass {
-            method_exchangeImplementations(
-                class_getInstanceMethod(aClass, #selector(getter: Bundle.bundleIdentifier))!,
-                class_getInstanceMethod(aClass, #selector(Bundle.bundleIdentifier_shim))!
-            )
-        }
-    }
 }
 
 
@@ -134,24 +111,25 @@ extension Browser {
         let url: URL
     }
 
-    private static func error(_ path: String, _ message: String) -> [Browser] {
+    private static func error(_ message: String) -> [Browser] {
         let html = """
             <!DOCTYPE html>
-            <h1>Invalid configuration <code>\(path)</code></h1>
+            <h1>Invalid configuration file</h1>
             <pre><code>\(message)</code></pre>
         """
         return [ Browser("Error", html: html) ]
     }
 
-    static func configure(path: String) -> [Browser] {
-        guard let file = try? Data(contentsOf: URL(fileURLWithPath: path)) else {
-            return error(path, "File does not exist")
+    static func configure(path bundlePath: String?) -> [Browser] {
+        guard let path = bundlePath,
+              let file = try? Data(contentsOf: URL(fileURLWithPath: path)) else {
+            return error("File does not exist")
         }
         guard let json = try? JSONDecoder().decode([Config].self, from: file) else {
-            return error(path, "Required format is [{ title: String, url: String }]")
+            return error("Required format is [{ title: String, url: String }]")
         }
         return json.isEmpty 
-            ? error(path, "JSON is empty")
+            ? error("JSON object is empty")
             : json.map { Browser($0.title, url: $0.url) }
     }
 }
@@ -192,9 +170,7 @@ extension NSMenu {
 /*
  * "main"
  */
-Bundle.setupScriptIdentifier()
-
-let browsers = Browser.configure(path: "./config.json")
+let browsers = Browser.configure(path: Bundle.main.path(forResource: "config", ofType: "json"))
 browsers.first?.view()
 
 NSApp.mainMenu = NSMenu().items([
