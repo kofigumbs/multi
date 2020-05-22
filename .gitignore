@@ -2,3 +2,7 @@
 /.build
 /Packages
 /*.xcodeproj
+
+/*.iconset
+/*.app
+**/Resources/config.json
