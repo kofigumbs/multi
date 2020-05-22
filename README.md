@@ -2,7 +2,7 @@
 
 - Build your own custom macOS apps with different webviews
 - Switch between the tabs with ⌘ shortcuts
-- Bridge WebNotifications to macOS Notification Center
+- Bridge web notifications to macOS Notification Center
 - Native Cut/Copy/Paste/Quit controls
 
 Read more about the motivation and process on my blog: <https://kofi.sexy/blog/multi>.
