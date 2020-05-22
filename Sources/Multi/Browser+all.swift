@@ -18,7 +18,7 @@ extension Browser {
         return [ Browser("Error", html: html) ]
     }
 
-    static func configure() -> [Browser] {
+    static let all: [Browser] = {
         guard let path = Bundle.main.path(forResource: "config", ofType: "json"),
               let file = try? Data(contentsOf: URL(fileURLWithPath: path)) else {
             return error("File does not exist")
@@ -29,5 +29,5 @@ extension Browser {
         return json.isEmpty 
             ? error("JSON object is empty")
             : json.map { Browser($0.title, url: $0.url) }
-    }
+    }()
 }
