@@ -1,8 +1,10 @@
+import Foundation
+
 /*
  * Configuration
  */
 extension Browser {
-    private struct Config: Codable {
+    private struct Config: Decodable {
         let title: String
         let url: URL
     }

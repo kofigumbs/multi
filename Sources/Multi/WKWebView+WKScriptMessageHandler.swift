@@ -21,7 +21,7 @@ extension WKWebView: WKScriptMessageHandler {
     """
 
     func bridgeNotifications() {
-        let script = WKUserScript(source: JS, injectionTime: .atDocumentStart, forMainFrameOnly: false)
+        let script = WKUserScript(source: WKWebView.JS, injectionTime: .atDocumentStart, forMainFrameOnly: false)
         self.configuration.userContentController.addUserScript(script)
         self.configuration.userContentController.add(self, name: "notify")
     }

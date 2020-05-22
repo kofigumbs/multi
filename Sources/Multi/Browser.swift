@@ -11,13 +11,13 @@ class Browser {
     private static let USER_AGENT = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.1 Safari/605.1.15"
 
     // These seem to be the right values for fullscreen on my 13-inch
-    private let WINDOW_WIDTH = 1440
-    private let WINDOW_HEIGHT = 1600
-    private let VIEW_HEIGHT = 855 // not sure why this is so different
+    private static let WINDOW_WIDTH = 1440
+    private static let WINDOW_HEIGHT = 1600
+    private static let VIEW_HEIGHT = 855 // not sure why this is so different
 
     private static let window: NSWindow = {
         let window = NSWindow.init(
-            contentRect: NSMakeRect(0, 0, CGFloat(WINDOW_WIDTH), CGFloat(WINDOW_HEIGHT)),
+            contentRect: NSMakeRect(0, 0, CGFloat(Browser.WINDOW_WIDTH), CGFloat(Browser.WINDOW_HEIGHT)),
             styleMask: [.titled, .closable, .miniaturizable, .resizable],
             backing: NSWindow.BackingStoreType.buffered,
             defer: false
@@ -30,18 +30,20 @@ class Browser {
 
     private init(_ title: String) {
         self.title = title
-        self.webview = WKWebView(frame: CGRect(x: 0, y: 0, width: WINDOW_WIDTH, height: VIEW_HEIGHT))
-        webview.customUserAgent = USER_AGENT
+        self.webview = WKWebView(frame: CGRect(x: 0, y: 0, width: Browser.WINDOW_WIDTH, height: Browser.VIEW_HEIGHT))
         webview.configuration.preferences.setValue(true, forKey: "developerExtrasEnabled")
         webview.bridgeNotifications()
+        if #available(macOS 10.13, *) {
+            webview.customUserAgent = Browser.USER_AGENT
+        }
     }
 
-    private convenience init(_ title: String, url: URL) {
+    convenience init(_ title: String, url: URL) {
         self.init(title)
         self.webview.load(URLRequest(url: url))
     }
 
-    private convenience init(_ title: String, html: String) {
+    convenience init(_ title: String, html: String) {
         self.init(title)
         self.webview.loadHTMLString(html, baseURL: nil)
     }

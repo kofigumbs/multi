@@ -4,10 +4,10 @@ import PackageDescription
 
 let package = Package(
     name: "Multi",
-    dependencies: [
-    ],
     products: [
         .executable(name: "Multi", targets: ["Multi"]),
+    ],
+    dependencies: [
     ],
     targets: [
         .target(name: "Multi"),
