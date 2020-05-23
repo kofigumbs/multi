@@ -1,6 +1,6 @@
 import WebKit
 
-Browser.all.first?.view()
+Config.browsers.first?.view()
 
 NSApp.mainMenu = NSMenu().items([
     .sub(NSMenu().items([
@@ -13,7 +13,7 @@ NSApp.mainMenu = NSMenu().items([
         .shortcut("a", "Select All", #selector(NSText.selectAll)),
     ])),
     .sub(NSMenu(title: "View").items(
-        Browser.all.enumerated().map { (index, browser) in
+        Config.browsers.enumerated().map { (index, browser) in
             NSMenu.Entry
                 .shortcut("\(index + 1)", browser.title, #selector(Browser.view))
                 .target(browser)
