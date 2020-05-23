@@ -7,11 +7,10 @@ struct Config {
     let url: URL
 
     private static func error(_ message: String) -> [Browser] {
-        let html = """
-            <!DOCTYPE html>
-            <h1>Invalid configuration file</h1>
-            <pre><code>\(message)</code></pre>
-        """
+        let html =
+            "<!DOCTYPE html>                    " +
+            "<h1>Invalid configuration file</h1>" +
+            "<pre><code>\(message)</code></pre>"
         return [ Browser("Error", html: html) ]
     }
 
