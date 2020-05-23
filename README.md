@@ -17,3 +17,27 @@ open <YOUR_APP_NAME>.app # open and use your custom app
 ```
 
 These instructions were developed and tested with Swift 4.2 on macOS 10.13 High Sierra.
+
+
+## Common Issues
+
+If you (1) have XCode installed and (2) see one of these errors when running `create-mac-app`:
+
+-
+  ```
+  error: terminated(72): xcrun --sdk macosx --find xctest output:
+      xcrun: error: unable to find utility "xctest", not a developer tool or in PATH
+  ```
+-
+  ```
+  dyld: Library not loaded: @rpath/llbuild.framework/Versions/A/llbuild
+  Referenced from: /Library/Developer/CommandLineTools/usr/bin/swift-package 
+      Reason: image not found
+      Abort trap: 6
+  ```
+
+Try this fix, which tells XCode Command Line Tools where to find the most up-to-date libraries:
+
+```
+sudo xcode-select -s /Applications/Xcode.app/Contents/Developer
+```
