@@ -1,0 +1,12 @@
+language: swift
+
+jobs:
+  include:
+    - osx_image: xcode10.1
+    - osx_image: xcode8 # <https://github.com/hkgumbs/multi/issues/1>
+
+script:
+  - swift build
+
+notifications:
+  email: false
