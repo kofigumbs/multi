@@ -10,14 +10,9 @@ class Browser {
     // Fake a more popular browser to circumvent UA-sniffing
     private static let USER_AGENT = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.1 Safari/605.1.15"
 
-    // These seem to be the right values for fullscreen on my 13-inch
-    private static let WINDOW_WIDTH = 1440
-    private static let WINDOW_HEIGHT = 1600
-    private static let VIEW_HEIGHT = 855 // not sure why this is so different
-
     private static let window: NSWindow = {
-        let window = NSWindow.init(
-            contentRect: NSMakeRect(0, 0, CGFloat(Browser.WINDOW_WIDTH), CGFloat(Browser.WINDOW_HEIGHT)),
+        let window = NSWindow(
+            contentRect: NSScreen.main!.frame,
             styleMask: [.titled, .closable, .miniaturizable, .resizable],
             backing: NSWindow.BackingStoreType.buffered,
             defer: false
@@ -30,9 +25,11 @@ class Browser {
 
     private init(_ title: String) {
         self.title = title
-        self.webview = WKWebView(frame: CGRect(x: 0, y: 0, width: Browser.WINDOW_WIDTH, height: Browser.VIEW_HEIGHT))
+        self.webview = WKWebView(frame: Browser.window.frame)
         webview.configuration.preferences.setValue(true, forKey: "developerExtrasEnabled")
         webview.bridgeNotifications()
+        webview.autoresizesSubviews = true
+        webview.autoresizingMask = [.width, .height]
         if #available(macOS 10.13, *) {
             webview.customUserAgent = Browser.USER_AGENT
         }
@@ -49,7 +46,7 @@ class Browser {
     }
 
     @objc func view(_: Any? = nil) {
-        Browser.window.contentView?.subviews.forEach { $0.removeFromSuperview() }
-        Browser.window.contentView?.addSubview(webview)
+        Browser.window.contentView = webview
+        webview.lockFocus()
     }
 }
