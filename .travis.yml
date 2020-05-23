@@ -4,9 +4,10 @@ jobs:
   include:
     - osx_image: xcode10.1
     - osx_image: xcode8 # <https://github.com/hkgumbs/multi/issues/1>
+      before_script: mv Package.swift.3 Package.swift
 
 script:
-  - swift build
+  - swift build $SWIFT_FLAGS
 
 notifications:
   email: false
