@@ -2,6 +2,10 @@
 
 import PackageDescription
 
+#if SWIFT3
+let package = Package(name: "Multi")
+
+#else
 let package = Package(
     name: "Multi",
     products: [
@@ -13,3 +17,4 @@ let package = Package(
         .target(name: "Multi"),
     ]
 )
+#endif
