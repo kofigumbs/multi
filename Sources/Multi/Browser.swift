@@ -12,9 +12,9 @@ class Browser {
 
     private static let window: NSWindow = {
         let window = NSWindow(
-            contentRect: NSScreen.main!.frame,
+            contentRect: NSScreen.main()!.frame,
             styleMask: [.titled, .closable, .miniaturizable, .resizable],
-            backing: NSWindow.BackingStoreType.buffered,
+            backing: NSBackingStoreType.buffered,
             defer: false
         )
         window.cascadeTopLeft(from: .zero)
@@ -29,7 +29,7 @@ class Browser {
         webView.configuration.preferences.setValue(true, forKey: "developerExtrasEnabled")
         webView.bridgeNotifications()
         webView.autoresizesSubviews = true
-        webView.autoresizingMask = [.width, .height]
+        // webView.autoresizingMask = [.width, .height]
         webView.navigationDelegate = ExternalLink.handler
         if #available(macOS 10.13, *) {
             webView.customUserAgent = Browser.USER_AGENT

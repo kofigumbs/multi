@@ -21,7 +21,7 @@ NSApp.mainMenu = NSMenu().items([
     ))
 ])
 
-_ = NSApplication.shared
-NSApp.setActivationPolicy(NSApplication.ActivationPolicy.regular)
+_ = NSApplication.shared()
+NSApp.setActivationPolicy(.regular)
 NSApp.activate(ignoringOtherApps: true)
 NSApp.run()
