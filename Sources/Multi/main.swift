@@ -3,7 +3,9 @@ import WebKit
 Browser.all.first?.view()
 
 NSApp.mainMenu = NSMenu().items([
-    .sub(NSMenu().items([ .shortcut("q", "Quit", #selector(NSApplication.terminate)) ])),
+    .sub(NSMenu().items([
+        .shortcut("q", "Quit", #selector(NSApplication.terminate)),
+    ])),
     .sub(NSMenu(title: "Edit").items([
         .shortcut("x", "Cut", #selector(NSText.cut)),
         .shortcut("c", "Copy", #selector(NSText.copy)),
