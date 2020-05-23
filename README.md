@@ -21,23 +21,41 @@ These instructions were developed and tested with Swift 4.2 on macOS 10.13 High 
 
 ## Common Issues
 
-If you (1) have XCode installed and (2) see one of these errors when running `create-mac-app`:
+1. If you (1) have XCode installed and (2) see one of these errors when running `create-mac-app`:
 
--
-  ```
-  error: terminated(72): xcrun --sdk macosx --find xctest output:
-      xcrun: error: unable to find utility "xctest", not a developer tool or in PATH
-  ```
--
-  ```
-  dyld: Library not loaded: @rpath/llbuild.framework/Versions/A/llbuild
-  Referenced from: /Library/Developer/CommandLineTools/usr/bin/swift-package 
-      Reason: image not found
-      Abort trap: 6
-  ```
+   -
+     ```
+     error: terminated(72): xcrun --sdk macosx --find xctest output:
+         xcrun: error: unable to find utility "xctest", not a developer tool or in PATH
+     ```
+   -
+     ```
+     dyld: Library not loaded: @rpath/llbuild.framework/Versions/A/llbuild
+     Referenced from: /Library/Developer/CommandLineTools/usr/bin/swift-package 
+         Reason: image not found
+         Abort trap: 6
+     ```
 
-Try this fix, which tells XCode Command Line Tools where to find the most up-to-date libraries:
+   Try this fix, which tells XCode Command Line Tools where to find the most up-to-date libraries:
 
-```
-sudo xcode-select -s /Applications/Xcode.app/Contents/Developer
-```
+   ```
+   sudo xcode-select -s /Applications/Xcode.app/Contents/Developer
+   ```
+
+2. If you (1) use macOS 10.11 or 10.12 and (2) see the following error when running `create-mac-app`:
+
+   ```
+   Package.swift:12:5: error: argument 'targets' must precede argument 'dependencies'
+       targets: [
+       ^
+   Can't parse Package.swift manifest file because it contains invalid format. Fix Package.swift file format and try again.
+   ```
+
+   You are probably using Swift 3.
+   You can confirm that by running `swift --version`.
+   Switching to the [`swift3` branch](https://github.com/hkgumbs/multi/tree/swift3) should probably get you up and running.
+   _Note: I don't think window resizing works on that branch—if you know how to fix it, please contribute!_
+
+   ```
+   git checkout swift3
+   ```
