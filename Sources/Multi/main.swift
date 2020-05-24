@@ -4,6 +4,8 @@ Config.browsers.first?.view()
 
 NSApp.mainMenu = NSMenu().items([
     .sub(NSMenu().items([
+        .shortcut("h", "Hide", #selector(NSApplication.hide)),
+        .shortcut("m", "Minimze", #selector(NSApplication.miniaturizeAll)),
         .shortcut("q", "Quit", #selector(NSApplication.terminate)),
     ])),
     .sub(NSMenu(title: "Edit").items([
