@@ -34,7 +34,7 @@ else
 fi
  
 swift build
-cp .build/x86*/debug/Multi "$APP_NAME.app/Multi"
+cp .build/debug/Multi "$APP_NAME.app/Multi"
 
 mkdir $ICON_TMP_DIR
 sips -z 16 16     "$ICON_PATH" --out "$ICON_TMP_DIR/icon_16x16.png"      > /dev/null
