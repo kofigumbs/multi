@@ -3,7 +3,7 @@ import WebKit
 /*
  * WebKit UI wrappers
  */
-class Browser {
+class Browser: NSObject {
     let title: String
     private let webView: WKWebView
 
