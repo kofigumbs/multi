@@ -29,7 +29,7 @@ class Browser {
         webView.configuration.preferences.setValue(true, forKey: "developerExtrasEnabled")
         webView.bridgeNotifications()
         webView.autoresizesSubviews = true
-        webView.navigationDelegate = ExternalLink.handler
+        webView.navigationDelegate = ExternalLink.singleton
         if #available(macOS 10.13, *) {
             webView.customUserAgent = Browser.USER_AGENT
         }
