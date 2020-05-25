@@ -4,15 +4,15 @@ Config.browsers.first?.view()
 
 NSApp.mainMenu = NSMenu().items([
     .sub(NSMenu().items([
-        .shortcut("h", "Hide", #selector(NSApplication.hide)),
-        .shortcut("m", "Minimze", #selector(NSApplication.miniaturizeAll)),
-        .shortcut("q", "Quit", #selector(NSApplication.terminate)),
+        .shortcut("h", "Hide", #selector(NSApplication.hide(_:))),
+        .shortcut("m", "Minimze", #selector(NSApplication.miniaturizeAll(_:))),
+        .shortcut("q", "Quit", #selector(NSApplication.terminate(_:))),
     ])),
     .sub(NSMenu(title: "Edit").items([
-        .shortcut("x", "Cut", #selector(NSText.cut)),
-        .shortcut("c", "Copy", #selector(NSText.copy)),
-        .shortcut("v", "Paste", #selector(NSText.paste)),
-        .shortcut("a", "Select All", #selector(NSText.selectAll)),
+        .shortcut("x", "Cut", #selector(NSText.cut(_:))),
+        .shortcut("c", "Copy", #selector(NSText.copy(_:))),
+        .shortcut("v", "Paste", #selector(NSText.paste(_:))),
+        .shortcut("a", "Select All", #selector(NSText.selectAll(_:))),
     ])),
     .sub(NSMenu(title: "View").items(
         Config.browsers.enumerated().map { (index, browser) in
