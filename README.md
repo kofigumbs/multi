@@ -54,7 +54,6 @@ These instructions were developed and tested with Swift 4.2 on macOS 10.13 High 
    You are probably using Swift 3.
    You can confirm that by running `swift --version`.
    Switching to the [`swift3` branch](https://github.com/hkgumbs/multi/tree/swift3) should probably get you up and running.
-   _Note: I don't think window resizing works on that branch—if you know how to fix it, please contribute!_
 
    ```
    git checkout swift3
