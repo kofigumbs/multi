@@ -5,6 +5,7 @@ Config.browsers.first?.view()
 NSApp.mainMenu = NSMenu().items([
     .sub(NSMenu().items([
         .shortcut("h", "Hide", #selector(NSApplication.hide(_:))),
+        .shortcut("w", "Hide Window", #selector(NSApplication.hide(_:)), hidden: true),
         .shortcut("m", "Minimze", #selector(NSApplication.miniaturizeAll(_:))),
         .shortcut("q", "Quit", #selector(NSApplication.terminate(_:))),
     ])),
@@ -16,9 +17,7 @@ NSApp.mainMenu = NSMenu().items([
     ])),
     .sub(NSMenu(title: "View").items(
         Config.browsers.enumerated().map { (index, browser) in
-            NSMenu.Entry
-                .shortcut("\(index + 1)", browser.title, #selector(Browser.view(_:)))
-                .target(browser)
+            .shortcut("\(index + 1)", browser.title, #selector(Browser.view(_:)), target: browser)
         }
     ))
 ])
