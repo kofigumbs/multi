@@ -17,7 +17,7 @@ NSApp.mainMenu = NSMenu().items([
     .sub(NSMenu(title: "View").items(
         Config.browsers.enumerated().map { (index, browser) in
             NSMenu.Entry
-                .shortcut("\(index + 1)", browser.title, #selector(Browser.view))
+                .shortcut("\(index + 1)", browser.title, #selector(Browser.view(_:)))
                 .target(browser)
         }
     ))
