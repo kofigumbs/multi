@@ -13,15 +13,14 @@ extension NSMenu {
             return entry
         }
 
-        static func shortcut(_ keyEquivalent: String, _ title: String, _ action: Selector) -> Entry {
-            return Entry(
-                item: NSMenuItem(title: title, action: action, keyEquivalent: keyEquivalent)
-            )
-        }
-
-        func target(_ this: AnyObject) -> Entry {
-            self.item.target = this
-            return self
+        static func shortcut(_ keyEquivalent: String, _ title: String, _ action: Selector, target: AnyObject? = nil, hidden: Bool? = nil) -> Entry {
+            let item = NSMenuItem(title: title, action: action, keyEquivalent: keyEquivalent)
+            target.map { item.target = $0 }
+            hidden.map { item.isHidden = $0 }
+            if #available(macOS 10.13, *) {
+                item.allowsKeyEquivalentWhenHidden = true
+            }
+            return Entry(item: item)
         }
     }
 
