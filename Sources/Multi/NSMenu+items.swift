@@ -17,9 +17,6 @@ extension NSMenu {
             let item = NSMenuItem(title: title, action: action, keyEquivalent: keyEquivalent)
             target.map { item.target = $0 }
             hidden.map { item.isHidden = $0 }
-            if #available(macOS 10.13, *) {
-                item.allowsKeyEquivalentWhenHidden = true
-            }
             return Entry(item: item)
         }
     }
