@@ -3,7 +3,7 @@
 - Build your own custom macOS apps with different webviews
 - Switch between the tabs with ⌘ shortcuts
 - Bridge web notifications to macOS Notification Center
-- Native Cut/Copy/Paste/Quit controls
+- Native Cut/Copy/Paste/Quit/Hide/Minimize controls
 
 Read more about the motivation and process on my blog: <https://kofi.sexy/blog/multi>.
 
@@ -21,7 +21,7 @@ These instructions were developed and tested with Swift 4.2 on macOS 10.13 High 
 
 ## Common Issues
 
-1. If you (1) have XCode installed and (2) see one of these errors when running `create-mac-app`:
+1. If you have XCode installed and see one of these errors when running `create-mac-app`:
 
    -
      ```
@@ -42,7 +42,7 @@ These instructions were developed and tested with Swift 4.2 on macOS 10.13 High 
    sudo xcode-select -s /Applications/Xcode.app/Contents/Developer
    ```
 
-2. If you (1) use macOS 10.11 or 10.12 and (2) see the following error when running `create-mac-app`:
+2. If you use macOS 10.12 or earlier and see the following error when running `create-mac-app`:
 
    ```
    Package.swift:12:5: error: argument 'targets' must precede argument 'dependencies'
