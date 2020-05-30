@@ -14,7 +14,13 @@ NSApp.mainMenu = NSMenu().items([
         .shortcut("v", "Paste", #selector(NSText.paste(_:))),
         .shortcut("a", "Select All", #selector(NSText.selectAll(_:))),
     ])),
-    .sub(NSMenu(title: "View")),
+    .sub(NSMenu(title: "View").items([
+        .shortcut("r", "Reload This Page", #selector(WKWebView.reload(_:))),
+    ])),
+    .sub(NSMenu(title: "History").items([
+        .shortcut("[", "Back", #selector(WKWebView.goBack(_:))),
+        .shortcut("]", "Forward", #selector(WKWebView.goForward(_:))),
+    ])),
     .sub(NSMenu(title: "Tab").items(
         [
             .shortcut("⇥", "Select Next Tab", #selector(Browser.nextTab(_:)), target: Browser.global, modifiers: [.control]),

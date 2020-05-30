@@ -10,6 +10,7 @@ class Tab: NSObject {
         self.webView = webView
 
         webView.configuration.preferences.setValue(true, forKey: "developerExtrasEnabled")
+        webView.allowsMagnification = true
         webView.autoresizesSubviews = true
         webView.navigationDelegate = Browser.global
 
