@@ -29,7 +29,7 @@ NSApp.mainMenu = NSMenu().items([
         ]
         +
         Config.tabs.enumerated().map { (index, tab) in
-            .shortcut("\(index + 1)", tab.title, #selector(Tab.view(_:)), target: tab)
+            .shortcut(index >= 9 ? "" : "\(index + 1)", tab.title, #selector(Tab.view(_:)), target: tab)
         }
     )),
     .sub(NSMenu(title: "Window").items([
