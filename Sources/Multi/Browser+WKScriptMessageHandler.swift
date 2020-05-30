@@ -1,16 +1,13 @@
 import WebKit
 
-/*
- * Notifications
- */
-extension WKWebView: WKScriptMessageHandler {
-    private static let JS = """
+extension Browser: WKScriptMessageHandler {
+    static let JS = """
         window.Notification = class {
             static get permission() {
-                return 'granted';
+                return "granted";
             }
             static requestPermission(callback) {
-                if (typeof callback === 'function')
+                if (typeof callback === "function")
                     callback(Notification.permission);
                 return Promise.resolve(Notification.permission);
             }
@@ -19,12 +16,6 @@ extension WKWebView: WKScriptMessageHandler {
             }
         }
     """
-
-    func bridgeNotifications() {
-        let script = WKUserScript(source: WKWebView.JS, injectionTime: .atDocumentStart, forMainFrameOnly: false)
-        self.configuration.userContentController.addUserScript(script)
-        self.configuration.userContentController.add(self, name: "notify")
-    }
 
     public func userContentController(_: WKUserContentController, didReceive: WKScriptMessage) {
         guard let arguments = didReceive.body as? NSArray,

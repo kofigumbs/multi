@@ -1,8 +1,6 @@
-import WebKit
+import AppKit
 
-class WindowManager: NSObject, NSApplicationDelegate {
-    static let singleton = WindowManager()
-
+extension Browser: NSApplicationDelegate {
     func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool {
         return true
     }

@@ -4,16 +4,16 @@ struct Config: Decodable {
     let title: String
     let url: URL
 
-    private static func error(_ message: String) -> [Browser] {
+    private static func error(_ message: String) -> [Tab] {
         let html = """
             <!DOCTYPE html>
             <h1>Invalid configuration file</h1>
             <pre><code>\(message)</code></pre>
         """
-        return [ Browser("Error", html: html) ]
+        return [ Tab("Error", html: html) ]
     }
 
-    static let browsers: [Browser] = {
+    static let tabs: [Tab] = {
         guard let path = Bundle.main.path(forResource: "config", ofType: "json"),
               let file = try? Data(contentsOf: URL(fileURLWithPath: path)) else {
             return error("File does not exist")
@@ -23,6 +23,6 @@ struct Config: Decodable {
         }
         return json.isEmpty 
             ? error("JSON object is empty")
-            : json.map { Browser($0.title, url: $0.url) }
+            : json.map { Tab($0.title, url: $0.url) }
     }()
 }

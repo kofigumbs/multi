@@ -1,8 +1,6 @@
 import WebKit
 
-class ExternalLink: NSObject, WKNavigationDelegate {
-    static let singleton = ExternalLink()
-
+extension Browser: WKNavigationDelegate {
     func webView(_: WKWebView, decidePolicyFor: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) -> () {
         switch decidePolicyFor.targetFrame {
         case .some(_):
