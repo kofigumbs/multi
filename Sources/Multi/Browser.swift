@@ -23,6 +23,18 @@ class Browser: NSObject {
         return window
     }()
 
+    @available(macOS 10.13, *)
+    private static func setupBlocklist(for webView: WKWebView) {
+        guard let path = Bundle.main.path(forResource: "blocklist", ofType: "json"),
+              let data = try? Data(contentsOf: URL(fileURLWithPath: path)),
+              let json = String(data: data, encoding: .utf8) else {
+            return
+        }
+        WKContentRuleListStore.default().compileContentRuleList(forIdentifier: "blocklist", encodedContentRuleList: json.lowercased()) { (rules, error) in
+            rules.map { webView.configuration.userContentController.add($0) }
+        }
+    }
+
     private init(_ title: String) {
         self.title = title
         self.webView = WKWebView(frame: Browser.window.frame)
@@ -32,6 +44,7 @@ class Browser: NSObject {
         webView.navigationDelegate = ExternalLink.singleton
         if #available(macOS 10.13, *) {
             webView.customUserAgent = Browser.USER_AGENT
+            Browser.setupBlocklist(for: webView)
         }
     }
 
