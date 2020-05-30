@@ -4,8 +4,8 @@ class Tab: NSObject {
     let title: String
     let webView: WKWebView
 
-    private init(_ title: String) {
-        let webView = WKWebView(frame: Browser.window.frame)
+    private init(_ title: String, _ configuration: WKWebViewConfiguration) {
+        let webView = WKWebView(frame: Browser.window.frame, configuration: configuration)
         self.title = title
         self.webView = webView
 
@@ -26,13 +26,17 @@ class Tab: NSObject {
         }
     }
 
-    convenience init(_ title: String, url: URL) {
-        self.init(title)
+    convenience init(_ title: String, url: URL, `private`: Bool) {
+        let configuration = WKWebViewConfiguration()
+        if `private` {
+            configuration.websiteDataStore = .nonPersistent()
+        }
+        self.init(title, configuration)
         self.webView.load(URLRequest(url: url))
     }
 
     convenience init(_ title: String, html: String) {
-        self.init(title)
+        self.init(title, WKWebViewConfiguration())
         self.webView.loadHTMLString(html, baseURL: nil)
     }
 

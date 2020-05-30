@@ -1,8 +1,9 @@
 import Foundation
 
 struct Config: Decodable {
-    let title: String
-    let url: URL
+    private let title: String
+    private let url: URL
+    private let `private`: Bool?
 
     private static func error(_ message: String) -> [Tab] {
         let html = """
@@ -19,10 +20,9 @@ struct Config: Decodable {
             return error("File does not exist")
         }
         guard let json = try? JSONDecoder().decode([Config].self, from: file) else {
-            return error("Required format is [{ title: String, url: String }]")
-        }
+            return error("Required format is [{ title: String, url: String }]") }
         return json.isEmpty 
             ? error("JSON object is empty")
-            : json.map { Tab($0.title, url: $0.url) }
+            : json.map { Tab($0.title, url: $0.url, private: $0.private ?? false) }
     }()
 }
