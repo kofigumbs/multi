@@ -4,15 +4,6 @@ class Tab: NSObject {
     let title: String
     let webView: WKWebView
 
-    private static let blocklist: String = {
-        guard let path = Bundle.main.path(forResource: "blocklist", ofType: "json"),
-              let data = try? Data(contentsOf: URL(fileURLWithPath: path)),
-              let json = String(data: data, encoding: .utf8) else {
-            return "[]"
-        }
-        return json.lowercased()
-    }()
-
     private init(_ title: String) {
         let webView = WKWebView(frame: Browser.window.frame)
         self.title = title
@@ -28,7 +19,7 @@ class Tab: NSObject {
 
         if #available(macOS 10.13, *) {
             webView.customUserAgent = Browser.userAgent
-            WKContentRuleListStore.default().compileContentRuleList(forIdentifier: "blocklist", encodedContentRuleList: Tab.blocklist) { (rules, error) in
+            WKContentRuleListStore.default().compileContentRuleList(forIdentifier: "blocklist", encodedContentRuleList: Browser.blocklist) { (rules, error) in
                 rules.map { webView.configuration.userContentController.add($0) }
             }
         }

@@ -16,6 +16,12 @@ NSApp.mainMenu = NSMenu().items([
     ])),
     .sub(NSMenu(title: "View")),
     .sub(NSMenu(title: "Tab").items(
+        [
+            .shortcut("⇥", "Select Next Tab", #selector(Browser.nextTab(_:)), target: Browser.global, modifiers: [.control]),
+            .shortcut("⇥", "Select Previous Tab", #selector(Browser.previousTab(_:)), target: Browser.global, modifiers: [.control, .shift]),
+            .divider(),
+        ]
+        +
         Config.tabs.enumerated().map { (index, tab) in
             .shortcut("\(index + 1)", tab.title, #selector(Tab.view(_:)), target: tab)
         }
@@ -25,6 +31,10 @@ NSApp.mainMenu = NSMenu().items([
         .shortcut("m", "Minimze", #selector(NSApplication.miniaturizeAll(_:))),
     ])),
 ])
+
+if #available(macOS 10.12, *) {
+    NSWindow.allowsAutomaticWindowTabbing = false
+}
 
 _ = NSApplication.shared
 NSApp.delegate = Browser.global
