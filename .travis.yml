@@ -1,14 +1,6 @@
 language: swift
-
-jobs:
-  include:
-    - osx_image: xcode10.1
-      if: branch != swift3
-    - osx_image: xcode8 # <https://github.com/hkgumbs/multi/issues/1>
-      if: branch == swift3
-
+osx_image: xcode8
 script:
   - swift build
-
 notifications:
   email: false
