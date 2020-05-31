@@ -1,28 +1,17 @@
-import Foundation
+import AppKit
 
 struct Config: Decodable {
     private let title: String
     private let url: URL
     private let `private`: Bool?
-
-    private static func error(_ message: String) -> [Tab] {
-        let html = """
-            <!DOCTYPE html>
-            <h1>Invalid configuration file</h1>
-            <pre><code>\(message)</code></pre>
-        """
-        return [ Tab("Error", html: html) ]
-    }
+    private let blocklist: Bool?
 
     static let tabs: [Tab] = {
         guard let path = Bundle.main.path(forResource: "config", ofType: "json"),
-              let file = try? Data(contentsOf: URL(fileURLWithPath: path)) else {
-            return error("File does not exist")
+              let file = try? Data(contentsOf: URL(fileURLWithPath: path)),
+              let json = try? JSONDecoder().decode([Config].self, from: file) else {
+            return []
         }
-        guard let json = try? JSONDecoder().decode([Config].self, from: file) else {
-            return error("Required format is [{ title: String, url: String }]") }
-        return json.isEmpty 
-            ? error("JSON object is empty")
-            : json.map { Tab($0.title, url: $0.url, private: $0.private ?? false) }
+        return json.map { Tab($0.title, url: $0.url, private: $0.private ?? false, blocklist: $0.blocklist ?? false) }
     }()
 }

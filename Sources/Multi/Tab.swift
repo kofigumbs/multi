@@ -4,40 +4,31 @@ class Tab: NSObject {
     let title: String
     let webView: WKWebView
 
-    private init(_ title: String, _ configuration: WKWebViewConfiguration) {
-        let webView = WKWebView(frame: Browser.window.frame, configuration: configuration)
-        self.title = title
-        self.webView = webView
-
-        webView.configuration.preferences.setValue(true, forKey: "developerExtrasEnabled")
-        webView.allowsMagnification = true
-        webView.autoresizesSubviews = true
-        webView.navigationDelegate = Browser.global
-
-        let script = WKUserScript(source: Browser.JS, injectionTime: .atDocumentStart, forMainFrameOnly: false)
-        webView.configuration.userContentController.addUserScript(script)
-        webView.configuration.userContentController.add(Browser.global, name: "multi.js")
-
-        if #available(macOS 10.13, *) {
-            webView.customUserAgent = Browser.userAgent
-            WKContentRuleListStore.default().compileContentRuleList(forIdentifier: "blocklist", encodedContentRuleList: Browser.blocklist) { (rules, error) in
-                rules.map { webView.configuration.userContentController.add($0) }
-            }
-        }
-    }
-
-    convenience init(_ title: String, url: URL, `private`: Bool) {
+    init(_ title: String, url: URL, `private`: Bool, blocklist: Bool) {
         let configuration = WKWebViewConfiguration()
+        let script = WKUserScript(source: Browser.JS, injectionTime: .atDocumentStart, forMainFrameOnly: false)
+        configuration.userContentController.addUserScript(script)
+        configuration.userContentController.add(Browser.global, name: "multi.js")
+        configuration.preferences.setValue(true, forKey: "developerExtrasEnabled")
         if `private` {
             configuration.websiteDataStore = .nonPersistent()
         }
-        self.init(title, configuration)
-        self.webView.load(URLRequest(url: url))
-    }
+        if blocklist, #available(macOS 10.13, *) {
+            WKContentRuleListStore.default().compileContentRuleList(forIdentifier: "blocklist", encodedContentRuleList: Browser.blocklist) { (rules, error) in
+                rules.map { configuration.userContentController.add($0) }
+            }
+        }
 
-    convenience init(_ title: String, html: String) {
-        self.init(title, WKWebViewConfiguration())
-        self.webView.loadHTMLString(html, baseURL: nil)
+        self.title = title
+        self.webView = WKWebView(frame: Browser.window.frame, configuration: configuration)
+        webView.allowsMagnification = true
+        webView.autoresizesSubviews = true
+        webView.navigationDelegate = Browser.global
+        if #available(macOS 10.13, *) {
+            webView.customUserAgent = Browser.userAgent
+        }
+
+        webView.load(URLRequest(url: url))
     }
 
     @objc func view(_: Any? = nil) {
