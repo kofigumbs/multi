@@ -13,11 +13,5 @@ guard let runner = bundle.url(forResource: "Runner", withExtension: nil) else {
 
 let process = Process()
 process.arguments = []
-if #available(macOS 10.13, *) {
-    process.executableURL = runner
-    try process.run()
-} else {
-    process.launchPath = runner.absoluteString
-    process.launch()
-}
+try process.execute(runner)
 process.waitUntilExit()
