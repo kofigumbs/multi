@@ -13,6 +13,10 @@ extension NSMenu {
             return entry
         }
 
+        static func divider() -> Entry {
+            return Entry(item: NSMenuItem.separator())
+        }
+
         static func shortcut(_ keyEquivalent: String, _ title: String, _ action: Selector, target: AnyObject? = nil, hidden: Bool? = nil) -> Entry {
             let item = NSMenuItem(title: title, action: action, keyEquivalent: keyEquivalent)
             target.map { item.target = $0 }
