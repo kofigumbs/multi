@@ -4,6 +4,8 @@ Config.browsers.first?.view()
 
 NSApp.mainMenu = NSMenu().items([
     .sub(NSMenu().items([
+        .shortcut("r", "Reload This Page", #selector(WKWebView.reload(_:))),
+        .divider(),
         .shortcut("h", "Hide", #selector(NSApplication.hide(_:))),
         .shortcut("w", "Hide Window", #selector(NSApplication.hide(_:)), hidden: true),
         .shortcut("m", "Minimze", #selector(NSApplication.miniaturizeAll(_:))),
