@@ -1,5 +1,6 @@
 import WebKit
 
+_ = Browser.window
 Config.tabs.first?.view()
 
 NSApp.mainMenu = NSMenu().items([
