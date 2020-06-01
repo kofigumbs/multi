@@ -7,7 +7,7 @@ struct Config: Decodable {
     private let blocklist: Bool?
 
     static let tabs: [Tab] = {
-        guard let path = Bundle.main.path(forResource: "config", ofType: "json"),
+        guard let path = CommandLine.arguments.last,
               let file = try? Data(contentsOf: URL(fileURLWithPath: path)),
               let json = try? JSONDecoder().decode([Config].self, from: file) else {
             return []

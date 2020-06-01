@@ -11,7 +11,12 @@ guard let runner = bundle.url(forResource: "Runner", withExtension: nil) else {
     exit(2)
 }
 
+guard let config = Bundle.main.path(forResource: "config", ofType: "json") else {
+    Error.window(message: "Your config.json is missing — did you move it?")
+    exit(3)
+}
+
 let process = Process()
-process.arguments = []
+process.arguments = [ config ]
 try process.execute(runner)
 process.waitUntilExit()
