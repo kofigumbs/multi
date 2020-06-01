@@ -16,4 +16,4 @@ jq -cs 'reduce .[] as $x ([]; . + $x)' \
   <(get tracker)         \
   <(get ultimateAdBlock) \
   <(get zeus)            \
-  > \{\{TEMPLATE\}\}.app/Contents/Resources/blocklist.json
+  > Multi.app/Contents/Resources/blocklist.json

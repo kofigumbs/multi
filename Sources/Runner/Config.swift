@@ -12,6 +12,6 @@ struct Config: Decodable {
               let json = try? JSONDecoder().decode([Config].self, from: file) else {
             return []
         }
-        return json.map { Tab($0.title, url: $0.url, private: $0.private ?? false, blocklist: $0.blocklist ?? false) }
+        return json.map { Tab(title: $0.title, url: $0.url, private: $0.private ?? false, blocklist: $0.blocklist ?? false) }
     }()
 }

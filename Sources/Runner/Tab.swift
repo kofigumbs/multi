@@ -4,7 +4,7 @@ class Tab: NSObject {
     let title: String
     let webView: WKWebView
 
-    init(_ title: String, url: URL, `private`: Bool, blocklist: Bool) {
+    init(title: String, url: URL, `private`: Bool, blocklist: Bool) {
         let configuration = WKWebViewConfiguration()
         let script = WKUserScript(source: Browser.JS, injectionTime: .atDocumentStart, forMainFrameOnly: false)
         configuration.userContentController.addUserScript(script)
