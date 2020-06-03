@@ -8,7 +8,7 @@ class Tab: NSObject {
         let configuration = WKWebViewConfiguration()
         let script = WKUserScript(source: Browser.JS, injectionTime: .atDocumentStart, forMainFrameOnly: false)
         configuration.userContentController.addUserScript(script)
-        configuration.userContentController.add(Browser.global, name: "multi.js")
+        configuration.userContentController.add(Browser.global, name: "multi")
         configuration.preferences.setValue(true, forKey: "developerExtrasEnabled")
         if `private` {
             configuration.websiteDataStore = .nonPersistent()

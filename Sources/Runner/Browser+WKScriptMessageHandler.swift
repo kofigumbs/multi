@@ -12,7 +12,7 @@ extension Browser: WKScriptMessageHandler {
                 return Promise.resolve(Notification.permission);
             }
             constructor(...x) {
-                window.webkit.messageHandlers.notify.postMessage(x);
+                window.webkit.messageHandlers.multi.postMessage(x);
             }
         }
     """
