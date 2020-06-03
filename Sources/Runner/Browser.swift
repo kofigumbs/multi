@@ -27,6 +27,7 @@ class Browser: NSObject {
         )
         window.cascadeTopLeft(from: .zero)
         window.title = (Bundle.main.object(forInfoDictionaryKey: "CFBundleName") as? String) ?? "Multi"
+        window.titlebarAppearsTransparent = true
         window.makeKeyAndOrderFront(nil)
         return window
     }()

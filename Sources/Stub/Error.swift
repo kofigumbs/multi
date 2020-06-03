@@ -14,7 +14,6 @@ class Error: NSObject, NSApplicationDelegate {
             backing: NSWindow.BackingStoreType.buffered,
             defer: false
         )
-        window.cascadeTopLeft(from: .zero)
         window.title = "Multi"
         window.makeKeyAndOrderFront(nil)
         window.center()
@@ -23,7 +22,7 @@ class Error: NSObject, NSApplicationDelegate {
         text.string = message
         text.backgroundColor = .clear
         text.isEditable = false
-        text.setFont(NSFont.boldSystemFont(ofSize: 0), range: NSRange(location: 0, length: message.count))
+        text.font = .boldSystemFont(ofSize: NSFont.systemFontSize)
         text.textContainerInset = NSSize(width: 20, height: 20)
         window.contentView = text
 

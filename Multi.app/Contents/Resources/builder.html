@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<style>
+  html { font-size: 12px; font-family: -apple-system, BlinkMacSystemFont; }
+  html, body { height: 100%; margin: 0; padding: 0; }
+  body { display: flex; flex-direction: column; }
+
+  button { cursor: pointer }
+  button:active { opacity: .7; }
+  button[disabled] { opacity: .5; cursor: not-allowed; }
+  button, input { border: none; border-radius: 3px; padding: 4px 7px; }
+
+  * { color: black; }
+  input, textarea, button { background: white; }
+  @media (prefers-color-scheme: dark) {
+    * { color: white; }
+    input, textarea, button { background: dimgray; }
+  }
+</style>
+
+<header style="padding: 20px;">
+  <h1 style="margin: 0; padding: 0; font-weight:200;">Configure your <b>Multi</b> app</h1>
+</header>
+
+<div style="padding: 20px; padding-top: 0; display: flex; flex-direction: row;">
+  <button style="margin-right: 10px;" id="icon">Choose Icon</button>
+  <input type="text" placeholder="Name Your App" id="name">
+</div>
+
+<textarea style="margin: 0; padding: 20px; flex: 1 0 auto; border: none; outline: none; white-space: pre; font-family: 'SF Mono', monospace; resize: none;" autofocus>[
+  {
+    "title": "Bare Minimum Example",
+    "url", "https://kofi.sexy"
+  },
+  {
+    "title": "Use \\"isolated\\" to separate cookies",
+    "url": "https://kofi.sexy",
+    "isolated": true
+  },
+  {
+    "title": "Use \\"blocklist\\" to block ads and trackers",
+    "url": "https://kofi.sexy",
+    "blocklist": true
+  }
+]</textarea>
+
+<footer style="padding: 20px; display: flex; flex-direction: row; justify-content: space-between;">
+  <em id="error"></em>
+  <button disabled>Save & Launch</button>
+</footer>
+
+<script>
+  document.getElementById("icon").addEventListener("click", function() {
+    window.webkit.messageHandlers.multi.postMessage({
+      type: "get-icon",
+    });
+  })
+</script>
