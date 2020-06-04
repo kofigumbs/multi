@@ -2,14 +2,14 @@ import WebKit
 
 class Context: NSObject, NSApplicationDelegate, WKScriptMessageHandler {
     static let singleton = Context()
+
     func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool {
         return true
     }
 
     public func userContentController(_: WKUserContentController, didReceive: WKScriptMessage) {
-        guard let argument = didReceive.body as? NSObject else { return }
-        switch argument.value(forKey: "type") as? String {
-        case "get-icon":
+        switch didReceive.name {
+        case "icon":
             let openPanel = NSOpenPanel()
             openPanel.canChooseFiles = true
             openPanel.allowedFileTypes = ["png"]
@@ -43,7 +43,8 @@ let html = try! String(contentsOf: URL(fileURLWithPath: path))
 let webView = WKWebView(frame: window.frame)
 webView.setValue(false, forKey: "drawsBackground")
 webView.configuration.preferences.setValue(true, forKey: "developerExtrasEnabled")
-webView.configuration.userContentController.add(Context.singleton, name: "multi")
+webView.configuration.userContentController.add(Context.singleton, name: "icon")
+webView.configuration.userContentController.add(Context.singleton, name: "save")
 webView.loadHTMLString(html, baseURL: nil)
 window.contentView = webView
 
