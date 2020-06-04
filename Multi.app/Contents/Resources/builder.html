@@ -49,16 +49,31 @@
 </footer>
 
 <script>
-  const state = {};
+  const form = {};
   const error = document.getElementById("error");
   const save = document.getElementById("save");
-  save.addEventListener("click", submit);
 
-  connect(name, document.getElementById("name"));
-  connect(json, document.getElementById("json"));
-  document.getElementById("icon").addEventListener("click", icon);
+  connectExternalClick(save, x => x.save.postMessage(form));
+  connectExternalClick(document.getElementById("icon"), x => x.icon.postMessage({}));
 
-  function connect(validate, element) {
+  connectInput(document.getElementById("name"), function(value) {
+    if (value === "") throw new Error("Name cannot be empty")
+    else return value;
+  });
+
+  connectInput(document.getElementById("json"), function(value) {
+    const config = JSON.parse(value);
+    if (!Array.isArray(config)) throw new Error("Expecting an ARRAY at the first level");
+    if (!config.every(x => x.title)) throw new Error("Each site must include a \"title\" field");
+    if (!config.every(x => x.url)) throw new Error("Each site must include a \"url\" field");
+    return config;
+  });
+
+  function connectExternalClick(element, callback) {
+    element.addEventListener("click", () => callback(window.webkit.messageHandlers));
+  }
+
+  function connectInput(element, validate) {
     const listener = () => {
       try { update(element.id, "", validate(element.value)) }
       catch (e) { update(element.id, e.message, { error: true }) }
@@ -69,30 +84,7 @@
 
   function update(id, message, data) {
     error.innerText = message;
-    state[id] = data;
-    save.disabled = Object.values(state).some(x => x.error);
-  }
-
-  function name(value) {
-    if (value === "") throw new Error("Name cannot be empty")
-    else return value;
-  }
-
-  function json(value) {
-    const config = JSON.parse(value);
-    if (!Array.isArray(config)) throw new Error("Expecting an ARRAY at the first level");
-    if (!config.every(x => x.title)) throw new Error("Each site must include a \"title\" field");
-    if (!config.every(x => x.url)) throw new Error("Each site must include a \"url\" field");
-    return config;
-  }
-
-  function icon(event) {
-    window.webkit.messageHandlers.icon.postMessage();
-  }
-
-  function submit(event) {
-    window.webkit.messageHandlers.save.postMessage({
-      // TODO
-    });
+    form[id] = data;
+    save.disabled = Object.values(form).some(x => x.error);
   }
 </script>
