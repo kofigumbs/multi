@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+  <dict>
+    <key>CFBundleName</key>                  <string>{{Stub}}</string>
+    <key>CFBundleIdentifier</key>            <string>sexy.kofi.multi.{{Stub}}</string>
+
+    <key>CFBundleExecutable</key>            <string>Stub</string>
+    <key>CFBundleIconFile</key>              <string>Icon.icns</string>
+
+    <key>CFBundlePackageType</key>           <string>APPL</string>
+    <key>CFBundleInfoDictionaryVersion</key> <string>6.0</string>
+    <key>CFBundleVersion</key>               <string>0.1.1</string>
+    <key>CFBundleGetInfoString</key>         <string>0.1</string>
+    <key>CFBundleShortVersionString</key>    <string>0.1</string>
+    <key>NSPrincipalClass</key>              <string>NSApplication</string>
+    <key>NSMainNibFile</key>                 <string>MainMenu</string>
+  </dict>
+</plist>

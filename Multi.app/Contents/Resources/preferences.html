@@ -4,7 +4,7 @@
   html, body { height: 100%; margin: 0; padding: 0; }
   body { display: flex; flex-direction: column; }
 
-  button { cursor: pointer }
+  button { cursor: pointer; white-space: nowrap; }
   button:active { opacity: .7; }
   button[disabled] { opacity: .5; cursor: not-allowed; }
   button, input { border: none; border-radius: 3px; padding: 4px 7px; }
@@ -21,9 +21,10 @@
   <h1 style="margin: 0; padding: 0; font-weight:200;">Configure your <b>Multi</b> app</h1>
 </header>
 
-<div style="padding: 20px; padding-top: 0; display: flex; flex-direction: row;">
+<div style="padding: 20px; padding-top: 0; display: flex; flex-direction: row; align-items: baseline;">
   <input style="margin-right: 10px;" type="text" placeholder="App Name" id="name" autofocus>
-  <button id="icon">Select Icon</button>
+  <button style="margin-right: 10px;" id="icon">Select Icon</button>
+  <label style="flex: 1 0 auto; font-style: italic; white-space: nowrap;" for="icon" id="path"></em>
 </div>
 
 <textarea style="margin: 0; padding: 20px; flex: 1 0 auto; border: none; white-space: pre; font-family: 'SF Mono', monospace; resize: none;" placeholder='[{ "title": "Example Site", "url": "https://example.com" }]' spellcheck="false" id="json">[
