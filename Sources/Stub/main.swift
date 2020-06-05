@@ -1,22 +1,24 @@
+import Shared
 import AppKit
 
 guard let app = NSWorkspace.shared.urlForApplication(withBundleIdentifier: "sexy.kofi.multi"),
       let bundle = Bundle(url: app) else {
-    Error.window(message: "Multi.app is not installed — try installing it first.")
-    exit(1)
+    Program().error(code: 1, message: "Multi.app is not installed — try installing it first.")
 }
 
-guard let runner = bundle.url(forResource: "Runner", withExtension: nil) else {
-    Error.window(message: "Multi.app is misconfigured or broken — try re-installing it.")
-    exit(2)
-}
-
-guard let config = Bundle.main.path(forResource: "config", ofType: "json") else {
-    Error.window(message: "Your config.json is missing — did you move it?")
-    exit(3)
+guard let runtime = bundle.url(forResource: "Runtime", withExtension: nil) else {
+    Program().error(code: 2, message: "Multi.app is misconfigured or broken — try re-installing it.")
 }
 
 let process = Process()
-process.arguments = [ config ]
-try process.execute(runner)
+process.arguments = [ Bundle.main.resourcePath ].compactMap { $0 }
+
+if #available(macOS 10.13, *) {
+    process.executableURL = runtime
+    try process.run()
+} else {
+    process.launchPath = runtime.path
+    process.launch()
+}
+
 process.waitUntilExit()

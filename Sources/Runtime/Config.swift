@@ -8,7 +8,7 @@ struct Config: Decodable {
 
     static let tabs: [Tab] = {
         guard let path = CommandLine.arguments.last,
-              let file = try? Data(contentsOf: URL(fileURLWithPath: path)),
+              let file = try? Data(contentsOf: URL(fileURLWithPath: path).appendingPathComponent("config.json")),
               let json = try? JSONDecoder().decode([Config].self, from: file) else {
             return []
         }

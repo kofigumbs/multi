@@ -8,15 +8,16 @@ let package = Package(
         .macOS(.v10_11),
     ],
     products: [
-        .executable(name: "Builder", targets: ["Builder"]),
-        .executable(name: "Runner", targets: ["Runner"]),
-        .executable(name: "Stub", targets: ["Stub"]),
+        .executable(name: "Preferences", targets: ["Preferences"]),
+        .executable(name: "Runtime",     targets: ["Runtime"]),
+        .executable(name: "Stub",        targets: ["Stub"]),
     ],
     dependencies: [
     ],
     targets: [
-        .target(name: "Builder"),
-        .target(name: "Runner"),
-        .target(name: "Stub"),
+        .target(name: "Preferences", dependencies: ["Shared"]),
+        .target(name: "Runtime",     dependencies: ["Shared"]),
+        .target(name: "Stub",        dependencies: ["Shared"]),
+        .target(name: "Shared"),
     ]
 )

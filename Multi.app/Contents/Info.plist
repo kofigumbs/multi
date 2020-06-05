@@ -5,7 +5,7 @@
     <key>CFBundleName</key>                  <string>Multi</string>
     <key>CFBundleIdentifier</key>            <string>sexy.kofi.multi</string>
 
-    <key>CFBundleExecutable</key>            <string>Builder</string>
+    <key>CFBundleExecutable</key>            <string>Preferences</string>
     <key>CFBundleIconFile</key>              <string>Icon.icns</string>
 
     <key>CFBundlePackageType</key>           <string>APPL</string>

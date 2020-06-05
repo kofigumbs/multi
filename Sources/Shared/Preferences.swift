@@ -1,6 +1,6 @@
 import WebKit
 
-struct Preferences {
+public struct Preferences {
     static let form = Form()
 
     static let window: NSWindow = {
@@ -10,15 +10,14 @@ struct Preferences {
             backing: NSWindow.BackingStoreType.buffered,
             defer: false
         )
-        let version = Bundle.main.object(forInfoDictionaryKey: "CFBundleVersion") as? String
-        window.title = "Multi" + (version == nil ? "" : " — \(version!)")
+        window.title = Program.title
         window.titlebarAppearsTransparent = true
         window.makeKeyAndOrderFront(nil)
         window.center()
         return window
     }()
 
-    static func view() {
+    public static func view() {
         let path = Bundle.main.path(forResource: "preferences", ofType: "html")!
         let html = try! String(contentsOf: URL(fileURLWithPath: path))
         let webView = WKWebView(frame: window.frame)

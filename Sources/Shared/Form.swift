@@ -13,6 +13,7 @@ class Form: NSObject, WKScriptMessageHandler {
         let contents = app.appendingPathComponent("Contents", isDirectory: true)
         let resources = contents.appendingPathComponent("Resources", isDirectory: true)
         // TODO check whether app exists
+        // TODO replace invalid bundle identifier characters in name: [a-zA-Z0-9.\-]
         try! FileManager.default.createDirectory(
             at: app,
             withIntermediateDirectories: false,
