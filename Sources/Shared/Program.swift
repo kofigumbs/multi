@@ -1,6 +1,6 @@
 import AppKit
 
-public class Program: NSObject, NSApplicationDelegate {
+public class Program: NSObject {
     static let title: String = {
         switch Bundle.main.object(forInfoDictionaryKey: "CFBundleVersion") as? String {
         case .none:
@@ -10,12 +10,36 @@ public class Program: NSObject, NSApplicationDelegate {
         }
     }()
 
-    public func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool {
-        return true
+    private static func addSubmenu(_ menu: NSMenu, _ submenu: [NSMenuItem]) {
+        let item = NSMenuItem()
+        item.submenu = menu
+        submenu.forEach(menu.addItem)
+        NSApp.mainMenu!.addItem(item)
     }
 
-    public func start(menu: NSMenu) {
-        NSApp.mainMenu = menu
+    public init(name: String) {
+        NSApp.mainMenu = NSMenu()
+        Program.addSubmenu(NSMenu(), [
+            NSMenuItem(title: "Hide \(name)", action: #selector(NSApplication.terminate(_:)), keyEquivalent: "h"),
+            NSMenuItem(title: "Quit \(name)", action: #selector(NSApplication.terminate(_:)), keyEquivalent: "q"),
+        ])
+        Program.addSubmenu(NSMenu(title: "Edit"), [
+            NSMenuItem(title: "Cut", action: #selector(NSText.cut(_:)), keyEquivalent: "x"),
+            NSMenuItem(title: "Copy", action: #selector(NSText.copy(_:)), keyEquivalent: "c"),
+            NSMenuItem(title: "Paste", action: #selector(NSText.paste(_:)), keyEquivalent: "p"),
+            NSMenuItem(title: "Select All", action: #selector(NSText.selectAll(_:)), keyEquivalent: "a"),
+        ])
+    }
+
+    public func start(menu: KeyValuePairs<String, [NSMenuItem]>) {
+        for (name, submenu) in menu {
+            Program.addSubmenu(NSMenu(title: name), submenu)
+        }
+
+        if #available(macOS 10.12, *) {
+            NSWindow.allowsAutomaticWindowTabbing = false
+        }
+
         _ = NSApplication.shared
         NSApp.delegate = self
         NSApp.setActivationPolicy(.regular)
@@ -43,7 +67,7 @@ public class Program: NSObject, NSApplicationDelegate {
         text.textContainerInset = NSSize(width: 20, height: 20)
         window.contentView = text
 
-        start(menu: .default)
+        start(menu: [:])
         exit(code)
     }
 }
