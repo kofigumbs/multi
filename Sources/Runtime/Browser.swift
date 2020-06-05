@@ -1,3 +1,4 @@
+import Shared
 import WebKit
 
 class Browser: NSObject {
@@ -19,17 +20,11 @@ class Browser: NSObject {
     }()
 
     static let window: NSWindow = {
-        let window = NSWindow(
+        Program.window(
+            title: (Bundle.main.object(forInfoDictionaryKey: "CFBundleName") as? String) ?? "Multi",
             contentRect: NSScreen.main!.frame,
-            styleMask: [.titled, .closable, .miniaturizable, .resizable],
-            backing: NSWindow.BackingStoreType.buffered,
-            defer: false
+            styleMask: [.titled, .closable, .miniaturizable, .resizable]
         )
-        window.cascadeTopLeft(from: .zero)
-        window.title = (Bundle.main.object(forInfoDictionaryKey: "CFBundleName") as? String) ?? "Multi"
-        window.titlebarAppearsTransparent = true
-        window.makeKeyAndOrderFront(nil)
-        return window
     }()
 
     @objc func nextTab(_: Any? = nil) {

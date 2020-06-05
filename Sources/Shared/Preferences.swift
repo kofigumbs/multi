@@ -4,17 +4,11 @@ public struct Preferences {
     static let form = Form()
 
     static let window: NSWindow = {
-        let window = NSWindow(
+        Program.window(
+            title: Program.title,
             contentRect: NSScreen.main!.frame.applying(.init(scaleX: 0.5, y: 0.5)),
-            styleMask: [.titled, .closable, .miniaturizable, .resizable],
-            backing: NSWindow.BackingStoreType.buffered,
-            defer: false
+            styleMask: [.titled, .closable, .miniaturizable, .resizable]
         )
-        window.title = Program.title
-        window.titlebarAppearsTransparent = true
-        window.makeKeyAndOrderFront(nil)
-        window.center()
-        return window
     }()
 
     public static func view() {

@@ -10,15 +10,20 @@ public class Program: NSObject {
         }
     }()
 
+    private static let mainMenu: NSMenu = {
+        let menu = NSMenu()
+        NSApp.mainMenu = menu
+        return menu
+    }()
+
     private static func addSubmenu(_ menu: NSMenu, _ submenu: [NSMenuItem]) {
         let item = NSMenuItem()
         item.submenu = menu
         submenu.forEach(menu.addItem)
-        NSApp.mainMenu!.addItem(item)
+        mainMenu.addItem(item)
     }
 
     public init(name: String) {
-        NSApp.mainMenu = NSMenu()
         Program.addSubmenu(NSMenu(), [
             NSMenuItem(title: "Hide \(name)", action: #selector(NSApplication.terminate(_:)), keyEquivalent: "h"),
             NSMenuItem(title: "Quit \(name)", action: #selector(NSApplication.terminate(_:)), keyEquivalent: "q"),
@@ -48,16 +53,11 @@ public class Program: NSObject {
     }
 
     public func error(code: Int32, message: String) -> Never {
-        let window = NSWindow(
+        let window = Program.window(
+            title: Program.title,
             contentRect: NSRect(x: 0, y: 0, width: 400, height: 80),
-            styleMask: [.titled, .closable],
-            backing: NSWindow.BackingStoreType.buffered,
-            defer: false
+            styleMask: [.titled, .closable]
         )
-        window.title = Program.title
-        window.titlebarAppearsTransparent = true
-        window.makeKeyAndOrderFront(nil)
-        window.center()
 
         let text = NSTextView(frame: window.contentView!.bounds)
         text.string = message
@@ -69,5 +69,19 @@ public class Program: NSObject {
 
         start(menu: [:])
         exit(code)
+    }
+
+    public static func window(title: String, contentRect: NSRect, styleMask: NSWindow.StyleMask) -> NSWindow {
+        let window = NSWindow(
+            contentRect: contentRect,
+            styleMask: styleMask,
+            backing: .buffered,
+            defer: false
+        )
+        window.title = title
+        window.titlebarAppearsTransparent = true
+        window.makeKeyAndOrderFront(nil)
+        window.center()
+        return window
     }
 }
