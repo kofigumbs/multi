@@ -54,6 +54,16 @@
   const error = document.getElementById("error");
   const save = document.getElementById("save");
 
+  const string = {
+    description: "a REQUIRED STRING",
+    apply: x => typeof x === "string" || x instanceof String,
+  };
+
+  const flag = {
+    description: "an OPTIONAL BOOLEAN",
+    apply: x => typeof x === "undefined" || typeof x === "boolean",
+  };
+
   connectExternalClick(save, x => x.save.postMessage(form));
   connectExternalClick(document.getElementById("icon"), x => x.icon.postMessage({}));
 
@@ -64,11 +74,18 @@
 
   connectInput(document.getElementById("json"), function(value) {
     const config = JSON.parse(value);
-    if (!Array.isArray(config)) throw new Error("Expecting an ARRAY at the first level");
-    if (!config.every(x => x.title)) throw new Error("Each site must include a \"title\" field");
-    if (!config.every(x => x.url)) throw new Error("Each site must include a \"url\" field");
+    if (!Array.isArray(config)) throw new Error("Expecting an ARRAY at the top level");
+    validateEach(config, string, "title");
+    validateEach(config, string, "url");
+    validateEach(config, flag, "isolated");
+    validateEach(config, flag, "blocklist");
     return config;
   });
+
+  function validateEach(config, check, field) {
+    if (!config.every(x => check.apply(x[field])))
+      throw new Error(`The "${field}" field is ${check.description}`);
+  }
 
   function connectExternalClick(element, callback) {
     element.addEventListener("click", () => callback(window.webkit.messageHandlers));
