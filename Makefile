@@ -1,8 +1,10 @@
 SHELL = /bin/bash
 
 SWIFT_CONFIGURATION := debug
-SWIFT_BUILD_PATH     = .build/x86_64-apple-macosx/$(SWIFT_CONFIGURATION)
-DOWNLOAD_BLOCKLIST   = curl -s https://raw.githubusercontent.com/SlayterDev/RadiumBrowser/master/RadiumBrowser
+SWIFT_BUILD_PATH = .build/x86_64-apple-macosx/$(SWIFT_CONFIGURATION)
+
+# <https://github.com/SlayterDev/RadiumBrowser>
+DOWNLOAD_BLOCKLIST = curl -s https://raw.githubusercontent.com/SlayterDev/RadiumBrowser/master/RadiumBrowser
 
 .PHONY: Multi.app
 Multi.app: Multi.app/Preferences Multi.app/Contents/Resources/Stub Multi.app/Contents/Resources/Runtime Multi.app/Contents/Resources/blocklist.json
