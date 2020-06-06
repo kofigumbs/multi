@@ -1,7 +1,7 @@
 import WebKit
 
 class Icon: NSObject, WKScriptMessageHandler {
-    var url: URL? = nil
+    var selected: URL? = nil
 
     private static let sizes: KeyValuePairs = [
           "16":   "16x16",
@@ -29,29 +29,28 @@ class Icon: NSObject, WKScriptMessageHandler {
     }
 
     func select(_ url: URL, _ webView: WKWebView) {
-        self.url = url
+        self.selected = url
         webView.evaluateJavaScript("document.getElementById('path').innerText = '\(url.lastPathComponent)'")
     }
 
     func createSet(resources: URL) throws {
-        guard let url = url else {
+        guard let selected = selected,
+              let desktop = FileManager.default.urls(for: .desktopDirectory, in: .userDomainMask).first,
+              let tmp = try? FileManager.default.url(for: .itemReplacementDirectory, in: .userDomainMask, appropriateFor: desktop, create: true).appendingPathComponent("Icon.iconset"),
+              let () = try? FileManager.default.createDirectory(at: tmp, withIntermediateDirectories: false)
+              else {
             return
         }
-        let desktop = try FileManager.default
-            .url(for: .desktopDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
-        let tmp = try FileManager.default
-            .url(for: .itemReplacementDirectory, in: .userDomainMask, appropriateFor: desktop, create: true)
-            .appendingPathComponent("Icon.iconset")
-        try FileManager.default
-            .createDirectory(at: tmp, withIntermediateDirectories: false)
         for (dimmension, suffix) in Icon.sizes {
-            try Process.execute(URL(fileURLWithPath: "/usr/bin/sips"), arguments: [
+            try Process.execute(global: [
+                "sips",
                 "-z", dimmension, dimmension,
                 "--out", tmp.appendingPathComponent("icon_\(suffix).png").path,
-                url.path,
+                selected.path
             ])
         }
-        try Process.execute(URL(fileURLWithPath: "/usr/bin/iconutil"), arguments: [
+        try Process.execute(global: [
+            "iconutil",
             "-c", "icns",
             "--output", resources.appendingPathComponent("Icon.icns").path,
             tmp.path

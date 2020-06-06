@@ -13,4 +13,8 @@ extension Process {
         process.waitUntilExit()
         if process.terminationStatus != 0 { throw Return.nonZeroExitStatus }
     }
+
+    public static func execute(global: [String]) throws {
+        try self.execute(URL(fileURLWithPath: "/usr/bin/env"), arguments: global)
+    }
 }
