@@ -35,5 +35,6 @@ class Form: NSObject, WKScriptMessageHandler {
             atPath: resources.appendingPathComponent("config.json").path,
             contents: try! JSONSerialization.data(withJSONObject: json)
         )
+        try! icon.createSet(resources: resources)
     }
 }

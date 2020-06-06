@@ -10,15 +10,8 @@ guard let runtime = bundle.url(forResource: "Runtime", withExtension: nil) else 
     Program.error(code: 2, message: "Multi.app is missing essential files — try re-installing it.")
 }
 
-let process = Process()
-process.arguments = [ Bundle.main.resourcePath ].compactMap { $0 }
-
-if #available(macOS 10.13, *) {
-    process.executableURL = runtime
-    try process.run()
-} else {
-    process.launchPath = runtime.path
-    process.launch()
+do {
+    try Process.execute(runtime, arguments: [ Bundle.main.resourcePath ].compactMap { $0 })
+} catch {
+    Program.error(code: 3, message: "Your Multi app quit unexpectedly — please report this error.")
 }
-
-process.waitUntilExit()
