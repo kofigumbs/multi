@@ -3,11 +3,11 @@ import AppKit
 
 guard let app = NSWorkspace.shared.urlForApplication(withBundleIdentifier: "sexy.kofi.multi"),
       let bundle = Bundle(url: app) else {
-    Program(name: "Multi").error(code: 1, message: "Multi.app is not installed — try installing it first.")
+    Program.error(code: 1, message: "Multi.app is missing — try installing it first.")
 }
 
 guard let runtime = bundle.url(forResource: "Runtime", withExtension: nil) else {
-    Program(name: "Multi").error(code: 2, message: "Multi.app is misconfigured or broken — try re-installing it.")
+    Program.error(code: 2, message: "Multi.app is missing essential files — try re-installing it.")
 }
 
 let process = Process()

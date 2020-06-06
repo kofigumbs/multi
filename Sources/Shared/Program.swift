@@ -52,10 +52,10 @@ public class Program: NSObject {
         NSApp.run()
     }
 
-    public func error(code: Int32, message: String) -> Never {
-        let window = Program.window(
-            title: Program.title,
-            contentRect: NSRect(x: 0, y: 0, width: 400, height: 80),
+    public static func error(code: Int32, message: String) -> Never {
+        let window = self.window(
+            title: title,
+            contentRect: NSRect(x: 0, y: 0, width: 500, height: 80),
             styleMask: [.titled, .closable]
         )
 
@@ -67,7 +67,7 @@ public class Program: NSObject {
         text.textContainerInset = NSSize(width: 20, height: 20)
         window.contentView = text
 
-        start(menu: [:])
+        Program(name: "Multi").start(menu: [:])
         exit(code)
     }
 
