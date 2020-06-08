@@ -31,7 +31,7 @@ public class Program: NSObject {
         Program.addSubmenu(NSMenu(title: "Edit"), [
             NSMenuItem(title: "Cut", action: #selector(NSText.cut(_:)), keyEquivalent: "x"),
             NSMenuItem(title: "Copy", action: #selector(NSText.copy(_:)), keyEquivalent: "c"),
-            NSMenuItem(title: "Paste", action: #selector(NSText.paste(_:)), keyEquivalent: "p"),
+            NSMenuItem(title: "Paste", action: #selector(NSText.paste(_:)), keyEquivalent: "v"),
             NSMenuItem(title: "Select All", action: #selector(NSText.selectAll(_:)), keyEquivalent: "a"),
         ])
     }
