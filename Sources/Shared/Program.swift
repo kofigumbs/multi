@@ -2,6 +2,7 @@ import AppKit
 
 public class Program: NSObject {
     static let title: String = {
+        // TODO don't rely on Bundle.main (this can be run from preferences)
         switch Bundle.main.object(forInfoDictionaryKey: "CFBundleVersion") as? String {
         case .none:
             return "Multi"
@@ -34,6 +35,14 @@ public class Program: NSObject {
             NSMenuItem(title: "Paste", action: #selector(NSText.paste(_:)), keyEquivalent: "v"),
             NSMenuItem(title: "Select All", action: #selector(NSText.selectAll(_:)), keyEquivalent: "a"),
         ])
+    }
+
+    public func preferences(target: AnyObject, action: Selector) -> Program {
+        let item = NSMenuItem(title: "Preferences", action: action, keyEquivalent: ",")
+        item.target = target
+        Program.mainMenu.items.first!.submenu!.items.insert(item, at: 0)
+        Program.mainMenu.items.first!.submenu!.items.insert(.separator(), at: 1)
+        return self
     }
 
     public func start(menu: KeyValuePairs<String, [NSMenuItem]>) {

@@ -6,6 +6,8 @@
     <key>CFBundleIdentifier</key>            <string>sexy.kofi.multi</string>
     <key>CFBundleExecutable</key>            <string>Preferences</string>
     <key>CFBundleIconFile</key>              <string>Icon.icns</string>
+    <key>LSMinimumSystemVersion</key>        <string>10.11</string>
+
     <key>CFBundlePackageType</key>           <string>APPL</string>
     <key>CFBundleInfoDictionaryVersion</key> <string>6.0</string>
     <key>CFBundleVersion</key>               <string>0.1.1</string>

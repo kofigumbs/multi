@@ -1,7 +1,14 @@
 import WebKit
 
 class Form: NSObject, WKScriptMessageHandler {
+    typealias Build = (Archive) -> () throws -> ()
+
     let icon = Icon()
+    private let build: Build
+
+    init(_ build: @escaping Build) {
+        self.build = build
+    }
 
     public func userContentController(_: WKUserContentController, didReceive: WKScriptMessage) {
         guard let body = didReceive.body as? NSObject,
@@ -18,9 +25,10 @@ class Form: NSObject, WKScriptMessageHandler {
             fail("Cannot access your Applications directory.")
             return
         }
+        // TODO don't rely on Bundle.main (this can be run from preferences)
         guard let stub = Bundle.main.url(forResource: "Stub", withExtension: nil),
               let plistTemplate = Bundle.main.url(forResource: "Stub", withExtension: "plist"),
-              let plistData = try? String(contentsOf: plistTemplate)
+              let plist = try? String(contentsOf: plistTemplate)
                   .replacingOccurrences(of: "{{name}}", with: name)
                   .replacingOccurrences(of: "{{id}}", with: name.replacingOccurrences(of: "[^a-zA-Z0-9.\\-]", with: "-", options: [.regularExpression]))
                   .data(using: .utf8) else {
@@ -28,35 +36,17 @@ class Form: NSObject, WKScriptMessageHandler {
             return
         }
         do {
-            let contents = app.appendingPathComponent("Contents", isDirectory: true)
-            let resources = contents.appendingPathComponent("Resources", isDirectory: true)
-            if try createDirectories(app: app, resources: resources) {
-                try FileManager.default.copyItem(at: stub, to: app.appendingPathComponent("Stub"))
-                FileManager.default.createFile(atPath: contents.appendingPathComponent("Info.plist").path, contents: plistData)
-                FileManager.default.createFile(atPath: resources.appendingPathComponent("config.json").path, contents: config)
-                try icon.createSet(resources: resources)
-                NSWorkspace.shared.open(app)
-                exit(0)
-            }
+            let archive = Archive(name: name, app: app, stub: stub, plist: plist, config: config)
+            try build(archive)()
+            try icon.createSet(resources: archive.resources)
+            NSApp.terminate(nil)
+            NSWorkspace.shared.open(archive.app)
+        } catch Archive.Error.alreadyExists {
+            fail("An app with that name already exists.")
+        } catch Archive.Error.cannotWriteFile(let url) {
+            fail("Cannot write file: \(url.path)")
         } catch let error {
             fail(error.localizedDescription)
-        }
-    }
-
-    private func createDirectories(app: URL, resources: URL) throws -> Bool {
-        if !FileManager.default.fileExists(atPath: app.path) {
-            try FileManager.default.createDirectory(
-                at: app,
-                withIntermediateDirectories: false,
-                attributes: [FileAttributeKey.posixPermissions: 0o777 as Any]
-            )
-            try FileManager.default.createDirectory(at: resources, withIntermediateDirectories: true)
-            return true
-        } else if Bundle(url: app)?.object(forInfoDictionaryKey: "MultiApp") as? Bool == true {
-            return confirm("Are you sure you want to overwrite your Multi app?") == .OK
-        } else {
-            fail("An app with that name already exists.")
-            return false
         }
     }
 
@@ -66,13 +56,5 @@ class Form: NSObject, WKScriptMessageHandler {
         alert.informativeText = reason
         alert.alertStyle = .critical
         alert.runModal()
-    }
-
-    private func confirm(_ prompt: String) -> NSApplication.ModalResponse {
-        let alert = NSAlert()
-        alert.messageText = prompt
-        alert.alertStyle = .warning
-        alert.addButton(withTitle: "Cancel")
-        return alert.runModal()
     }
 }

@@ -1,8 +1,9 @@
 import Shared
 import WebKit
 
-Config.tabs.isEmpty ? Preferences.view() : Config.tabs.first!.view()
-Program(name: Browser.title).start(menu: [
+let preferences = Preferences.update
+Config.tabs.isEmpty ? preferences.view() : Config.tabs.first!.view()
+Program(name: Browser.title).preferences(target: preferences, action: #selector(Preferences.view(_:))).start(menu: [
     "View": [
         .init(title: "Reload This Page", action: #selector(WKWebView.reload(_:)), keyEquivalent: "r"),
     ],

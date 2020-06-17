@@ -4,14 +4,14 @@ import WebKit
 class Browser: NSObject {
     static let global = Browser()
 
-    static let title = (Bundle.main.object(forInfoDictionaryKey: "CFBundleName") as? String) ?? "Multi"
+    static let title = (Bundle.stub?.object(forInfoDictionaryKey: "CFBundleName") as? String) ?? "Multi"
 
     // Fake a more popular browser to circumvent UA-sniffing
     static let userAgent = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.1 Safari/605.1.15"
 
     static let blocklist: String = {
-        guard let path = Bundle.main.path(forResource: "blocklist", ofType: "json"),
-              let data = try? Data(contentsOf: URL(fileURLWithPath: path)),
+        guard let url = Bundle.stub?.url(forResource: "blocklist", withExtension: "json"),
+              let data = try? Data(contentsOf: url),
               let json = String(data: data, encoding: .utf8) else {
             return "[]"
         }
@@ -20,7 +20,7 @@ class Browser: NSObject {
 
     static let window: NSWindow = {
         Program.window(
-            title: (Bundle.main.object(forInfoDictionaryKey: "CFBundleName") as? String) ?? "Multi",
+            title: title,
             contentRect: NSScreen.main!.frame,
             styleMask: [.titled, .closable, .miniaturizable, .resizable]
         )

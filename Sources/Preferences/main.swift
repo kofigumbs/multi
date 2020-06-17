@@ -1,4 +1,4 @@
 import Shared
 
-Preferences.view()
+Preferences.create.view()
 Program(name: "Multi").start(menu: [:])

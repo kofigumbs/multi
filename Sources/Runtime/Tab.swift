@@ -21,6 +21,7 @@ class Tab: NSObject {
 
         self.title = title
         self.webView = WKWebView(frame: Browser.window.frame, configuration: configuration)
+        webView.enableDevelop()
         webView.allowsMagnification = true
         webView.autoresizesSubviews = true
         webView.navigationDelegate = Browser.global
