@@ -40,10 +40,11 @@ class Form: NSObject, WKScriptMessageHandler {
             try icon.createSet(resources: archive.resources)
             NSApp.terminate(nil)
             NSWorkspace.shared.open(archive.app)
-        } catch Archive.Error.alreadyExists {
-            fail("An app with that name already exists.")
-        } catch Archive.Error.cannotWriteFile(let url) {
-            fail("Cannot write file: \(url.path)")
+        } catch let error as Archive.Error {
+            switch error {
+            case .alreadyExists: fail("An app with that name already exists.")
+            case .cannotWriteFile(let url): fail("Cannot write file: \(url.path)")
+            }
         } catch let error {
             fail(error.localizedDescription)
         }

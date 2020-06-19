@@ -5,6 +5,8 @@ struct Archive {
         case alreadyExists, cannotWriteFile(URL)
     }
 
+    static let executable = [FileAttributeKey.posixPermissions: 0o777 as Any]
+
     let name: String
     let app: URL
     let stub: URL
@@ -18,23 +20,19 @@ struct Archive {
         if FileManager.default.fileExists(atPath: app.path) {
             throw Error.alreadyExists
         }
-        try FileManager.default.createDirectory(
-            at: app,
-            withIntermediateDirectories: false,
-            attributes: [FileAttributeKey.posixPermissions: 0o777 as Any]
-        )
+        try FileManager.default.createDirectory(at: app, withIntermediateDirectories: false, attributes: Archive.executable)
         try FileManager.default.createDirectory(at: resources, withIntermediateDirectories: true)
         try update()
     }
 
     func update() throws {
-        try FileManager.default.copyItem(at: stub, to: app.appendingPathComponent("Stub"))
+        try ensureFile(at: app.appendingPathComponent("Stub"), contents: Data(contentsOf: stub), attributes: Archive.executable)
         try ensureFile(at: contents.appendingPathComponent("Info.plist"), contents: plist)
         try ensureFile(at: resources.appendingPathComponent("config.json"), contents: config)
     }
 
-    private func ensureFile(at: URL, contents: Data) throws {
-        guard FileManager.default.createFile(atPath: at.path, contents: contents) else {
+    private func ensureFile(at: URL, contents: Data, attributes: [FileAttributeKey : Any]? = nil) throws {
+        guard FileManager.default.createFile(atPath: at.path, contents: contents, attributes: attributes) else {
             throw Error.cannotWriteFile(at)
         }
     }

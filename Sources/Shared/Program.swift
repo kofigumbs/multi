@@ -1,6 +1,8 @@
 import AppKit
 
 public class Program: NSObject {
+    public static let messageFrame = NSRect(x: 0, y: 0, width: 500, height: 80)
+
     static let title: String = {
         switch Bundle.Multi.main?.object(forInfoDictionaryKey: "CFBundleVersion") as? String {
         case .none:
@@ -81,11 +83,7 @@ public class Program: NSObject {
     }
 
     static func errorWindow(message: String) -> NSWindow {
-        let window = self.window(
-            title: title,
-            contentRect: NSRect(x: 0, y: 0, width: 500, height: 80),
-            styleMask: [.titled, .closable]
-        )
+        let window = self.window(title: title, contentRect: messageFrame, styleMask: [.titled, .closable])
 
         let text = NSTextView(frame: window.contentView!.bounds)
         text.string = message
