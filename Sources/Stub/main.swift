@@ -11,7 +11,7 @@ guard let runtime = bundle.url(forResource: "Runtime", withExtension: nil) else 
 }
 
 do {
-    try Process.execute(runtime, arguments: [ Bundle.main.resourcePath ].compactMap { $0 })
+    try Process.execute(runtime, arguments: [ Bundle.main.bundlePath ].compactMap { $0 })
 } catch {
     Program.error(code: 3, message: "Your Multi app quit unexpectedly — please report this error.")
 }

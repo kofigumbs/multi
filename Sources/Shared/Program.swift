@@ -2,8 +2,7 @@ import AppKit
 
 public class Program: NSObject {
     static let title: String = {
-        // TODO don't rely on Bundle.main (this can be run from preferences)
-        switch Bundle.main.object(forInfoDictionaryKey: "CFBundleVersion") as? String {
+        switch Bundle.Multi.main?.object(forInfoDictionaryKey: "CFBundleVersion") as? String {
         case .none:
             return "Multi"
         case .some(let version):
@@ -62,20 +61,7 @@ public class Program: NSObject {
     }
 
     public static func error(code: Int32, message: String) -> Never {
-        let window = self.window(
-            title: title,
-            contentRect: NSRect(x: 0, y: 0, width: 500, height: 80),
-            styleMask: [.titled, .closable]
-        )
-
-        let text = NSTextView(frame: window.contentView!.bounds)
-        text.string = message
-        text.backgroundColor = .clear
-        text.isEditable = false
-        text.font = .boldSystemFont(ofSize: NSFont.systemFontSize)
-        text.textContainerInset = NSSize(width: 20, height: 20)
-        window.contentView = text
-
+        _ = errorWindow(message: message)
         Program(name: "Multi").start(menu: [:])
         exit(code)
     }
@@ -89,8 +75,25 @@ public class Program: NSObject {
         )
         window.title = title
         window.titlebarAppearsTransparent = true
-        window.makeKeyAndOrderFront(nil)
         window.center()
+        window.makeKeyAndOrderFront(nil)
+        return window
+    }
+
+    static func errorWindow(message: String) -> NSWindow {
+        let window = self.window(
+            title: title,
+            contentRect: NSRect(x: 0, y: 0, width: 500, height: 80),
+            styleMask: [.titled, .closable]
+        )
+
+        let text = NSTextView(frame: window.contentView!.bounds)
+        text.string = message
+        text.backgroundColor = .clear
+        text.isEditable = false
+        text.font = .boldSystemFont(ofSize: NSFont.systemFontSize)
+        text.textContainerInset = NSSize(width: 20, height: 20)
+        window.contentView = text
         return window
     }
 }

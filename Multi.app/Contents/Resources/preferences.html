@@ -27,22 +27,7 @@
   <label style="flex: 1 0 auto; font-style: italic; white-space: nowrap;" for="icon" id="path"></em>
 </div>
 
-<textarea style="margin: 0; padding: 20px; flex: 1 0 auto; border: none; white-space: pre; font-family: 'SF Mono', monospace; resize: none;" placeholder='[{ "title": "Example Site", "url": "https://example.com" }]' spellcheck="false" id="json">[
-  {
-    "title": "Bare minimum example",
-    "url": "https://example.com"
-  },
-  {
-    "title": "Use \"isolated\" to separate cookies",
-    "url": "https://example.com",
-    "isolated": true
-  },
-  {
-    "title": "Use \"blocklist\" to block ads and trackers",
-    "url": "https://example.com",
-    "blocklist": true
-  }
-]</textarea>
+<textarea style="margin: 0; padding: 20px; flex: 1 0 auto; border: none; white-space: pre; font-family: 'SF Mono', monospace; resize: none;" placeholder='[{ "title": "Example Site", "url": "https://example.com" }]' spellcheck="false" id="json"></textarea>
 
 <footer style="padding: 20px; display: flex; flex-direction: row; justify-content: space-between;">
   <em id="error"></em>
@@ -51,6 +36,8 @@
 
 <script>
   const form = {};
+  const name = document.getElementById("name");
+  const json = document.getElementById("json");
   const error = document.getElementById("error");
   const save = document.getElementById("save");
 
@@ -67,19 +54,19 @@
   connectExternalClick(save, x => x.save.postMessage(form));
   connectExternalClick(document.getElementById("icon"), x => x.icon.postMessage({}));
 
-  connectInput(document.getElementById("name"), function(value) {
+  connectInput(name, function(value) {
     if (value === "") throw new Error("Name cannot be empty")
     else return value;
   });
 
-  connectInput(document.getElementById("json"), function(value) {
+  connectInput(json, function(value) {
     const config = JSON.parse(value);
     if (!Array.isArray(config)) throw new Error("Expecting an ARRAY at the top level");
     validateEach(config, string, "title");
     validateEach(config, string, "url");
     validateEach(config, flag, "isolated");
     validateEach(config, flag, "blocklist");
-    return config;
+    return JSON.stringify(config, null, 2);
   });
 
   function validateEach(config, check, field) {
@@ -92,17 +79,26 @@
   }
 
   function connectInput(element, validate) {
-    const listener = () => {
+    element.addEventListener("input", () => {
       try { update(element.id, "", validate(element.value)) }
       catch (e) { update(element.id, e.message, { error: true }) }
-    }
-    listener();
-    element.addEventListener("input", listener);
+    });
   }
 
   function update(id, message, data) {
     error.innerText = message;
     form[id] = data;
     save.disabled = Object.values(form).some(x => x.error);
+  }
+
+  function load(data) {
+    name.disabled = !!data.name;
+    loadEncoded(name, data.name);
+    loadEncoded(json, data.json);
+  }
+
+  function loadEncoded(input, encoded) {
+    input.value = atob(encoded);
+    input.dispatchEvent(new Event("input"));
   }
 </script>

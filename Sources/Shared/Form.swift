@@ -13,8 +13,8 @@ class Form: NSObject, WKScriptMessageHandler {
     public func userContentController(_: WKUserContentController, didReceive: WKScriptMessage) {
         guard let body = didReceive.body as? NSObject,
               let name = body.value(forKey: "name") as? String,
-              let json = body.value(forKey: "json"),
-              let config = try? JSONSerialization.data(withJSONObject: json) else {
+              let json = body.value(forKey: "json") as? String,
+              let config = json.data(using: .utf8) else {
             fail("Cannot load your configuration.")
             return
         }
@@ -25,12 +25,11 @@ class Form: NSObject, WKScriptMessageHandler {
             fail("Cannot access your Applications directory.")
             return
         }
-        // TODO don't rely on Bundle.main (this can be run from preferences)
-        guard let stub = Bundle.main.url(forResource: "Stub", withExtension: nil),
-              let plistTemplate = Bundle.main.url(forResource: "Stub", withExtension: "plist"),
+        guard let stub = Bundle.Multi.main?.url(forResource: "Stub", withExtension: nil),
+              let plistTemplate = Bundle.Multi.main?.url(forResource: "Stub", withExtension: "plist"),
               let plist = try? String(contentsOf: plistTemplate)
                   .replacingOccurrences(of: "{{name}}", with: name)
-                  .replacingOccurrences(of: "{{id}}", with: name.replacingOccurrences(of: "[^a-zA-Z0-9.\\-]", with: "-", options: [.regularExpression]))
+                  .replacingOccurrences(of: "{{id}}", with: name.replacingOccurrences(of: "[^a-zA-Z0-9.]", with: "-", options: [.regularExpression]))
                   .data(using: .utf8) else {
             fail("Multi.app is missing essential files.")
             return
