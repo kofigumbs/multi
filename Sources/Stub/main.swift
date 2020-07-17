@@ -1,7 +1,7 @@
 import Shared
 import AppKit
 
-guard let app = NSWorkspace.shared.urlForApplication(withBundleIdentifier: "sexy.kofi.multi"),
+guard let app = NSWorkspace.shared.urlForApplication(withBundleIdentifier: "llc.gumbs.multi"),
       let bundle = Bundle(url: app) else {
     Program.error(code: 1, message: "Multi.app is missing — try installing it first.")
 }

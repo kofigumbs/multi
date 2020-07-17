@@ -3,7 +3,7 @@
 <plist version="1.0">
   <dict>
     <key>CFBundleName</key>                  <string>{{name}}</string>
-    <key>CFBundleIdentifier</key>            <string>sexy.kofi.multi.{{id}}</string>
+    <key>CFBundleIdentifier</key>            <string>llc.gumbs.multi.{{id}}</string>
 
     <key>CFBundleExecutable</key>            <string>Stub</string>
     <key>CFBundleIconFile</key>              <string>Icon.icns</string>
