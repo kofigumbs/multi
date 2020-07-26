@@ -30,7 +30,14 @@ class Tab: NSObject {
     }
 
     @objc func view(_: Any? = nil) {
-        Browser.window.contentView = webView
+        if Config.sideBySide {
+            let stack = NSStackView(views: Config.tabs.map { $0.webView })
+            stack.spacing = 0
+            stack.distribution = .fillEqually
+            Browser.window.contentView = stack
+        } else {
+            Browser.window.contentView = webView
+        }
         webView.lockFocus()
     }
 }

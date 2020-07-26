@@ -41,16 +41,6 @@
   const error = document.getElementById("error");
   const save = document.getElementById("save");
 
-  const string = {
-    description: "a REQUIRED STRING",
-    apply: x => typeof x === "string" || x instanceof String,
-  };
-
-  const flag = {
-    description: "an OPTIONAL BOOLEAN",
-    apply: x => typeof x === "undefined" || typeof x === "boolean",
-  };
-
   connectExternalClick(save, x => x.save.postMessage(form));
   connectExternalClick(document.getElementById("icon"), x => x.icon.postMessage({}));
 
@@ -61,26 +51,35 @@
 
   connectInput(json, function(value) {
     const config = JSON.parse(value);
-    if (!config) throw new Error("Expecting an OBJECT at the top level");
-    if (!config.tabs) throw new Error("Expecting an OBJECT FIELD named \"tabs\"");
-    if (!Array.isArray(config.tabs)) throw new Error("Expecting an ARRAY at \"tabs\" field");
-    validateEach(config.tabs, string, "title");
-    validateEach(config.tabs, string, "url");
+    validate(config, "an OBJECT at the top level");
+    validate(config.tabs, "an OBJECT FIELD named \"tabs\"");
+    validate(Array.isArray(config.tabs), "an ARRAY at \"tabs\" field");
+    validateEachHasStringField(config.tabs, "title");
+    validateEachHasStringField(config.tabs, "url");
+    validate(
+      typeof config.sideBySide === "undefined" || typeof config.sideBySide === "boolean",
+      "an OPTIONAL BOOLEAN at \"sideBySide\" field"
+    );
     return JSON.stringify(config, null, 2);
   });
 
-  function validateEach(config, check, field) {
-    if (!config.every(x => check.apply(x[field])))
-      throw new Error(`The "${field}" field is ${check.description}`);
+  function validate(result, description) {
+    if (!result) throw new Error(`Expecting ${description}`);
+  }
+
+  function validateEachHasStringField(array, field) {
+    for (const x of array) {
+      validate(typeof x[field] === "string" || x[field] instanceof String, `"${field}" field to be a STRING`);
+    }
   }
 
   function connectExternalClick(element, callback) {
     element.addEventListener("click", () => callback(window.webkit.messageHandlers));
   }
 
-  function connectInput(element, validate) {
+  function connectInput(element, validation) {
     element.addEventListener("input", () => {
-      try { update(element.id, "", validate(element.value)) }
+      try { update(element.id, "", validation(element.value)) }
       catch (e) { update(element.id, e.message, { error: true }) }
     });
   }
@@ -92,7 +91,10 @@
   }
 
   function load(data) {
-    name.disabled = !!data.name;
+    if (!!data.name) {
+      name.disabled = true;
+      json.focus();
+    }
     loadEncoded(name, data.name);
     loadEncoded(json, data.json);
   }
