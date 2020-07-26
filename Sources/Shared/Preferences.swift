@@ -9,22 +9,18 @@ public class Preferences: NSObject {
             form: Form(Archive.create),
             name: "",
             json: """
-              [
-                {
-                  "title": "Bare minimum example",
-                  "url": "https://example.com"
-                },
-                {
-                  "title": "Use \\"isolated\\" to separate cookies",
-                  "url": "https://example.com",
-                  "isolated": true
-                },
-                {
-                  "title": "Use \\"blocklist\\" to block ads and trackers",
-                  "url": "https://example.com",
-                  "blocklist": true
-                }
-              ]
+              {
+                "tabs": [
+                  {
+                    "title": "This will be the first tab",
+                    "url": "https://example.com"
+                  },
+                  {
+                    "title": "And this will be the second",
+                    "url": "https://kofi.sexy"
+                  }
+                ]
+              }
               """
         )
     }()

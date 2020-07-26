@@ -4,15 +4,12 @@ class Tab: NSObject {
     let title: String
     let webView: WKWebView
 
-    init(title: String, url: URL, `private`: Bool, blocklist: Bool) {
+    init(index: Int, title: String, url: URL) {
         let configuration = WKWebViewConfiguration()
         let script = WKUserScript(source: Browser.JS, injectionTime: .atDocumentStart, forMainFrameOnly: false)
         configuration.userContentController.addUserScript(script)
         configuration.userContentController.add(Browser.global, name: "multi")
-        if `private` {
-            configuration.websiteDataStore = .nonPersistent()
-        }
-        if blocklist, #available(macOS 10.13, *) {
+        if #available(macOS 10.13, *) {
             WKContentRuleListStore.default().compileContentRuleList(forIdentifier: "blocklist", encodedContentRuleList: Browser.blocklist) { (rules, error) in
                 rules.map { configuration.userContentController.add($0) }
             }

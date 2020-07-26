@@ -61,11 +61,11 @@
 
   connectInput(json, function(value) {
     const config = JSON.parse(value);
-    if (!Array.isArray(config)) throw new Error("Expecting an ARRAY at the top level");
-    validateEach(config, string, "title");
-    validateEach(config, string, "url");
-    validateEach(config, flag, "isolated");
-    validateEach(config, flag, "blocklist");
+    if (!config) throw new Error("Expecting an OBJECT at the top level");
+    if (!config.tabs) throw new Error("Expecting an OBJECT FIELD named \"tabs\"");
+    if (!Array.isArray(config.tabs)) throw new Error("Expecting an ARRAY at \"tabs\" field");
+    validateEach(config.tabs, string, "title");
+    validateEach(config.tabs, string, "url");
     return JSON.stringify(config, null, 2);
   });
 

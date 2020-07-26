@@ -1,17 +1,22 @@
 import AppKit
 
-struct Config: Decodable {
-    private let title: String
-    private let url: URL
-    private let `private`: Bool?
-    private let blocklist: Bool?
+struct Config {
+    struct Schema: Decodable {
+        let tabs: [Config.Schema.Tab]
+        struct Tab: Decodable {
+            let title: String
+            let url: URL
+        }
+    }
 
     static let tabs: [Tab] = {
         guard let url = Bundle.Multi.stub?.url(forResource: "config", withExtension: "json"),
               let file = try? Data(contentsOf: url),
-              let json = try? JSONDecoder().decode([Config].self, from: file) else {
+              let config = try? JSONDecoder().decode(Schema.self, from: file) else {
             return []
         }
-        return json.map { Tab(title: $0.title, url: $0.url, private: $0.private ?? false, blocklist: $0.blocklist ?? false) }
+        return config.tabs.enumerated().map { (index, tab) in
+            Tab(index: index, title: tab.title, url: tab.url)
+        }
     }()
 }
