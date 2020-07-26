@@ -4,5 +4,7 @@
 /Packages
 /*.xcodeproj
 
-/*.app
-/*.iconset
+Multi.app/Preferences
+Multi.app/Contents/Resources/Runtime
+Multi.app/Contents/Resources/Stub
+Multi.app/Contents/Resources/blocklist.json

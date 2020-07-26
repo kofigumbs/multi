@@ -1,12 +1,11 @@
 import WebKit
 
 public class Preferences: NSObject {
-    private let form: Form
+    private let form = Form()
     private let script: String
 
     public static let create: Preferences = {
         .init(
-            form: Form(Archive.create),
             name: "",
             json: """
               {
@@ -27,15 +26,13 @@ public class Preferences: NSObject {
 
     public static let update: Preferences = {
         .init(
-            form: Form(Archive.update),
             name: Bundle.Multi.stubTitle ?? "",
             json: Bundle.Multi.stub?.url(forResource: "config", withExtension: "json").flatMap { try? String(contentsOf: $0) } ?? "{}"
         )
     }()
 
 
-    private init(form: Form, name: String, json: String) {
-        self.form = form
+    private init(name: String, json: String) {
         self.script = """
             load({
               name: '\(name.data(using: .utf8)?.base64EncodedString() ?? "")',

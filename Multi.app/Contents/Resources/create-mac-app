@@ -1,0 +1,48 @@
+#!/usr/bin/env bash
+
+set -eo pipefail
+
+APP_NAME="$1"
+APP_BUNDLE_ID=`echo "$APP_NAME" | sed -e 's/[^a-zA-Z0-9.]/-/g'`
+APP_LOCATION="/Applications/Multi/$APP_NAME.app"
+ICON_PATH="$2"
+ICON_TMP_DIR="`mktemp -d`/Icon.iconset"
+JSON_CONFIG="$3"
+RESOURCES=`dirname $0`
+
+if [[ -z "$APP_NAME" ]]; then
+  echo "USAGE: `basename "$0"` APP_NAME [ICON_PNG_PATH]"
+  exit 1
+elif [[ -e "$APP_LOCATION" ]]; then
+  read -p "$APP_LOCATION already exists! Do you want to overwrite it (y/n)? " -r OVERWRITE
+  [[ "$OVERWRITE" =~ ^[Yy]$ ]] || exit 2
+else
+  echo "Creating $APP_LOCATION ..."
+  mkdir -p "$APP_LOCATION/Contents/Resources"
+  chmod +x "$APP_LOCATION"
+fi
+
+echo "Generating Multi artifacts ..."
+cp "$RESOURCES/Stub" "$APP_LOCATION/Stub"
+cp "$RESOURCES/Stub.plist" "$APP_LOCATION/Contents/Info.plist"
+sed -e "s/{{name}}/$APP_NAME/g" -e "s/{{id}}/$APP_BUNDLE_ID/g" -i '' "$APP_LOCATION/Contents/Info.plist"
+
+if [[ ! -z "$ICON_PATH" && "${ICON_PATH##*.}" -ne "png" ]]; then
+  echo "WARNING: Skipping icon creation because no PNG provided ..."
+else
+  mkdir $ICON_TMP_DIR
+  sips -z 16 16     "$ICON_PATH" --out "$ICON_TMP_DIR/icon_16x16.png"      > /dev/null
+  sips -z 32 32     "$ICON_PATH" --out "$ICON_TMP_DIR/icon_16x16@2x.png"   > /dev/null
+  sips -z 32 32     "$ICON_PATH" --out "$ICON_TMP_DIR/icon_32x32.png"      > /dev/null
+  sips -z 64 64     "$ICON_PATH" --out "$ICON_TMP_DIR/icon_32x32@2x.png"   > /dev/null
+  sips -z 128 128   "$ICON_PATH" --out "$ICON_TMP_DIR/icon_128x128.png"    > /dev/null
+  sips -z 256 256   "$ICON_PATH" --out "$ICON_TMP_DIR/icon_128x128@2x.png" > /dev/null
+  sips -z 256 256   "$ICON_PATH" --out "$ICON_TMP_DIR/icon_256x256.png"    > /dev/null
+  sips -z 512 512   "$ICON_PATH" --out "$ICON_TMP_DIR/icon_256x256@2x.png" > /dev/null
+  sips -z 512 512   "$ICON_PATH" --out "$ICON_TMP_DIR/icon_512x512.png"    > /dev/null
+  sips -z 1024 1024 "$ICON_PATH" --out "$ICON_TMP_DIR/icon_512x512@2x.png" > /dev/null
+  iconutil -c icns --output "$APP_LOCATION/Contents/Resources/Icon.icns" "$ICON_TMP_DIR"
+fi
+
+echo "Done!"
+open -n "$APP_LOCATION"

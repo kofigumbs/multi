@@ -1,53 +1,21 @@
 import WebKit
 
 class Form: NSObject, WKScriptMessageHandler {
-    typealias Build = (Archive) -> () throws -> ()
-
     let icon = Icon()
-    private let build: Build
-
-    init(_ build: @escaping Build) {
-        self.build = build
-    }
 
     public func userContentController(_: WKUserContentController, didReceive: WKScriptMessage) {
         guard let body = didReceive.body as? NSObject,
               let name = body.value(forKey: "name") as? String,
-              let json = body.value(forKey: "json") as? String,
-              let config = json.data(using: .utf8) else {
+              let json = body.value(forKey: "json") as? String else {
             fail("Cannot load your configuration.")
             return
         }
-        guard let app = try? FileManager.default
-                  .url(for: .applicationDirectory, in: .localDomainMask, appropriateFor: nil, create: false)
-                  .appendingPathComponent(name, isDirectory: true)
-                  .appendingPathExtension("app") else {
-            fail("Cannot access your Applications directory.")
+        guard let createMacApp = Bundle.Multi.main?.url(forResource: "create-mac-app", withExtension: nil),
+              let _ = try? Process.execute(createMacApp, arguments: [ name, icon.selected?.absoluteString ?? "", json ]) else {
+            fail("") // TODO
             return
         }
-        guard let stub = Bundle.Multi.main?.url(forResource: "Stub", withExtension: nil),
-              let plistTemplate = Bundle.Multi.main?.url(forResource: "Stub", withExtension: "plist"),
-              let plist = try? String(contentsOf: plistTemplate)
-                  .replacingOccurrences(of: "{{name}}", with: name)
-                  .replacingOccurrences(of: "{{id}}", with: name.replacingOccurrences(of: "[^a-zA-Z0-9.]", with: "-", options: [.regularExpression]))
-                  .data(using: .utf8) else {
-            fail("Multi.app is missing essential files.")
-            return
-        }
-        do {
-            let archive = Archive(name: name, app: app, stub: stub, plist: plist, config: config)
-            try build(archive)()
-            try icon.createSet(resources: archive.resources)
-            NSApp.terminate(nil)
-            NSWorkspace.shared.open(archive.app)
-        } catch let error as Archive.Error {
-            switch error {
-            case .alreadyExists: fail("An app with that name already exists.")
-            case .cannotWriteFile(let url): fail("Cannot write file: \(url.path)")
-            }
-        } catch let error {
-            fail(error.localizedDescription)
-        }
+        exit(0)
     }
 
     private func fail(_ reason: String) {

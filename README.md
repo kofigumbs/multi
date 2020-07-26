@@ -6,7 +6,8 @@ Create a custom, lightweight macOS app from a group of websites... in 10 seconds
 - Send web notifications to macOS Notification Center
 - Native alerts, prompts, and file picker
 - Ad-blocker (provided by <https://better.fyi>, macOS 10.13+)
-- Per-tab cookie isolation (macOS 10.13+)
+- Side-by-side view
+- Create apps programatically
 
 ## Installation
 
