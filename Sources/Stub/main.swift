@@ -10,8 +10,10 @@ guard let runtime = bundle.url(forResource: "Runtime", withExtension: nil) else 
     Program.error(code: 2, message: "Multi.app is missing essential files — try re-installing it.")
 }
 
-do {
-    try Process.execute(runtime, arguments: [ Bundle.main.bundlePath ].compactMap { $0 })
-} catch {
+let process = Process()
+process.arguments = [ Bundle.main.bundlePath ].compactMap { $0 }
+process.execute(runtime)
+process.waitUntilExit()
+if process.terminationStatus != 0 {
     Program.error(code: 3, message: "Your Multi app quit unexpectedly — please report this error.")
 }

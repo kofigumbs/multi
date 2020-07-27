@@ -1,7 +1,7 @@
 import WebKit
 
 public class Preferences: NSObject {
-    private let form = Form()
+    private let form: Form
     private let script: String
 
     public static let create: Preferences = {
@@ -11,34 +11,33 @@ public class Preferences: NSObject {
               {
                 "tabs": [
                   {
-                    "title": "This will be the first tab",
-                    "url": "https://example.com"
-                  },
-                  {
-                    "title": "And this will be the second",
-                    "url": "https://kofi.sexy"
+                    "title": "Your first Multi app",
+                    "url": "https://github.com/hkgumbs/multi#readme"
                   }
                 ]
               }
-              """
+              """,
+            overwrite: false
         )
     }()
 
     public static let update: Preferences = {
         .init(
             name: Bundle.Multi.stubTitle ?? "",
-            json: Bundle.Multi.stub?.url(forResource: "config", withExtension: "json").flatMap { try? String(contentsOf: $0) } ?? "{}"
+            json: Bundle.Multi.stub?.url(forResource: "config", withExtension: "json").flatMap { try? String(contentsOf: $0) } ?? "{}",
+            overwrite: true
         )
     }()
 
 
-    private init(name: String, json: String) {
+    private init(name: String, json: String, overwrite: Bool) {
         self.script = """
             load({
               name: '\(name.data(using: .utf8)?.base64EncodedString() ?? "")',
               json: '\(json.data(using: .utf8)?.base64EncodedString() ?? "")',
             })
             """
+        self.form = Form(overwrite: overwrite)
     }
 
     static let window: NSWindow = {
