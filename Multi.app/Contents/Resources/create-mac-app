@@ -7,16 +7,35 @@ APP_LOCATION="/Applications/Multi/$MULTI_APP_NAME.app"
 ICON_TMP_DIR="`mktemp -d`/Icon.iconset"
 RESOURCES=`dirname $0`
 
+bold() {
+  echo -e "\n`tput bold`$1`tput sgr0`\n"
+}
+
 if [[ -z "$MULTI_APP_NAME" ]]; then
-  echo "USAGE: MULTI_APP_NAME=xxx MULTI_ICON_PATH=xxx `basename "$0"`"
+  bold "USAGE: MULTI_APP_NAME=xxx `basename "$0"`"
+  echo "Create a custom, lightweight macOS app from a group of websites."
+  echo "All options are passed as environment variables:"
+  echo ""
+  echo "  MULTI_APP_NAME     Required"
+  echo "  MULTI_ICON_PATH    Optional  PNG path to icon image"
+  echo "  MULTI_JSON_CONFIG  Optional  Configuration as a JSON string"
+  echo "  MULTI_OVERWRITE    Optional  Set to "1" to replace an existing Multi app with the same name"
+  echo ""
+  echo "Further documentation at <https://github.com/hkgumbs/multi#documentation>"
   exit 1
+
 elif [[ -e "$APP_LOCATION" ]]; then
   if [[ "$MULTI_OVERWRITE" -ne "1" ]]; then
-    echo "ERROR: $APP_LOCATION already exists! Rerun with MULTI_OVERWRITE=1 to replace it."
+    bold "ERROR: \"$APP_LOCATION\" already exists!"
+    if [[ -z "$MULTI_UI" ]];
+    then echo "Rerun with MULTI_OVERWRITE=1 to replace it."
+    else echo "You can make this change via the preferences in \"$MULTI_APP_NAME\""
+    fi
     exit 1
   fi
+
 else
-  echo "Creating $APP_LOCATION ..."
+  echo "Creating \"$APP_LOCATION\" ..."
   mkdir -p "$APP_LOCATION/Contents/Resources"
   chmod +x "$APP_LOCATION"
 fi
@@ -28,9 +47,9 @@ sed -e "s/{{name}}/$MULTI_APP_NAME/g" -e "s/{{id}}/$APP_BUNDLE_ID/g" -i '' "$APP
 echo "$MULTI_JSON_CONFIG" > "$APP_LOCATION/Contents/Resources/config.json"
 
 if [[ -z "$MULTI_ICON_PATH" || "${MULTI_ICON_PATH##*.}" -ne "png" ]]; then
-  echo "WARNING: Skipping icon creation because no PNG provided ..."
+  bold "WARNING: Skipping icon creation because no PNG provided ..."
 else
-  mkdir $ICON_TMP_DIR
+  mkdir "$ICON_TMP_DIR"
   sips -z 16   16   "$MULTI_ICON_PATH" --out "$ICON_TMP_DIR/icon_16x16.png"      > /dev/null
   sips -z 32   32   "$MULTI_ICON_PATH" --out "$ICON_TMP_DIR/icon_16x16@2x.png"   > /dev/null
   sips -z 32   32   "$MULTI_ICON_PATH" --out "$ICON_TMP_DIR/icon_32x32.png"      > /dev/null

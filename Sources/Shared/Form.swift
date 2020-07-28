@@ -15,6 +15,9 @@ class Form: NSObject, WKScriptMessageHandler {
             fail("Cannot load your configuration.")
             return
         }
+        // Arguments and environment variables don't seem to survive across
+        // calls to `open`, so we generate a script that explicitly exports
+        // each variable and then `open` the generated script instead.
         guard let createMacApp = Bundle.Multi.main?.url(forResource: "create-mac-app", withExtension: nil),
               let desktop = FileManager.default.urls(for: .desktopDirectory, in: .userDomainMask).first,
               let tmp = try? FileManager.default.url(for: .itemReplacementDirectory, in: .userDomainMask, appropriateFor: desktop, create: true).appendingPathComponent("create-mac-app"),
@@ -25,7 +28,8 @@ class Form: NSObject, WKScriptMessageHandler {
                   export MULTI_JSON_CONFIG=\(escaped(json))
                   export MULTI_OVERWRITE=\(escaped(overwrite ? "1" : "0"))
                   export MULTI_REPLACE_PID=\(escaped("\(ProcessInfo.processInfo.processIdentifier)"))
-                  \(createMacApp.path) || read -p "Press Enter to exit ... "
+                  export MULTI_UI=1
+                  \(createMacApp.path) || read -p $'\\nPress Enter to exit ... '
                   """.data(using: .utf8),
               FileManager.default.createFile(
                   atPath: tmp.path,
