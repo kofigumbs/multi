@@ -38,6 +38,6 @@ class Tab: NSObject {
         } else {
             Browser.window.contentView = webView
         }
-        webView.lockFocus()
+        Browser.window.makeFirstResponder(webView)
     }
 }
