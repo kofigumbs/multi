@@ -14,6 +14,3 @@ let process = Process()
 process.arguments = [ Bundle.main.bundlePath ].compactMap { $0 }
 process.execute(runtime)
 process.waitUntilExit()
-if process.terminationStatus != 0 {
-    Program.error(code: 3, message: "Your Multi app quit unexpectedly — please report this error.")
-}

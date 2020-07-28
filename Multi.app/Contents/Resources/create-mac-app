@@ -45,7 +45,7 @@ else
 fi
 
 if [[ ! -z "$MULTI_REPLACE_PID" ]]; then
-  read -p "Launching ..."
+  echo "Launching ..."
   kill "$MULTI_REPLACE_PID"
   open -n "$APP_LOCATION"
 fi

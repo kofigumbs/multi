@@ -11,26 +11,32 @@ class Form: NSObject, WKScriptMessageHandler {
     public func userContentController(_: WKUserContentController, didReceive: WKScriptMessage) {
         guard let body = didReceive.body as? NSObject,
               let name = body.value(forKey: "name") as? String,
-              let json = body.value(forKey: "json") as? String,
-              let script = Bundle.Multi.main?.url(forResource: "create-mac-app-from-ui", withExtension: nil) else {
+              let json = body.value(forKey: "json") as? String else {
             fail("Cannot load your configuration.")
             return
         }
-        let process = Process()
-        process.environment = [
-            "MULTI_APP_NAME": name,
-            "MULTI_ICON_PATH": icon.selected?.path ?? "",
-            "MULTI_JSON_CONFIG": json,
-            "MULTI_OVERWRITE": overwrite ? "1" : "0",
-            "MULTI_REPLACE_PID": "\(ProcessInfo.processInfo.processIdentifier)",
-        ]
-        let pipe = Pipe()
-        process.standardError = pipe
-        process.execute(script)
-        process.waitUntilExit()
-        if process.terminationStatus != 0 {
-            fail(String(decoding: pipe.fileHandleForReading.readDataToEndOfFile(), as: UTF8.self))
+        guard let createMacApp = Bundle.Multi.main?.url(forResource: "create-mac-app", withExtension: nil),
+              let desktop = FileManager.default.urls(for: .desktopDirectory, in: .userDomainMask).first,
+              let tmp = try? FileManager.default.url(for: .itemReplacementDirectory, in: .userDomainMask, appropriateFor: desktop, create: true).appendingPathComponent("create-mac-app"),
+              let script = """
+                  #!/usr/bin/env bash
+                  export MULTI_APP_NAME=\(escaped(name))
+                  export MULTI_ICON_PATH=\(escaped(icon.selected?.path ?? ""))
+                  export MULTI_JSON_CONFIG=\(escaped(json))
+                  export MULTI_OVERWRITE=\(escaped(overwrite ? "1" : "0"))
+                  export MULTI_REPLACE_PID=\(escaped("\(ProcessInfo.processInfo.processIdentifier)"))
+                  \(createMacApp.path) || read -p "Press Enter to exit ... "
+                  """.data(using: .utf8),
+              FileManager.default.createFile(
+                  atPath: tmp.path,
+                  contents: script,
+                  attributes: [ FileAttributeKey.posixPermissions: 0o777 as Any ]) else {
+            fail("Cannot allocate configuration script.")
+            return
         }
+        let process = Process()
+        process.arguments = [ "open", "-a", "Terminal", tmp.path ]
+        process.execute()
     }
 
     private func fail(_ reason: String) {
@@ -39,5 +45,12 @@ class Form: NSObject, WKScriptMessageHandler {
         alert.informativeText = reason
         alert.alertStyle = .critical
         alert.runModal()
+    }
+
+    private func escaped(_ string: String) -> String {
+        // Escape tricky characters using `String.init(reflecting:)` then
+        // replace the enclosing `""` with `$''`.
+        // <https://www.gnu.org/software/bash/manual/html_node/ANSI_002dC-Quoting.html>
+        return "$'\(String(reflecting: string).dropFirst().dropLast())'"
     }
 }
