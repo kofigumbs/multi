@@ -6,6 +6,7 @@ public class Preferences: NSObject {
 
     public static let create: Preferences = {
         .init(
+            form: Form(overwrite: false),
             name: "",
             json: """
               {
@@ -16,28 +17,27 @@ public class Preferences: NSObject {
                   }
                 ]
               }
-              """,
-            overwrite: false
+              """
         )
     }()
 
     public static let update: Preferences = {
         .init(
+            form: Form(overwrite: true),
             name: Bundle.Multi.stubTitle ?? "",
-            json: Bundle.Multi.stub?.url(forResource: "config", withExtension: "json").flatMap { try? String(contentsOf: $0) } ?? "{}",
-            overwrite: true
+            json: Bundle.Multi.stub?.url(forResource: "config", withExtension: "json").flatMap { try? String(contentsOf: $0) } ?? "{}"
         )
     }()
 
 
-    private init(name: String, json: String, overwrite: Bool) {
+    private init(form: Form, name: String, json: String) {
+        self.form = form
         self.script = """
             load({
               name: '\(name.data(using: .utf8)?.base64EncodedString() ?? "")',
               json: '\(json.data(using: .utf8)?.base64EncodedString() ?? "")',
             })
             """
-        self.form = Form(overwrite: overwrite)
     }
 
     static let window: NSWindow = {
