@@ -2,6 +2,7 @@ import Shared
 import WebKit
 
 class Browser: NSObject {
+    static var selectedTab: Tab? = nil
     static let global = Browser()
     static let title = Bundle.Multi.stubTitle ?? "Multi"
 
@@ -35,7 +36,7 @@ class Browser: NSObject {
 
     private static func shiftTab(by diff: Int) {
         for (index, tab) in Config.tabs.enumerated() {
-            if tab.webView == window.contentView {
+            if tab == selectedTab {
                 Config.tabs[(index + diff) % Config.tabs.count].view()
                 return
             }

@@ -38,6 +38,7 @@ class Tab: NSObject {
         } else {
             Browser.window.contentView = webView
         }
+        Browser.selectedTab = self
         Browser.window.makeFirstResponder(webView)
     }
 }
