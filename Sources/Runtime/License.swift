@@ -17,8 +17,15 @@ class License: NSObject, WKScriptMessageHandler {
     }
 
     static let isValid: Bool = {
+        if let main = Bundle.Multi.main?.bundlePath,
+           let modified = try? FileManager.default.attributesOfItem(atPath: main)[.modificationDate] as? Date,
+           modified.timeIntervalSinceNow > -604800 {
+            // Pass validation if within the 1-week trial period.
+            return true
+        }
         guard let key = defaults({ $0.string(forKey: $1) }),
               let validate = URL(string: "https://gumbs.llc/multi/license/validate?key=\(key)") else {
+            // This really shouldn't fail unless user does something tricky.
             return false
         }
         guard let code = try? Data(contentsOf: validate, options: .uncached) else {
