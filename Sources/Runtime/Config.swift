@@ -16,9 +16,11 @@ struct Config {
 
     static let tabs: [Tab] = {
         guard let schema = schema else { return [] }
-        return schema.tabs.enumerated().map { (index, tab) in
-            Tab(index: index, title: tab.title, url: tab.url)
+        var tabs = schema.tabs.map { Tab(title: $0.title, url: $0.url) }
+        if !tabs.isEmpty && !License.isValid {
+            tabs.insert(Tab(license: ()), at: 0)
         }
+        return tabs
     }()
 
     private static let schema: Config.Schema? = {

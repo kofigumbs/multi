@@ -4,7 +4,7 @@ class Tab: NSObject {
     let title: String
     let webView: WKWebView
 
-    init(index: Int, title: String, url: URL) {
+    init(title: String, url: URL) {
         let configuration = WKWebViewConfiguration()
         let script = WKUserScript(source: Browser.JS, injectionTime: .atDocumentStart, forMainFrameOnly: false)
         configuration.userContentController.addUserScript(script)
@@ -27,6 +27,19 @@ class Tab: NSObject {
         }
 
         webView.load(URLRequest(url: url))
+    }
+
+    init(license: ()) {
+        self.title = "Purchase a license"
+        self.webView = WKWebView(frame: Browser.window.frame)
+        webView.setValue(false, forKey: "drawsBackground")
+        webView.navigationDelegate = Browser.global
+        webView.configuration.userContentController.add(License.global, name: "license")
+        webView.enableDevelop()
+        if let url = Bundle.Multi.main?.url(forResource: "license", withExtension: "html"),
+           let html = try? String(contentsOf: url) {
+            webView.loadHTMLString(html, baseURL: nil)
+        }
     }
 
     @objc func view(_: Any? = nil) {

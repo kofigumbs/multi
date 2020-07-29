@@ -15,32 +15,17 @@ class Form: NSObject, WKScriptMessageHandler {
             fail("Cannot load your configuration.")
             return
         }
-        // Arguments and environment variables don't seem to survive across
-        // calls to `open`, so we generate a script that explicitly exports
-        // each variable and then `open` the generated script instead.
-        guard let createMacApp = Bundle.Multi.main?.url(forResource: "create-mac-app", withExtension: nil),
-              let desktop = FileManager.default.urls(for: .desktopDirectory, in: .userDomainMask).first,
-              let tmp = try? FileManager.default.url(for: .itemReplacementDirectory, in: .userDomainMask, appropriateFor: desktop, create: true).appendingPathComponent("create-mac-app"),
-              let script = """
-                  #!/usr/bin/env bash
-                  export MULTI_APP_NAME=\(escaped(name))
-                  export MULTI_ICON_PATH=\(escaped(icon.selected?.path ?? ""))
-                  export MULTI_JSON_CONFIG=\(escaped(json))
-                  export MULTI_OVERWRITE=\(escaped(overwrite ? "1" : "0"))
-                  export MULTI_REPLACE_PID=\(escaped("\(ProcessInfo.processInfo.processIdentifier)"))
-                  export MULTI_UI=1
-                  \(createMacApp.path) || read -p $'\\nPress Enter to exit ... '
-                  """.data(using: .utf8),
-              FileManager.default.createFile(
-                  atPath: tmp.path,
-                  contents: script,
-                  attributes: [ FileAttributeKey.posixPermissions: 0o777 as Any ]) else {
+        if let createMacApp = Bundle.Multi.main?.url(forResource: "create-mac-app", withExtension: nil),
+           Script.run(createMacApp, environment: [
+               "APP_NAME": name,
+               "ICON_PATH": icon.selected?.path ?? "",
+               "JSON_CONFIG": json,
+               "OVERWRITE": overwrite ? "1" : "0",
+               "RELAUNCH_PID": "\(ProcessInfo.processInfo.processIdentifier)",
+               "UI": "1",
+           ]) {
             fail("Cannot allocate configuration script.")
-            return
         }
-        let process = Process()
-        process.arguments = [ "open", "-a", "Terminal", tmp.path ]
-        process.execute()
     }
 
     private func fail(_ reason: String) {
@@ -49,12 +34,5 @@ class Form: NSObject, WKScriptMessageHandler {
         alert.informativeText = reason
         alert.alertStyle = .critical
         alert.runModal()
-    }
-
-    private func escaped(_ string: String) -> String {
-        // Escape tricky characters using `String.init(reflecting:)` then
-        // replace the enclosing `""` with `$''`.
-        // <https://www.gnu.org/software/bash/manual/html_node/ANSI_002dC-Quoting.html>
-        return "$'\(String(reflecting: string).dropFirst().dropLast())'"
     }
 }

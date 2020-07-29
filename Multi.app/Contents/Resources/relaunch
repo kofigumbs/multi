@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+set -eo pipefail
+
+kill "$MULTI_RELAUNCH_PID"
+open -n "$MULTI_APP_LOCATION"
