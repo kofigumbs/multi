@@ -68,21 +68,15 @@ If you'd like to configure your app entirely from the command-line, you can set 
 
 Multi's shortcuts should work equivalently to those in modern browsers.
 
-|         |                     |
-|---------|---------------------|
-| ⌘0 - ⌘9 | Jump to tab         |
-| ⌘R      | Reload page         |
-| ⌘[      | Back                |
-| ⌘]      | Forward             |
-| ^Tab    | Select next tab     |
-| ^↑Tab   | Select previous tab |
-| ⌘Q      | Quit                |
-| ⌘H      | Hide                |
-| ⌘M      | Minimize            |
-| ⌘X      | Cut                 |
-| ⌘C      | Copy                |
-| ⌘V      | Paste               |
-| ⌘A      | Select All          |
+|      |            |   |             |                     |
+|------|------------|---|-------------|---------------------|
+| `⌘X` | Cut        |   | `⌘0` - `⌘9` | Jump to tab         |
+| `⌘C` | Copy       |   | `⌘R`        | Reload page         |
+| `⌘V` | Paste      |   | `⌘[`        | Back                |
+| `⌘A` | Select All |   | `⌘]`        | Forward             |
+| `⌘Q` | Quit       |   | `^Tab`      | Select next tab     |
+| `⌘H` | Hide       |   | `^↑Tab`     | Select previous tab |
+| `⌘M` | Minimize   |   |
 
 
 ## Licensing
