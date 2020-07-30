@@ -20,6 +20,7 @@ Download the latest `.dmg` file from the [releases](https://github.com/hkgumbs/m
 **Note:** Multi is not notarized, so you'll need to allow it to run via your "Security & Privacy" system preferences.
 See [Licensing](#licensing) for more about sponsoring Multi's development.
 
+
 ## JSON configuration
 
 Multi apps store their configuration in a single JSON file.
@@ -42,9 +43,10 @@ The JSON should match this informal schema:
 If the configuration file fails to decode for any reason, your Multi app will open to the preferences window, where you can fix any issues.
 
 
-## CLI variables
+## Using the CLI: `create-mac-app`
 
-You can create and update Multi apps entirely from the command-line with the included script: `create-mac-app`.
+You can create and update Multi apps entirely from the command-line with the included script.
+In fact, the Multi configuration UI just runs this script under-the-hood!
 The `create-mac-app` script takes its options as environment variables.
 For instance, here's how you'd create a bare-minimum app named `Test`:
 
@@ -62,7 +64,7 @@ If you'd like to configure your app entirely from the command-line, you can set 
 | `MULTI_OVERWRITE`   | Set to `1` to replace an existing Multi app with the same name |
 
 
-## Keyboard Shortcuts
+## Keyboard shortcuts
 
 Multi's shortcuts should work equivalently to those in modern browsers.
 
