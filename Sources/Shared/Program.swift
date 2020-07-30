@@ -27,7 +27,7 @@ public class Program: NSObject {
 
     public init(name: String) {
         Program.addSubmenu(NSMenu(), [
-            NSMenuItem(title: "Hide \(name)", action: #selector(NSApplication.terminate(_:)), keyEquivalent: "h"),
+            NSMenuItem(title: "Hide \(name)", action: #selector(NSApplication.hide(_:)), keyEquivalent: "h"),
             NSMenuItem(title: "Quit \(name)", action: #selector(NSApplication.terminate(_:)), keyEquivalent: "q"),
         ])
         Program.addSubmenu(NSMenu(title: "Edit"), [

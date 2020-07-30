@@ -1,7 +1,7 @@
 import Shared
 import WebKit
 
-class Browser: NSObject {
+class Browser: NSResponder {
     static var selectedTab: Tab? = nil
     static let global = Browser()
     static let title = Bundle.main.title ?? "Multi"

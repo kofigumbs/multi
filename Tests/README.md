@@ -63,7 +63,7 @@ Click button on each page to test the feature in question.
 
 ```bash
 MULTI_APP_NAME='Test 4' \
-  MULTI_JSON_CONFIG='{"tabs":[{"title":"Example","url":"https://kofi.sexy/svg"}]}' \
+  MULTI_JSON_CONFIG='{"tabs":[{"title":"DuckDuckGo","url":"https://duckduckgo.com"},{"title":"Google","url":"https://google.com"}]}' \
   /Applications/Multi.app/Contents/Resources/create-mac-app
 open /Applications/Multi/Test\ 4.app
 ```

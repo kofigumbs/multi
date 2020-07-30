@@ -53,5 +53,6 @@ class Tab: NSObject {
         }
         Browser.selectedTab = self
         Browser.window.makeFirstResponder(webView)
+        webView.nextResponder = Browser.global
     }
 }
