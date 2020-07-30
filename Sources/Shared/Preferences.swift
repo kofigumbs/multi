@@ -24,8 +24,8 @@ public class Preferences: NSObject {
     public static let update: Preferences = {
         .init(
             form: Form(overwrite: true),
-            name: Bundle.Multi.stubTitle ?? "",
-            json: Bundle.Multi.stub?.url(forResource: "config", withExtension: "json").flatMap { try? String(contentsOf: $0) } ?? "{}"
+            name: Bundle.main.title ?? "",
+            json: Bundle.main.url(forResource: "config", withExtension: "json").flatMap { try? String(contentsOf: $0) } ?? "{}"
         )
     }()
 
@@ -51,7 +51,7 @@ public class Preferences: NSObject {
     }()
 
     @objc public func view(_: Any? = nil) {
-        guard let url = Bundle.Multi.main?.url(forResource: "preferences", withExtension: "html"),
+        guard let url = Bundle.multi?.url(forResource: "preferences", withExtension: "html"),
               let html = try? String(contentsOf: url) else {
             _ = Program.errorWindow(message: "Multi.app is missing essential files — try re-installing it.")
             return

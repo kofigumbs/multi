@@ -24,7 +24,7 @@ struct Config {
     }()
 
     private static let schema: Config.Schema? = {
-        guard let url = Bundle.Multi.stub?.url(forResource: "config", withExtension: "json"),
+        guard let url = Bundle.main.url(forResource: "config", withExtension: "json"),
               let file = try? Data(contentsOf: url) else {
             return nil
         }

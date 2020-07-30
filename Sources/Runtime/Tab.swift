@@ -36,7 +36,7 @@ class Tab: NSObject {
         webView.navigationDelegate = Browser.global
         webView.configuration.userContentController.add(License.global, name: "license")
         webView.enableDevelop()
-        if let url = Bundle.Multi.main?.url(forResource: "license", withExtension: "html"),
+        if let url = Bundle.multi?.url(forResource: "license", withExtension: "html"),
            let html = try? String(contentsOf: url) {
             webView.loadHTMLString(html, baseURL: nil)
         }

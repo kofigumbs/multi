@@ -15,7 +15,7 @@ class Form: NSObject, WKScriptMessageHandler {
             fail("Cannot load your configuration.")
             return
         }
-        if let createMacApp = Bundle.Multi.main?.url(forResource: "create-mac-app", withExtension: nil),
+        if let createMacApp = Bundle.multi?.url(forResource: "create-mac-app", withExtension: nil),
            Script.run(createMacApp, environment: [
                "APP_NAME": name,
                "ICON_PATH": icon.selected?.path ?? "",

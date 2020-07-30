@@ -6,18 +6,18 @@ class License: NSObject, WKScriptMessageHandler {
 
     public func userContentController(_: WKUserContentController, didReceive: WKScriptMessage) {
         guard let key = didReceive.body as? String,
-              let relaunch = Bundle.Multi.main?.url(forResource: "relaunch", withExtension: nil) else {
+              let relaunch = Bundle.multi?.url(forResource: "relaunch", withExtension: nil) else {
             return
         }
         License.defaults { $0.set(key, forKey: $1) }
         _ = Script.run(relaunch, environment: [
-            "APP_LOCATION": Bundle.Multi.stub?.bundlePath ?? "",
+            "APP_LOCATION": Bundle.main.bundlePath,
             "RELAUNCH_PID": "\(ProcessInfo.processInfo.processIdentifier)",
         ])
     }
 
     static let isValid: Bool = {
-        if let main = Bundle.Multi.main?.executablePath,
+        if let main = Bundle.multi?.executablePath,
            let modified = try? FileManager.default.attributesOfItem(atPath: main)[.modificationDate] as? Date,
            modified.timeIntervalSinceNow > -604800 {
             // Pass validation if within the 1-week trial period.

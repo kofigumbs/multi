@@ -9,6 +9,11 @@ Create a custom, lightweight macOS app from a group of websites... in 10 seconds
 - Side-by-side view
 - Create apps programatically
 
+# Roadmap
+
+- Find-in-page
+- Isolated web views
+
 ## Installation
 
 TODO

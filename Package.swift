@@ -10,14 +10,12 @@ let package = Package(
     products: [
         .executable(name: "Preferences", targets: ["Preferences"]),
         .executable(name: "Runtime",     targets: ["Runtime"]),
-        .executable(name: "Stub",        targets: ["Stub"]),
     ],
     dependencies: [
     ],
     targets: [
         .target(name: "Preferences", dependencies: ["Shared"]),
         .target(name: "Runtime",     dependencies: ["Shared"]),
-        .target(name: "Stub",        dependencies: ["Shared"]),
         .target(name: "Shared"),
     ]
 )

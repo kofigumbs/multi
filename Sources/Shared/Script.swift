@@ -21,7 +21,7 @@ extension Script {
         }
         let process = Process()
         process.arguments = [ "open", "-a", "Terminal", tmp.path ]
-        process.execute()
+        execute(process)
         return true
     }
 
@@ -30,5 +30,16 @@ extension Script {
         // replace the enclosing `""` with `$''`.
         // <https://www.gnu.org/software/bash/manual/html_node/ANSI_002dC-Quoting.html>
         return "$'\(String(reflecting: string).dropFirst().dropLast())'"
+    }
+
+    private static func execute(_ process: Process) {
+        let url = URL(fileURLWithPath: "/usr/bin/env")
+        if #available(macOS 10.13, *) {
+            process.executableURL = url
+            try! process.run()
+        } else {
+            process.launchPath = url.path
+            process.launch()
+        }
     }
 }

@@ -4,13 +4,13 @@ import WebKit
 class Browser: NSObject {
     static var selectedTab: Tab? = nil
     static let global = Browser()
-    static let title = Bundle.Multi.stubTitle ?? "Multi"
+    static let title = Bundle.main.title ?? "Multi"
 
     // Fake a more popular browser to circumvent UA-sniffing
     static let userAgent = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.1 Safari/605.1.15"
 
     static let blocklist: String = {
-        guard let url = Bundle.Multi.main?.url(forResource: "blocklist", withExtension: "json"),
+        guard let url = Bundle.multi?.url(forResource: "blocklist", withExtension: "json"),
               let data = try? Data(contentsOf: url),
               let json = String(data: data, encoding: .utf8) else {
             return "[]"

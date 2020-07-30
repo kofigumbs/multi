@@ -4,7 +4,7 @@ public class Program: NSObject {
     public static let messageFrame = NSRect(x: 0, y: 0, width: 500, height: 80)
 
     static let title: String = {
-        switch Bundle.Multi.main?.object(forInfoDictionaryKey: "CFBundleVersion") as? String {
+        switch Bundle.multi?.version {
         case .none:
             return "Multi"
         case .some(let version):
