@@ -29,7 +29,7 @@ open /Applications/Multi/Test\ 2.app
 
 ```bash
 MULTI_APP_NAME='Test 2' \
-  MULTI_ICON_PATH='Tests/icon.png'
+  MULTI_ICON_PATH='Tests/icon.png' \
   MULTI_JSON_CONFIG='{"tabs":[{"title":"Example","url":"https://example.com"}]}' \
   MULTI_OVERWRITE=1 \
   /Applications/Multi.app/Contents/Resources/create-mac-app
@@ -39,7 +39,7 @@ open /Applications/Multi/Test\ 2.app
 # License Key
 
 ```bash
-touch -d "2 weeks ago" /Applications/Multi/Test\ 2.app
+touch -mt 202001010000 /Applications/Multi.app/Preferences
 echo "$MULTI_LICENSE_KEY" | pbcopy
 open /Applications/Multi/Test\ 2.app
 ```
@@ -52,7 +52,7 @@ App should no longer have trial expiration page.
 
 ```bash
 MULTI_APP_NAME='Test 3' \
-  MULTI_JSON_CONFIG='{"sideBySide":true,"tabs":[{"title":"Notifications","url":"https://alexgibson.github.io/notify.js/"},{"title":"Alert","url":"https://www.w3schools.com/jsref/tryit.asp?filename=tryjsref_alert"}{"title":"Confirm","url":"https://www.w3schools.com/jsref/tryit.asp?filename=tryjsref_confirm"},{"title":"File","url":"https://www.w3schools.com/tags/tryit.asp?filename=tryhtml5_input_type_file"},{"title":"Ads","url":"https://ads-blocker.com/testing/#ad-blocker-test-steps"}]}' \
+  MULTI_JSON_CONFIG='{"sideBySide":true,"tabs":[{"title":"Notifications","url":"https://www.bennish.net/web-notifications.html"},{"title":"Alert","url":"https://www.w3schools.com/jsref/tryit.asp?filename=tryjsref_alert"},{"title":"Confirm","url":"https://www.w3schools.com/jsref/tryit.asp?filename=tryjsref_confirm"},{"title":"File","url":"https://www.w3schools.com/tags/tryit.asp?filename=tryhtml5_input_type_file"},{"title":"Ads","url":"https://ads-blocker.com/testing/#ad-blocker-test-steps"}]}' \
   /Applications/Multi.app/Contents/Resources/create-mac-app
 open /Applications/Multi/Test\ 3.app
 ```

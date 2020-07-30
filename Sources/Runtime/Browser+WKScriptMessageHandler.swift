@@ -19,11 +19,10 @@ extension Browser: WKScriptMessageHandler {
 
     public func userContentController(_: WKUserContentController, didReceive: WKScriptMessage) {
         guard let arguments = didReceive.body as? NSArray,
-              let title = arguments[0] as? String,
-              let options = arguments[1] as? NSObject,
-              let body = options.value(forKey: "body") as? String else {
+              let title = arguments[0] as? String else {
             return
         }
+        let body = (arguments[1] as? NSObject)?.value(forKey: "body") as? String
         let notification = NSUserNotification()
         notification.identifier = UUID().uuidString
         notification.title = title

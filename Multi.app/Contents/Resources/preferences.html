@@ -27,7 +27,7 @@
   <label style="flex: 1 0 auto; font-style: italic; white-space: nowrap;" for="icon" id="path"></em>
 </div>
 
-<textarea style="margin: 0; padding: 20px; flex: 1 0 auto; border: none; white-space: pre; font-family: 'SF Mono', monospace; resize: none;" placeholder='[{ "title": "Example Site", "url": "https://example.com" }]' spellcheck="false" id="json"></textarea>
+<textarea style="margin: 0; padding: 20px; flex: 1 0 auto; border: none; white-space: pre; font-family: 'SF Mono', monospace; resize: none;" placeholder='{ "tabs": [{ "title": "Example", "url": "https://example.com" }] }' spellcheck="false" id="json"></textarea>
 
 <footer style="padding: 20px; display: flex; flex-direction: row; justify-content: space-between;">
   <em id="error"></em>
@@ -100,7 +100,7 @@
   }
 
   function loadEncoded(input, encoded) {
-    input.value = atob(encoded);
+    input.value = atob(encoded).trim();
     input.dispatchEvent(new Event("input"));
   }
 </script>
