@@ -17,7 +17,7 @@ class License: NSObject, WKScriptMessageHandler {
     }
 
     static let isValid: Bool = {
-        if let main = Bundle.multi?.executablePath,
+        if let main = Bundle.multi?.bundlePath,
            let modified = try? FileManager.default.attributesOfItem(atPath: main)[.modificationDate] as? Date,
            modified.timeIntervalSinceNow > -604800 {
             // Pass validation if within the 1-week trial period.

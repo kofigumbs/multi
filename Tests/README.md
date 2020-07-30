@@ -39,7 +39,7 @@ open /Applications/Multi/Test\ 2.app
 # License Key
 
 ```bash
-touch -mt 202001010000 /Applications/Multi.app/Preferences
+touch -mt 202001010000 /Applications/Multi.app
 echo "$MULTI_LICENSE_KEY" | pbcopy
 open /Applications/Multi/Test\ 2.app
 ```
