@@ -12,7 +12,13 @@ Multi.app/Contents/Resources/Runtime: $(SWIFT_BUILD_PATH)/Runtime
 	cp $^ $@
 
 $(SWIFT_BUILD_PATH)/%: Sources/%/*.swift Sources/Shared/*.swift
-	swift build --product $*
+	swift build --configuration $(SWIFT_CONFIGURATION) --product $*
 
 Multi.app/Contents/Resources/blocklist.json:
 	curl https://better.fyi/blockerList.json > $@
+
+.PHONY: release
+release:
+	swift package clean
+	make SWIFT_CONFIGURATION=release Multi.app
+	npx create-dmg Multi.app --overwrite .build/
