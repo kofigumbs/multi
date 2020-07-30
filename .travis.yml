@@ -1,6 +1,0 @@
-language: swift
-osx_image: xcode11.5
-script:
-  - swift build
-notifications:
-  email: false
