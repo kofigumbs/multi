@@ -2,7 +2,7 @@
 
 Create a custom, lightweight macOS app from a group of websites.
 
-![Screenshot of a custom Twitter app created with Multi. The custom app, Twiit, wraps twitter.com. Multi is shown in dark mode.](Assets/screenshot-dark.png)
+![Screenshot of a custom Twitter app created with Multi. The custom app, Work GSuite, wraps to sites: GMail and Google Drive. Multi is shown in dark mode.](Assets/screenshot.png)
 
  - Create apps from a UI or the command line
  - Configure settings with JSON
