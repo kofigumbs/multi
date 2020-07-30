@@ -2,6 +2,8 @@
 
 Create a custom, lightweight macOS app from a group of websites.
 
+![Screenshot of a custom Twitter app created with Multi. The custom app, Twiit, wraps twitter.com. Multi is shown in dark mode.](Assets/screenshot-dark.png)
+
  - Create apps from a UI or the command line
  - Configure settings with JSON
  - Built-in ad-blocker, provided by <https://better.fyi> (macOS 10.13+)
@@ -14,8 +16,7 @@ Create a custom, lightweight macOS app from a group of websites.
 
 ## Installation
 
-TODO
-
+Download the latest `.dmg` file from the [releases](https://github.com/hkgumbs/multi/releases) page.
 
 ## JSON configuration
 
@@ -55,7 +56,7 @@ If you'd like to configure your app entirely from the command-line, you can set 
 |                     |                                                                |
 |---------------------|----------------------------------------------------------------|
 | `MULTI_ICON_PATH`   | PNG path to icon image                                         |
-| `MULTI_JSON_CONFIG` | See [#json-configuration][]                                    |
+| `MULTI_JSON_CONFIG` | See [JSON configuration](#json-configuration)                  |
 | `MULTI_OVERWRITE`   | Set to `1` to replace an existing Multi app with the same name |
 
 
