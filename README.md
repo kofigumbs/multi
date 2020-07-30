@@ -2,7 +2,7 @@
 
 Create a custom, lightweight macOS app from a group of websites.
 
- - Create apps from a UI or the included command-line script
+ - Create apps from a UI or the command line
  - Configure settings with JSON
  - Built-in ad-blocker, provided by <https://better.fyi> (macOS 10.13+)
  - View one tab at a time or all at once with side-by-side view
@@ -17,9 +17,7 @@ Create a custom, lightweight macOS app from a group of websites.
 TODO
 
 
-## Configuration
-
-### JSON
+## JSON configuration
 
 Multi apps store their configuration in a single JSON file.
 If your app is named `Test`, then you'll find that file at `/Applications/Test.app/Contents/Resources/config.json`.
@@ -41,8 +39,9 @@ The JSON should match this informal schema:
 If the configuration file fails to decode for any reason, your Multi app will open to the preferences window, where you can fix any issues.
 
 
-### CLI variables
+## CLI variables
 
+You can create and update Multi apps entirely from the command-line with the included script: `create-mac-app`.
 The `create-mac-app` script takes its options as environment variables.
 For instance, here's how you'd create a bare-minimum app named `Test`:
 
@@ -53,14 +52,16 @@ MULTI_APP_NAME='Test' /Applications/Multi.app/Contents/Resources/create-mac-app
 When you open `Test`, you'll be greeted with the preferences window, where you can finish configuring your app.
 If you'd like to configure your app entirely from the command-line, you can set any of the following variables:
 
-|                   |                                                                |
-|-------------------|----------------------------------------------------------------|
-| MULTI_ICON_PATH   | PNG path to icon image                                         |
-| MULTI_JSON_CONFIG | See <#json>                                                    |
-| MULTI_OVERWRITE   | Set to `1` to replace an existing Multi app with the same name |
+|                     |                                                                |
+|---------------------|----------------------------------------------------------------|
+| `MULTI_ICON_PATH`   | PNG path to icon image                                         |
+| `MULTI_JSON_CONFIG` | See [#json-configuration][]                                    |
+| `MULTI_OVERWRITE`   | Set to `1` to replace an existing Multi app with the same name |
 
 
 ## Keyboard Shortcuts
+
+Multi's shortcuts should work equivalently to those in modern browsers.
 
 |         |                     |
 |---------|---------------------|
@@ -70,20 +71,20 @@ If you'd like to configure your app entirely from the command-line, you can set 
 | ⌘]      | Forward             |
 | ^Tab    | Select next tab     |
 | ^↑Tab   | Select previous tab |
-
-... and all the normal macOS shortcuts you'd expect:
-
-|    |            |
-|----|------------|
-| ⌘Q | Quit       |
-| ⌘H | Hide       |
-| ⌘M | Minimize   |
-| ⌘X | Cut        |
-| ⌘C | Copy       |
-| ⌘V | Paste      |
-| ⌘A | Select All |
+| ⌘Q      | Quit                |
+| ⌘H      | Hide                |
+| ⌘M      | Minimize            |
+| ⌘X      | Cut                 |
+| ⌘C      | Copy                |
+| ⌘V      | Paste               |
+| ⌘A      | Select All          |
 
 
 ## Licensing
 
-TODO
+Multi is open source software (GPLv3), but it is also paid software.
+One week after you install Multi, you'll see a message in your apps asking you to
+[purchase a license](https://gumbs.llc/multi/).
+Since Multi is open source, and since I've made no attempt to obfuscate the code, you _could_ remove the license check and recompile the project.
+Please don't do that.
+I'd like to continue improving Multi with new features and bug fixes, and license purchases enable me to do so.

@@ -13,7 +13,7 @@ public class Preferences: NSObject {
                 "tabs": [
                   {
                     "title": "Your first Multi app",
-                    "url": "https://github.com/hkgumbs/multi#configuration"
+                    "url": "https://github.com/hkgumbs/multi#json-configuration"
                   }
                 ]
               }
