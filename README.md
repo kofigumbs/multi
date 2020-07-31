@@ -70,13 +70,13 @@ Multi's shortcuts should work equivalently to those in modern browsers.
 
 |      |            |   |             |                     |
 |------|------------|---|-------------|---------------------|
-| `⌘X` | Cut        |   | `⌘0` - `⌘9` | Jump to tab         |
-| `⌘C` | Copy       |   | `⌘R`        | Reload page         |
-| `⌘V` | Paste      |   | `⌘[`        | Back                |
-| `⌘A` | Select All |   | `⌘]`        | Forward             |
-| `⌘Q` | Quit       |   | `^Tab`      | Select next tab     |
-| `⌘H` | Hide       |   | `^↑Tab`     | Select previous tab |
-| `⌘M` | Minimize   |   |
+| `⌘X` | Cut        |   | `⌘[`        | Back                |
+| `⌘C` | Copy       |   | `⌘]`        | Forward             |
+| `⌘V` | Paste      |   | `⌘R`        | Reload This Page    |
+| `⌘A` | Select All |   | `^Tab`      | Select Next Tab     |
+| `⌘M` | Minimize   |   | `^↑Tab`     | Select Previous Tab |
+| `⌘H` | Hide       |   | `⌘1` - `⌘9` | Select Tab          |
+| `⌘Q` | Quit       |
 
 
 ## Licensing
