@@ -17,8 +17,12 @@ Create a custom, lightweight macOS app from a group of websites.
 ## Installation
 
 Download the latest `.dmg` file from the [releases](https://github.com/hkgumbs/multi/releases) page.
-**Note:** Multi is not notarized, so you'll need to allow it to run via your "Security & Privacy" system preferences.
-See [Licensing](#licensing) for more about sponsoring Multi's development.
+
+> **Note:** Multi 2.0.0 is a complete rewrite and works differently from previous versions.
+> Any older Multi apps on your computer will continue but will lack the new features listed above.
+
+> **Note:** Multi is not notarized, so you'll need to allow it to run via your "Security & Privacy" system preferences.
+> See [Licensing](#licensing) for more about sponsoring Multi's development.
 
 
 ## JSON configuration
