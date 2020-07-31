@@ -28,7 +28,7 @@ Download the latest `.dmg` file from the [releases](https://github.com/hkgumbs/m
 ## JSON configuration
 
 Multi apps store their configuration in a single JSON file.
-If your app is named `Test`, then you'll find that file at `/Applications/Test.app/Contents/Resources/config.json`.
+If your app is named `Test`, then you'll find that file at `/Applications/Multi/Test.app/Contents/Resources/config.json`.
 The JSON should match this informal schema:
 
 ```js
