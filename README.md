@@ -11,6 +11,7 @@ Create a custom, lightweight macOS app from a group of websites.
  - Native bridges for Web APIs
      - `window.Notification`
      - `window.alert`
+     - `window.confirm`
      - `window.prompt`
      - `<input type="file">`
 
