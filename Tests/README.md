@@ -29,7 +29,7 @@ open /Applications/Multi/Test\ 2.app
 
 ```bash
 MULTI_APP_NAME='Test 2' \
-  MULTI_ICON_PATH='Tests/icon.png' \
+  MULTI_ICON_PATH='Assets/test-icon.png' \
   MULTI_JSON_CONFIG='{"tabs":[{"title":"Example","url":"https://example.com"}]}' \
   MULTI_OVERWRITE=1 \
   /Applications/Multi.app/Contents/Resources/create-mac-app
