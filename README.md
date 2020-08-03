@@ -1,10 +1,11 @@
 # Multi
 
 Create a custom, lightweight macOS app from a group of websites.
+Watch me create a Slack clone from scratch in 30 seconds (click the GIF for a higher resolution video):
 
 <p align="center">
   <a href="https://kofi.sexy/slack-app-fewer-resources/demo.mp4" target="_blank">
-    <img src="/Assets/demo.gif" alt="A demonstration of Multi: Creating a slack.com app from start to finish in 30 seconds">
+    <img src="/Assets/demo.gif" alt="Demo GIF">
   </a>
 </p>
 
