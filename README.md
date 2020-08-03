@@ -2,7 +2,11 @@
 
 Create a custom, lightweight macOS app from a group of websites.
 
-![Screenshot of a custom Twitter app created with Multi. The custom app, Work GSuite, wraps to sites: GMail and Google Drive. Multi is shown in dark mode.](Assets/screenshot.png)
+<p align="center">
+  <a href="https://kofi.sexy/slack-app-fewer-resources/demo.mp4" target="_blank">
+    <img src="/Assets/demo.gif" alt="A demonstration of Multi: Creating a slack.com app from start to finish in 30 seconds">
+  </a>
+</p>
 
  - Create apps from a UI or the command line
  - Configure settings with JSON
