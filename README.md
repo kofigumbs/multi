@@ -35,22 +35,41 @@ Download the latest `.dmg` file from the [releases](https://github.com/hkgumbs/m
 
 Multi apps store their configuration in a single JSON file.
 If your app is named `Test`, then you'll find that file at `/Applications/Multi/Test.app/Contents/Resources/config.json`.
-The JSON should match this informal schema:
+The JSON configuration allows 3 top-level fields:
 
-```js
+| Field Name     | Type                                | Description                                                    |
+|----------------|-------------------------------------|----------------------------------------------------------------|
+| `tabs`         | Array (Required)                    | Titles and URLs of tabs for this app                           |
+| `sideBySide`   | Boolean (Optional, default `false`) | Show each tab simultaneously in one row                        |
+| `alwaysNotify` | Boolean (Optional, default `false`) | Show macOS notifications even if your app is currently focused |
+
+The `tabs` field is an array of objects with the following fields:
+
+| Field Name | Type              | Description                        |
+|------------|-------------------|------------------------------------|
+| `title`    | String (Required) | Whatever you want to call this tab |
+| `url`      | String (Required) | Starting page for this tab         |
+
+Here's the bare minimum example used in the Slack demo video above:
+
+```json
+{ "tabs": [{ "title": "Slack Lite", "url": "https://app.slack.com/client" }] }
+```
+
+Here's a fancier example that uses the optional fields referenced above:
+
+```json
 {
-  "tabs": [              // REQUIRED
-    {
-      "title": String,   // REQUIRED
-      "url": String,     // REQUIRED
-    }
-    // include as many entries as you like in this array...
+  "tabs": [
+    { "title": "Dancing", "url": "https://rc.kofi.sexy/bathroom-floss" },
+    { "title": "Walking", "url": "https://kofi.sexy/cel-shading" }
   ],
-  "sideBySide": Boolean  // OPTIONAL, default false
+  "sideBySide": true,
+  "alwaysNotify": true
 }
 ```
 
-If the configuration file fails to decode for any reason, your Multi app will open to the preferences window, where you can fix any issues.
+If your configuration file fails to decode for any reason, your Multi app will open to the preferences window, where you can fix any issues.
 
 
 ## Using the CLI: `create-mac-app`

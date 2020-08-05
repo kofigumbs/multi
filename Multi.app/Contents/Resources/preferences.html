@@ -56,15 +56,20 @@
     validate(Array.isArray(config.tabs), "an ARRAY at \"tabs\" field");
     validateEachHasStringField(config.tabs, "title");
     validateEachHasStringField(config.tabs, "url");
-    validate(
-      typeof config.sideBySide === "undefined" || typeof config.sideBySide === "boolean",
-      "an OPTIONAL BOOLEAN at \"sideBySide\" field"
-    );
+    validateOptionalBoolean(config, "sideBySide");
+    validateOptionalBoolean(config, "alwaysNotify");
     return JSON.stringify(config, null, 2);
   });
 
   function validate(result, description) {
     if (!result) throw new Error(`Expecting ${description}`);
+  }
+
+  function validateOptionalBoolean(object, field) {
+    validate(
+      typeof object[field] === "undefined" || typeof object[field] === "boolean",
+      `an OPTIONAL BOOLEAN at "${field}" field`
+    );
   }
 
   function validateEachHasStringField(array, field) {

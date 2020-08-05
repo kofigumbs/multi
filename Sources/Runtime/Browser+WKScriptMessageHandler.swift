@@ -27,6 +27,7 @@ extension Browser: WKScriptMessageHandler {
         notification.identifier = UUID().uuidString
         notification.title = title
         notification.informativeText = body
+        NSUserNotificationCenter.default.delegate = Browser.global
         NSUserNotificationCenter.default.deliver(notification)
     }
 }

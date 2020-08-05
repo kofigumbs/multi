@@ -3,6 +3,7 @@ import AppKit
 struct Config {
     struct Schema: Decodable {
         let sideBySide: Bool?
+        let alwaysNotify: Bool?
         let tabs: [Config.Schema.Tab]
         struct Tab: Decodable {
             let title: String
@@ -12,6 +13,10 @@ struct Config {
 
     static let sideBySide: Bool = {
         return schema?.sideBySide ?? false
+    }()
+
+    static let alwaysNotify: Bool = {
+        return schema?.alwaysNotify ?? false
     }()
 
     static let tabs: [Tab] = {
