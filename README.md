@@ -1,5 +1,7 @@
 # Multi
 
+<a href="https://www.producthunt.com/posts/multi-3?utm_source=badge-featured&utm_medium=badge&utm_souce=badge-multi-3" target="_blank"><img src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=229000&theme=dark" alt="Multi - Create a custom macOS app from a group of websites | Product Hunt Embed" style="width: 250px; height: 54px;" width="250px" height="54px" /></a>
+
 Create a custom, lightweight macOS app from a group of websites.
 Watch me create a Slack clone from scratch in 30 seconds (click the GIF for a higher resolution video):
 
