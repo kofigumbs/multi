@@ -113,7 +113,7 @@ Multi's shortcuts should work equivalently to those in modern browsers.
 ## Licensing
 
 Multi is open source software (GPLv3), but it is also paid software.
-One week after you install Multi, you'll see a message in your apps asking you to
+One week after you first try Multi, you'll see a message in your apps asking you to
 [purchase a license](https://gumbs.llc/multi/).
 Since Multi is open source, and since I've made no attempt to obfuscate the code, you _could_ remove the license check and recompile the project.
 Please don't do that.

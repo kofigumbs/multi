@@ -39,7 +39,7 @@ open /Applications/Multi/Test\ 2.app
 # License Key
 
 ```bash
-touch -mt 202001010000 /Applications/Multi.app
+defaults write gumbs.llc multi.first-launch -date "2020-01-01 00:00:00 +0000"
 echo "$MULTI_LICENSE_KEY" | pbcopy
 open /Applications/Multi/Test\ 2.app
 ```
