@@ -15,16 +15,17 @@ class Form: NSObject, WKScriptMessageHandler {
             fail("Cannot load your configuration.")
             return
         }
-        if let createMacApp = Bundle.multi?.url(forResource: "create-mac-app", withExtension: nil),
-           Script.run(createMacApp, environment: [
-               "APP_NAME": name,
-               "ICON_PATH": icon.selected?.path ?? "",
-               "JSON_CONFIG": json,
-               "OVERWRITE": overwrite ? "1" : "0",
-               "RELAUNCH_PID": "\(ProcessInfo.processInfo.processIdentifier)",
-               "UI": "1",
-           ]) {
+        guard let createMacApp = Bundle.multi?.url(forResource: "create-mac-app", withExtension: nil),
+              Script.run(createMacApp, environment: [
+                  "APP_NAME": name,
+                  "ICON_PATH": icon.selected?.path ?? "",
+                  "JSON_CONFIG": json,
+                  "OVERWRITE": overwrite ? "1" : "0",
+                  "RELAUNCH_PID": "\(ProcessInfo.processInfo.processIdentifier)",
+                  "UI": "1",
+              ]) else {
             fail("Cannot allocate configuration script.")
+            return
         }
     }
 
