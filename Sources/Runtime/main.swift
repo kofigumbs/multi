@@ -20,6 +20,6 @@ Program(name: Browser.title).preferences(target: preferences, action: #selector(
     },
     "Window": [
         .init(title: "Hide", action: #selector(NSApplication.hide(_:)), keyEquivalent: "w"),
-        .init(title: "Minimze", action: #selector(NSApplication.miniaturizeAll(_:)), keyEquivalent: "m"),
+        .init(title: "Minimize", action: #selector(NSApplication.miniaturizeAll(_:)), keyEquivalent: "m"),
     ],
 ])
