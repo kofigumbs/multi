@@ -6,7 +6,7 @@ class Icon: NSObject, WKScriptMessageHandler {
     public func userContentController(_: WKUserContentController, didReceive message: WKScriptMessage) {
         let openPanel = NSOpenPanel()
         openPanel.canChooseFiles = true
-        openPanel.allowedFileTypes = ["png"]
+        openPanel.allowedFileTypes = ["png", "icns"]
         openPanel.beginSheetModal(for: Preferences.window) { (result) in
             if let url = openPanel.url,
                    result == NSApplication.ModalResponse.OK {

@@ -17,7 +17,7 @@ if [[ -z "$MULTI_APP_NAME" ]]; then
   echo "All options are passed as environment variables:"
   echo ""
   echo "  MULTI_APP_NAME     Required"
-  echo "  MULTI_ICON_PATH    Optional  PNG path to icon image"
+  echo "  MULTI_ICON_PATH    Optional  PNG or ICNS path to icon image"
   echo "  MULTI_JSON_CONFIG  Optional  Configuration as a JSON string"
   echo "  MULTI_OVERWRITE    Optional  Set to "1" to replace an existing Multi app with the same name"
   echo ""
@@ -46,8 +46,10 @@ cp "$MULTI_RESOURCES/Stub.plist" "$MULTI_APP_LOCATION/Contents/Info.plist"
 sed -e "s/{{name}}/$MULTI_APP_NAME/g" -e "s/{{id}}/$MULTI_APP_BUNDLE_ID/g" -i'.template' "$MULTI_APP_LOCATION/Contents/Info.plist"
 echo "$MULTI_JSON_CONFIG" > "$MULTI_APP_LOCATION/Contents/Resources/config.json"
 
-if [[ -z "$MULTI_ICON_PATH" || "${MULTI_ICON_PATH##*.}" -ne "png" ]]; then
-  bold "WARNING: Skipping icon creation because no PNG provided ..."
+if [[ "${MULTI_ICON_PATH##*.}" -eq "icns" ]]; then
+  cp "$MULTI_ICON_PATH" "$MULTI_APP_LOCATION/Contents/Resources/Icon.icns"
+elif [[ -z "$MULTI_ICON_PATH" || "${MULTI_ICON_PATH##*.}" -ne "png" ]]; then
+  bold "WARNING: Skipping icon creation because no PNG or ICNS provided ..."
 else
   mkdir "$MULTI_ICON_TMP_DIR"
   sips -z 16   16   "$MULTI_ICON_PATH" --out "$MULTI_ICON_TMP_DIR/icon_16x16.png"      > /dev/null
