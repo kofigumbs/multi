@@ -4,7 +4,7 @@ import WebKit
 extension Browser: WKUIDelegate {
     func webView(_: WKWebView, createWebViewWith: WKWebViewConfiguration, for navigationAction: WKNavigationAction, windowFeatures: WKWindowFeatures) -> WKWebView? {
         _ = navigationAction.request.url.map(NSWorkspace.shared.open)
-        return WKWebView()
+        return nil
     }
 
     func webView(_ webView: WKWebView, runJavaScriptAlertPanelWithMessage: String, initiatedByFrame: WKFrameInfo, completionHandler: @escaping () -> Void) {
