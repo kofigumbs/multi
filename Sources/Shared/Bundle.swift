@@ -13,5 +13,4 @@ extension Bundle {
     public var version: String? {
         self.object(forInfoDictionaryKey: "CFBundleVersion") as? String
     }
-
 }

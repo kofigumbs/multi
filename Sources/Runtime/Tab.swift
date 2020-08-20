@@ -27,6 +27,7 @@ class Tab: NSObject {
         }
 
         webView.load(URLRequest(url: url))
+        webView.setDefaultZoom()
     }
 
     init(license: ()) {
