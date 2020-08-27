@@ -61,13 +61,22 @@ open /Applications/Multi/Test\ 3.app
 Verify ICNS icon.
 Click button on each page to test the feature in question.
 
-# Keyboard shortcuts
+# Custom CSS
 
 ```bash
 MULTI_APP_NAME='Test 4' \
-  MULTI_JSON_CONFIG='{"tabs":[{"title":"DuckDuckGo","url":"https://duckduckgo.com"},{"title":"Google","url":"https://google.com"}]}' \
+  MULTI_JSON_CONFIG='{"tabs":[{"title":"Custom CSS","url":"https://kofi.sexy","customCss":["data:,h1{color:red}"]}]}' \
   /Applications/Multi.app/Contents/Resources/create-mac-app
 open /Applications/Multi/Test\ 4.app
+```
+
+# Keyboard shortcuts
+
+```bash
+MULTI_APP_NAME='Test 5' \
+  MULTI_JSON_CONFIG='{"tabs":[{"title":"DuckDuckGo","url":"https://duckduckgo.com"},{"title":"Google","url":"https://google.com"}]}' \
+  /Applications/Multi.app/Contents/Resources/create-mac-app
+open /Applications/Multi/Test\ 5.app
 ```
 
 - [ ] Cut

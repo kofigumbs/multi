@@ -6,9 +6,8 @@ class Tab: NSObject {
 
     init(title: String, url: URL, customCss: [URL]) {
         let configuration = WKWebViewConfiguration()
-        let script = WKUserScript(source: Browser.JS, injectionTime: .atDocumentStart, forMainFrameOnly: false)
-        configuration.userContentController.addUserScript(script)
-        configuration.userContentController.add(Browser.global, name: "multi")
+        Browser.global.notification(configuration)
+        Browser.global.customCss(configuration, urls: customCss)
         if #available(macOS 10.13, *) {
             WKContentRuleListStore.default().compileContentRuleList(forIdentifier: "blocklist", encodedContentRuleList: Browser.blocklist) { (rules, error) in
                 rules.map { configuration.userContentController.add($0) }
