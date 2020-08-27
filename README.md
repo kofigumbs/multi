@@ -90,7 +90,7 @@ If you'd like to configure your app entirely from the command-line, you can set 
 
 |                     |                                                                |
 |---------------------|----------------------------------------------------------------|
-| `MULTI_ICON_PATH`   | PNG path to icon image                                         |
+| `MULTI_ICON_PATH`   | PNG or ICNS path to icon image                                 |
 | `MULTI_JSON_CONFIG` | See [JSON configuration](#json-configuration)                  |
 | `MULTI_OVERWRITE`   | Set to `1` to replace an existing Multi app with the same name |
 
@@ -99,15 +99,15 @@ If you'd like to configure your app entirely from the command-line, you can set 
 
 Multi's shortcuts should work equivalently to those in modern browsers.
 
-|      |            |   |             |                     |
-|------|------------|---|-------------|---------------------|
-| `⌘X` | Cut        |   | `⌘[`        | Back                |
-| `⌘C` | Copy       |   | `⌘]`        | Forward             |
-| `⌘V` | Paste      |   | `⌘R`        | Reload This Page    |
-| `⌘A` | Select All |   | `^Tab`      | Select Next Tab     |
-| `⌘M` | Minimize   |   | `^↑Tab`     | Select Previous Tab |
-| `⌘H` | Hide       |   | `⌘1` - `⌘9` | Select Tab          |
-| `⌘Q` | Quit       |
+|      |            |   |                |                     |
+|------|------------|---|----------------|---------------------|
+| `⌘X` | Cut        |   | `⌘[`           | Back                |
+| `⌘C` | Copy       |   | `⌘]`           | Forward             |
+| `⌘V` | Paste      |   | `⌘R`           | Reload This Page    |
+| `⌘A` | Select All |   | `⌘+`/`⌘-`/`⌘0` | Zoom in/out/default |
+| `⌘M` | Minimize   |   | `^Tab`         | Select Next Tab     |
+| `⌘H` | Hide       |   | `^↑Tab`        | Select Previous Tab |
+| `⌘Q` | Quit       |   | `⌘1` - `⌘9`    | Select Tab          |
 
 
 ## Licensing

@@ -48,15 +48,17 @@ Verify trial expiration page.
 Save the license key via the UI.
 App should no longer have trial expiration page.
 
-# Side-by-side + Notifications + Alert + Confirm + File + Ad-blocker
+# Side-by-side + Notifications + Alert + Confirm + File + Ad-blocker + Popup
 
 ```bash
 MULTI_APP_NAME='Test 3' \
-  MULTI_JSON_CONFIG='{"sideBySide":true,"tabs":[{"title":"Notifications","url":"https://www.bennish.net/web-notifications.html"},{"title":"Alert","url":"https://www.w3schools.com/jsref/tryit.asp?filename=tryjsref_alert"},{"title":"Confirm","url":"https://www.w3schools.com/jsref/tryit.asp?filename=tryjsref_confirm"},{"title":"File","url":"https://www.w3schools.com/tags/tryit.asp?filename=tryhtml5_input_type_file"},{"title":"Ads","url":"https://ads-blocker.com/testing/#ad-blocker-test-steps"}]}' \
+  MULTI_ICON_PATH='Assets/test-icon.icns' \
+  MULTI_JSON_CONFIG='{"sideBySide":true,"tabs":[{"title":"Notifications","url":"https://www.bennish.net/web-notifications.html"},{"title":"Alert","url":"https://www.w3schools.com/jsref/tryit.asp?filename=tryjsref_alert"},{"title":"Confirm","url":"https://www.w3schools.com/jsref/tryit.asp?filename=tryjsref_confirm"},{"title":"File","url":"https://www.w3schools.com/tags/tryit.asp?filename=tryhtml5_input_type_file"},{"title":"Ads","url":"https://ads-blocker.com/testing/#ad-blocker-test-steps"},{"title":"Popup","url":"https://javascript.info/popup-windows#example-a-minimalistic-window"}]}' \
   /Applications/Multi.app/Contents/Resources/create-mac-app
 open /Applications/Multi/Test\ 3.app
 ```
 
+Verify ICNS icon.
 Click button on each page to test the feature in question.
 
 # Keyboard shortcuts
@@ -79,3 +81,4 @@ open /Applications/Multi/Test\ 4.app
 - [ ] Next Tab
 - [ ] Previous Tab
 - [ ] Tabs: 1, 2, etc.
+- [ ] Zoom in, zoom out, zoom actual (should persist restart)
