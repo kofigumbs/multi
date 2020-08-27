@@ -15,6 +15,7 @@ Watch me create a Slack clone from scratch in 30 seconds (click the GIF for a hi
  - Configure settings with JSON
  - Built-in ad-blocker, provided by <https://better.fyi> (macOS 10.13+)
  - View one tab at a time or all at once with side-by-side view
+ - Inject custom CSS to any site
  - Native bridges for Web APIs
      - `window.Notification`
      - `window.alert`
@@ -47,10 +48,11 @@ The JSON configuration allows 3 top-level fields:
 
 The `tabs` field is an array of objects with the following fields:
 
-| Field Name | Type              | Description                        |
-|------------|-------------------|------------------------------------|
-| `title`    | String (Required) | Whatever you want to call this tab |
-| `url`      | String (Required) | Starting page for this tab         |
+| Field Name  | Type                        | Description                                                                      |
+|-------------|-----------------------------|----------------------------------------------------------------------------------|
+| `title`     | String (Required)           | Whatever you want to call this tab                                               |
+| `url`       | String (Required)           | Starting page for this tab                                                       |
+| `customCss` | Array of Strings (Optional) | Custom CSS URLs (see [Documentation/CUSTOM-CSS.md](Documentation/CUSTOM-CSS.md)) |
 
 Here's the bare minimum example used in the Slack demo video above:
 
@@ -63,8 +65,15 @@ Here's a fancier example that uses the optional fields referenced above:
 ```json
 {
   "tabs": [
-    { "title": "Dancing", "url": "https://rc.kofi.sexy/bathroom-floss" },
-    { "title": "Walking", "url": "https://kofi.sexy/cel-shading" }
+    {
+      "title": "Dancing",
+      "url": "https://rc.kofi.sexy/bathroom-floss"
+    },
+    {
+      "title": "Walking",
+      "url": "https://kofi.sexy/cel-shading",
+      "customCss": [ "https://raw.githubusercontent.com/hkgumbs/multi/2.x/Assets/test.css" ]
+    }
   ],
   "sideBySide": true,
   "alwaysNotify": true

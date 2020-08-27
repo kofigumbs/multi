@@ -5,7 +5,7 @@ extension Browser {
         guard !urls.isEmpty else { return }
         let css = urls
             .compactMap { try? String(contentsOf: $0) }
-            .joined(separator: "\n")
+            .joined()
             .data(using: .utf8)?
             .base64EncodedString()
         let js = """
