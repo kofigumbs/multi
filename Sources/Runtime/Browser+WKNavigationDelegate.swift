@@ -1,7 +1,7 @@
 import WebKit
 
 extension Browser: WKNavigationDelegate {
-    func webView(_ this: WKWebView, didFinish: WKNavigation!) {
+    func webView(_ this: WKWebView, didCommit: WKNavigation!) {
         this.setDefaultZoom()
     }
 
