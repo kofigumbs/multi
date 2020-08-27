@@ -16,7 +16,7 @@ Each custom CSS rule is specified with a URL, which gives you a few options for 
 |-----|--------------|
 | `[data-testid=sidebarColumn]{display:none}` | `data:,%5Bdata-testid%3DsidebarColumn%5D%7Bdisplay%3Anone%7D` |
 
-![/Assets/custom-css-twitter-sidebar.png]
+![](/Assets/custom-css-twitter-sidebar.png)
 
 
 > **Share yours!**
