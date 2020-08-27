@@ -1,6 +1,10 @@
 import WebKit
 
 extension Browser: WKNavigationDelegate {
+    func webView(_ this: WKWebView, didFinish: WKNavigation!) {
+        this.setDefaultZoom()
+    }
+
     func webView(_: WKWebView, decidePolicyFor: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) -> () {
         switch decidePolicyFor.targetFrame {
         case .some(_):

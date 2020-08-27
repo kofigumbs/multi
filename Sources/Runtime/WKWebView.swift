@@ -3,7 +3,11 @@ import WebKit
 
 extension WKWebView {
     func setDefaultZoom() {
-        // TODO set this from UserDefaults... the naive approach isn't working for some reason tho
+        guard let defaultKey = self.defaultKey() else { return }
+        switch UserDefaults.standard.double(forKey: defaultKey) {
+        case 0: return
+        case let zoom: setZoom(zoom.description)
+        }
     }
 
     @objc func actualSize(_: Any? = nil) {
