@@ -18,6 +18,7 @@ Program(name: Browser.title).preferences(target: preferences, action: #selector(
     "Tab": [
         .init(title: "Select Next Tab", action: #selector(Browser.nextTab(_:)), keyEquivalent: "⇥", target: Browser.global, modifiers: [.control]),
         .init(title: "Select Previous Tab", action: #selector(Browser.previousTab(_:)), keyEquivalent: "⇥", target: Browser.global, modifiers: [.control, .shift]),
+        .init(title: "Copy URL", action: #selector(WKWebView.copyUrl(_:)), keyEquivalent: "l"),
         .separator(),
     ] + Config.tabs.enumerated().map { (index, tab) in
         .init(title: tab.title, action: #selector(Tab.view(_:)), keyEquivalent: index >= 9 ? "" : "\(index + 1)", target: tab)

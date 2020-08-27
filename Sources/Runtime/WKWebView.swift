@@ -2,6 +2,13 @@ import Shared
 import WebKit
 
 extension WKWebView {
+    @objc func copyUrl(_: Any? = nil) {
+        if let url = self.url {
+            NSPasteboard.general.clearContents()
+            NSPasteboard.general.setString(url.absoluteString, forType: .string)
+        }
+    }
+
     func setDefaultZoom() {
         guard let defaultKey = self.defaultKey() else { return }
         switch UserDefaults.standard.double(forKey: defaultKey) {

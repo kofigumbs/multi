@@ -81,4 +81,5 @@ open /Applications/Multi/Test\ 4.app
 - [ ] Next Tab
 - [ ] Previous Tab
 - [ ] Tabs: 1, 2, etc.
+- [ ] Copy URL
 - [ ] Zoom in, zoom out, zoom actual (should persist restart)

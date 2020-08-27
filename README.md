@@ -108,7 +108,7 @@ Multi's shortcuts should work equivalently to those in modern browsers.
 | `⌘M` | Minimize   |   | `^Tab`         | Select Next Tab     |
 | `⌘H` | Hide       |   | `^↑Tab`        | Select Previous Tab |
 | `⌘Q` | Quit       |   | `⌘1` - `⌘9`    | Select Tab          |
-
+|      |            |   | `⌘L`           | Copy current URL    |
 
 ## Licensing
 
