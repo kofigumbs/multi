@@ -52,12 +52,18 @@
   connectInput(json, function(value) {
     const config = JSON.parse(value);
     validate(config, "an OBJECT at the top level");
-    validate(config.tabs, "an OBJECT FIELD named \"tabs\"");
-    validate(Array.isArray(config.tabs), "an ARRAY at \"tabs\" field");
-    validateEachHasStringField(config.tabs, "title");
-    validateEachHasStringField(config.tabs, "url");
-    validateOptionalBoolean(config, "sideBySide");
-    validateOptionalBoolean(config, "alwaysNotify");
+    validate(config.tabs, `an OBJECT FIELD named "tabs"`);
+    validate(Array.isArray(config.tabs), `an ARRAY at "tabs" field`);
+    config.tabs.forEach(tab => {
+      validate(string(tab.title), `a STRING at "title" field`);
+      validate(string(tab.url), `a STRING at "url" field`);
+      undefinedOr(customCss => {
+        validate(Array.isArray(customCss), `an OPTIONAL ARRAY at "customCss" field`);
+        customCss.forEach(item => validate(string(item), `a STRING for each item in "customCSS"`));
+      }, tab.customCss);
+    });
+    validate(undefinedOr(boolean, config.sideBySide), `an OPTIONAL BOOLEAN at "sideBySide" field`);
+    validate(undefinedOr(boolean, config.alwaysNotify), `an OPTIONAL BOOLEAN at "alwaysNotify" field`);
     return JSON.stringify(config, null, 2);
   });
 
@@ -65,17 +71,16 @@
     if (!result) throw new Error(`Expecting ${description}`);
   }
 
-  function validateOptionalBoolean(object, field) {
-    validate(
-      typeof object[field] === "undefined" || typeof object[field] === "boolean",
-      `an OPTIONAL BOOLEAN at "${field}" field`
-    );
+  function undefinedOr(check, value) {
+    return typeof value === "undefined" || check(value);
   }
 
-  function validateEachHasStringField(array, field) {
-    for (const x of array) {
-      validate(typeof x[field] === "string" || x[field] instanceof String, `"${field}" field to be a STRING`);
-    }
+  function boolean(value) {
+    return typeof value === "boolean";
+  }
+
+  function string(value) {
+    return typeof value === "string" || value instanceof String;
   }
 
   function connectExternalClick(element, callback) {

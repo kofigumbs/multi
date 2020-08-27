@@ -8,6 +8,7 @@ struct Config {
         struct Tab: Decodable {
             let title: String
             let url: URL
+            let customCss: [URL]?
         }
     }
 
@@ -21,7 +22,7 @@ struct Config {
 
     static let tabs: [Tab] = {
         guard let schema = schema else { return [] }
-        var tabs = schema.tabs.map { Tab(title: $0.title, url: $0.url) }
+        var tabs = schema.tabs.map { Tab(title: $0.title, url: $0.url, customCss: $0.customCss ?? []) }
         if !tabs.isEmpty && !License.isValid {
             tabs.insert(Tab(license: ()), at: 0)
         }
