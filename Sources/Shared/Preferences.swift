@@ -4,6 +4,13 @@ public class Preferences: NSObject {
     private let form: Form
     private let script: String
 
+    public var menuItems: [NSMenuItem] {
+        return [
+            NSMenuItem(title: "Preferences", action: #selector(Preferences.view(_:)), keyEquivalent: ",", target: self),
+            .separator(),
+        ]
+    }
+
     public static let create: Preferences = {
         .init(
             form: Form(overwrite: false),

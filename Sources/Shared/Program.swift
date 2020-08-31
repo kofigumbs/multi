@@ -25,8 +25,8 @@ public class Program: NSObject {
         mainMenu.addItem(item)
     }
 
-    public init(name: String) {
-        Program.addSubmenu(NSMenu(), [
+    public init(name: String, menu: [NSMenuItem] = []) {
+        Program.addSubmenu(NSMenu(), menu + [
             NSMenuItem(title: "Hide \(name)", action: #selector(NSApplication.hide(_:)), keyEquivalent: "h"),
             NSMenuItem(title: "Quit \(name)", action: #selector(NSApplication.terminate(_:)), keyEquivalent: "q"),
         ])
@@ -36,14 +36,6 @@ public class Program: NSObject {
             NSMenuItem(title: "Paste", action: #selector(NSText.paste(_:)), keyEquivalent: "v"),
             NSMenuItem(title: "Select All", action: #selector(NSText.selectAll(_:)), keyEquivalent: "a"),
         ])
-    }
-
-    public func preferences(target: AnyObject, action: Selector) -> Program {
-        let item = NSMenuItem(title: "Preferences", action: action, keyEquivalent: ",")
-        item.target = target
-        Program.mainMenu.items.first!.submenu!.items.insert(item, at: 0)
-        Program.mainMenu.items.first!.submenu!.items.insert(.separator(), at: 1)
-        return self
     }
 
     public func start(menu: KeyValuePairs<String, [NSMenuItem]>) {

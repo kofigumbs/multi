@@ -3,7 +3,7 @@ import WebKit
 
 let preferences = Preferences.update
 Config.tabs.isEmpty ? preferences.view() : Config.tabs.first!.view()
-Program(name: Browser.title).preferences(target: preferences, action: #selector(Preferences.view(_:))).start(menu: [
+Program(name: Browser.title, menu: preferences.menuItems).start(menu: [
     "View": [
         .init(title: "Reload This Page", action: #selector(WKWebView.reload(_:)), keyEquivalent: "r"),
         .separator(),
