@@ -4,6 +4,7 @@ struct Config {
     struct Schema: Decodable {
         let sideBySide: Bool?
         let alwaysNotify: Bool?
+        let openNewWindowsWith: String?
         let tabs: [Config.Schema.Tab]
         struct Tab: Decodable {
             let title: String
@@ -18,6 +19,10 @@ struct Config {
 
     static let alwaysNotify: Bool = {
         return schema?.alwaysNotify ?? false
+    }()
+
+    static let openNewWindowsWith: String? = {
+        return schema?.openNewWindowsWith
     }()
 
     static let tabs: [Tab] = {

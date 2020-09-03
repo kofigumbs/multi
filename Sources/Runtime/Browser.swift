@@ -26,6 +26,16 @@ class Browser: NSResponder {
         )
     }()
 
+    func openNewWindow(url: URL) {
+        if #available(macOS 10.15, *),
+           let application = Config.openNewWindowsWith,
+           let applicationURL = NSWorkspace.shared.urlForApplication(withBundleIdentifier: application) {
+            NSWorkspace.shared.open([url], withApplicationAt: applicationURL, configuration: NSWorkspace.OpenConfiguration())
+        } else {
+            NSWorkspace.shared.open(url)
+        }
+    }
+
     @objc func nextTab(_: Any? = nil) {
         Browser.shiftTab(by: 1)
     }

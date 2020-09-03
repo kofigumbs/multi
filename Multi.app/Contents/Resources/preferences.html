@@ -64,6 +64,7 @@
     });
     validate(undefinedOr(boolean, config.sideBySide), `an OPTIONAL BOOLEAN at "sideBySide" field`);
     validate(undefinedOr(boolean, config.alwaysNotify), `an OPTIONAL BOOLEAN at "alwaysNotify" field`);
+    validate(undefinedOr(string, config.openNewWindowsWith), `an OPTIONAL STRING at "openNewWindowsWith" field`);
     return JSON.stringify(config, null, 2);
   });
 
