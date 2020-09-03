@@ -45,7 +45,7 @@ The JSON configuration allows 3 top-level fields:
 | `tabs`               | Array (Required)                    | Titles and URLs of tabs for this app                           |
 | `sideBySide`         | Boolean (Optional, default `false`) | Show each tab simultaneously in one row                        |
 | `alwaysNotify`       | Boolean (Optional, default `false`) | Show macOS notifications even if your app is currently focused |
-| `openNewWindowsWith` | String (Optional, macOS 10.15+)     | Open external links with a certain browser instead of the the system default — value is a _bundle identifer_ like `com.apple.Safari`, `com.google.Chrome`, or `com.mozilla.firefox` |
+| `openNewWindowsWith` | String (Optional, macOS 10.15+)     | Override system default browser for external links — value is a _bundle identifer_ like `com.apple.Safari`, `com.google.Chrome`, or `com.mozilla.firefox` |
 
 The `tabs` field is an array of objects with the following fields:
 
