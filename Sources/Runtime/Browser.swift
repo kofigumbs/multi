@@ -19,11 +19,13 @@ class Browser: NSResponder {
     }()
 
     static let window: NSWindow = {
-        Program.window(
+        let window = Program.window(
             title: title,
             contentRect: NSScreen.main!.frame,
             styleMask: [.titled, .closable, .miniaturizable, .resizable]
         )
+        window.setFrameAutosaveName("Browser")
+        return window
     }()
 
     func openNewWindow(url: URL) {
