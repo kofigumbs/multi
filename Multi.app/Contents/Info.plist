@@ -18,9 +18,9 @@
 
     <key>CFBundlePackageType</key>           <string>APPL</string>
     <key>CFBundleInfoDictionaryVersion</key> <string>6.0</string>
-    <key>CFBundleVersion</key>               <string>2.0.6</string>
-    <key>CFBundleGetInfoString</key>         <string>2.0.6</string>
-    <key>CFBundleShortVersionString</key>    <string>2.0.6</string>
+    <key>CFBundleVersion</key>               <string>2.0.7</string>
+    <key>CFBundleGetInfoString</key>         <string>2.0.7</string>
+    <key>CFBundleShortVersionString</key>    <string>2.0.7</string>
     <key>NSPrincipalClass</key>              <string>NSApplication</string>
     <key>NSMainNibFile</key>                 <string>MainMenu</string>
   </dict>
