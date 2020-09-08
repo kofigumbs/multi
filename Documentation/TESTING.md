@@ -72,6 +72,17 @@ open /Applications/Multi/Test\ 4.app
 
 Verify that the custom style rule exists 3 times.
 
+# Open links
+
+```bash
+MULTI_APP_NAME='Test 5' \
+  MULTI_JSON_CONFIG='{"tabs":[{"title":"Open links","url":"https://twitter.com/hkgumbs"}],"openNewWindowsWith":"com.apple.Safari","openNewWindowsInBackground":true}' \
+  /Applications/Multi.app/Contents/Resources/create-mac-app
+open /Applications/Multi/Test\ 5.app
+```
+
+Link (kofi.sexy) should open Safari in the background
+
 # Keyboard shortcuts
 
 ```bash

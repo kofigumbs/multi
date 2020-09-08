@@ -27,12 +27,17 @@ class Browser: NSResponder {
     }()
 
     func openNewWindow(url: URL) {
-        if #available(macOS 10.15, *),
-           let application = Config.openNewWindowsWith,
-           let applicationURL = NSWorkspace.shared.urlForApplication(withBundleIdentifier: application) {
-            NSWorkspace.shared.open([url], withApplicationAt: applicationURL, configuration: NSWorkspace.OpenConfiguration())
-        } else {
+        guard #available(macOS 10.15, *) else {
             NSWorkspace.shared.open(url)
+            return
+        }
+        let configuration = NSWorkspace.OpenConfiguration()
+        configuration.activates = !Config.openNewWindowsInBackground
+        if let application = Config.openNewWindowsWith,
+           let applicationURL = NSWorkspace.shared.urlForApplication(withBundleIdentifier: application) {
+            NSWorkspace.shared.open([url], withApplicationAt: applicationURL, configuration: configuration)
+        } else {
+            NSWorkspace.shared.open(url, configuration: configuration)
         }
     }
 

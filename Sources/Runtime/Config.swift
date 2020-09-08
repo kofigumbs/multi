@@ -5,6 +5,7 @@ struct Config {
         let sideBySide: Bool?
         let alwaysNotify: Bool?
         let openNewWindowsWith: String?
+        let openNewWindowsInBackground: Bool?
         let tabs: [Config.Schema.Tab]
         struct Tab: Decodable {
             let title: String
@@ -23,6 +24,10 @@ struct Config {
 
     static let openNewWindowsWith: String? = {
         return schema?.openNewWindowsWith
+    }()
+
+    static let openNewWindowsInBackground: Bool = {
+        return schema?.openNewWindowsInBackground ?? false
     }()
 
     static let tabs: [Tab] = {
