@@ -13,13 +13,14 @@ extension Browser: WKScriptMessageHandler {
                     return Promise.resolve(Notification.permission);
                 }
                 constructor(...x) {
-                    window.webkit.messageHandlers.multi.postMessage(x);
+                    window.webkit.messageHandlers.notify.postMessage(x);
                 }
             }
         """
         configuration.userContentController.addUserScript(
             WKUserScript(source: js, injectionTime: .atDocumentStart, forMainFrameOnly: false)
         )
+        configuration.userContentController.add(Browser.global, name: "notify")
     }
 
     public func userContentController(_: WKUserContentController, didReceive: WKScriptMessage) {
