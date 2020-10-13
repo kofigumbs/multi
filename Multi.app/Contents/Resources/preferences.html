@@ -59,8 +59,12 @@
       validate(string(tab.url), `a STRING at "url" field`);
       undefinedOr(customCss => {
         validate(Array.isArray(customCss), `an OPTIONAL ARRAY at "customCss" field`);
-        customCss.forEach(item => validate(string(item), `a STRING for each item in "customCSS"`));
+        customCss.forEach(item => validate(string(item), `a STRING for each item in "customCss"`));
       }, tab.customCss);
+      undefinedOr(customJs => {
+        validate(Array.isArray(customJs), `an OPTIONAL ARRAY at "customJs" field`);
+        customJs.forEach(item => validate(string(item), `a STRING for each item in "customJs"`));
+      }, tab.customJs);
     });
     validate(undefinedOr(boolean, config.sideBySide), `an OPTIONAL BOOLEAN at "sideBySide" field`);
     validate(undefinedOr(boolean, config.alwaysNotify), `an OPTIONAL BOOLEAN at "alwaysNotify" field`);

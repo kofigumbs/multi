@@ -4,10 +4,11 @@ class Tab: NSObject {
     let title: String
     let webView: WKWebView
 
-    init(title: String, url: URL, customCss: [URL]) {
+    init(title: String, url: URL, customCss: [URL], customJs: [URL]) {
         let configuration = WKWebViewConfiguration()
         Browser.global.notification(configuration)
         Browser.global.customCss(configuration, urls: customCss)
+        Browser.global.customJs(configuration, urls: customJs)
         if #available(macOS 10.13, *) {
             WKContentRuleListStore.default().compileContentRuleList(forIdentifier: "blocklist", encodedContentRuleList: Browser.blocklist) { (rules, error) in
                 rules.map { configuration.userContentController.add($0) }

@@ -55,6 +55,7 @@ The `tabs` field is an array of objects with the following fields:
 | `title`     | String (Required)           | Whatever you want to call this tab                                               |
 | `url`       | String (Required)           | Starting page for this tab                                                       |
 | `customCss` | Array of Strings (Optional) | Custom CSS URLs (see [Documentation/CUSTOM-CSS.md](Documentation/CUSTOM-CSS.md)) |
+| `customJs`  | Array of Strings (Optional) | Custom JS URLs (see [Documentation/CUSTOM-JS.md](Documentation/CUSTOM-JS.md)) |
 
 Here's the bare minimum example used in the Slack demo video above:
 
@@ -74,7 +75,8 @@ Here's a fancier example that uses the optional fields referenced above:
     {
       "title": "Walking",
       "url": "https://kofi.sexy/cel-shading",
-      "customCss": [ "https://raw.githubusercontent.com/hkgumbs/multi/2.x/Assets/test.css" ]
+      "customCss": [ "https://raw.githubusercontent.com/hkgumbs/multi/2.x/Assets/test.css" ],
+      "customJs": [ "https://raw.githubusercontent.com/hkgumbs/multi/2.x/Assets/test.js" ]
     }
   ],
   "sideBySide": true,

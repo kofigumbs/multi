@@ -11,6 +11,7 @@ struct Config {
             let title: String
             let url: URL
             let customCss: [URL]?
+            let customJs: [URL]?
         }
     }
 
@@ -32,7 +33,7 @@ struct Config {
 
     static let tabs: [Tab] = {
         guard let schema = schema else { return [] }
-        var tabs = schema.tabs.map { Tab(title: $0.title, url: $0.url, customCss: $0.customCss ?? []) }
+        var tabs = schema.tabs.map { Tab(title: $0.title, url: $0.url, customCss: $0.customCss ?? [], customJs: $0.customJs ?? []) }
         if !tabs.isEmpty && !License.isValid {
             tabs.insert(Tab(license: ()), at: 0)
         }
