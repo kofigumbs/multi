@@ -65,7 +65,7 @@ Click button on each page to test the feature in question.
 
 ```bash
 MULTI_APP_NAME='Test 4' \
-  MULTI_JSON_CONFIG='{"tabs":[{"title":"Custom CSS","url":"https://kofi.sexy","customCss":["https://raw.githubusercontent.com/hkgumbs/multi/2.x/Assets/test.css","file:///Users/kofi/Documents/multi/Assets/test.css","body%20%7B%20background%3A%20mediumpurple%3B%20%7D"]}]}' \
+  MULTI_JSON_CONFIG='{"tabs":[{"title":"Custom CSS","url":"https://kofi.sexy","customCss":["https://raw.githubusercontent.com/kofigumbs/multi/2.x/Assets/test.css","file:///Users/kofi/Documents/multi/Assets/test.css","body%20%7B%20background%3A%20mediumpurple%3B%20%7D"]}]}' \
   /Applications/Multi.app/Contents/Resources/create-mac-app
 open /Applications/Multi/Test\ 4.app
 ```
@@ -76,7 +76,7 @@ Verify that the custom style rule exists 3 times.
 
 ```bash
 MULTI_APP_NAME='Test 5' \
-  MULTI_JSON_CONFIG='{"tabs":[{"title":"Open links","url":"https://twitter.com/hkgumbs"}],"openNewWindowsWith":"com.apple.Safari","openNewWindowsInBackground":true}' \
+  MULTI_JSON_CONFIG='{"tabs":[{"title":"Open links","url":"https://twitter.com/kofigumbs"}],"openNewWindowsWith":"com.apple.Safari","openNewWindowsInBackground":true}' \
   /Applications/Multi.app/Contents/Resources/create-mac-app
 open /Applications/Multi/Test\ 5.app
 ```

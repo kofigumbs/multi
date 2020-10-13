@@ -4,7 +4,7 @@ Multi lets you add custom CSS (a.k.a. style injection) to any site in your Multi
 The custom CSS is applied after each page in that tab is loaded.
 Each custom CSS rule is specified with a URL, which gives you a few options for how you want to manage your styles:
 
-1. Put your styles online, and use their URL: ex. `https://raw.githubusercontent.com/hkgumbs/multi/2.x/Assets/test.css`
+1. Put your styles online, and use their URL: ex. `https://raw.githubusercontent.com/kofigumbs/multi/2.x/Assets/test.css`
 2. Put your styles in a file on your computer, and reference them locally: ex. `file:///Users/kofi/Documents/multi/Assets/test.css`
 3. Encode your styles directly in the Multi settings using [Data URIs](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/Data_URIs): ex. `data:,body%20%7B%20background%3A%20mediumpurple%3B%20%7D`
 

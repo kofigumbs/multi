@@ -25,7 +25,7 @@ Watch me create a Slack clone from scratch in 30 seconds (click the GIF for a hi
 
 ## Installation
 
-Download the latest `.dmg` file from the [releases](https://github.com/hkgumbs/multi/releases) page.
+Download the latest `.dmg` file from the [releases](https://github.com/kofigumbs/multi/releases) page.
 
 > **Note:** Multi 2.0.0 is a complete rewrite and works differently from previous versions.
 > Any older Multi apps on your computer will continue but will lack the new features listed above.
@@ -75,8 +75,8 @@ Here's a fancier example that uses the optional fields referenced above:
     {
       "title": "Walking",
       "url": "https://kofi.sexy/cel-shading",
-      "customCss": [ "https://raw.githubusercontent.com/hkgumbs/multi/2.x/Assets/test.css" ],
-      "customJs": [ "https://raw.githubusercontent.com/hkgumbs/multi/2.x/Assets/test.js" ]
+      "customCss": [ "https://raw.githubusercontent.com/kofigumbs/multi/2.x/Assets/test.css" ],
+      "customJs": [ "https://raw.githubusercontent.com/kofigumbs/multi/2.x/Assets/test.js" ]
     }
   ],
   "sideBySide": true,

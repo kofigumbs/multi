@@ -21,7 +21,7 @@ if [[ -z "$MULTI_APP_NAME" ]]; then
   echo "  MULTI_JSON_CONFIG  Optional  Configuration as a JSON string"
   echo "  MULTI_OVERWRITE    Optional  Set to "1" to replace an existing Multi app with the same name"
   echo ""
-  echo "More documentation at <https://github.com/hkgumbs/multi#using-the-cli-create-mac-app>"
+  echo "More documentation at <https://github.com/kofigumbs/multi#using-the-cli-create-mac-app>"
   exit 1
 
 elif [[ -e "$MULTI_APP_LOCATION" ]]; then
