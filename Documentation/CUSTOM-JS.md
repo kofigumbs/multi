@@ -13,7 +13,7 @@ Each custom JS rule is specified with a URL, which gives you a few options for h
 ### Fix external links in GMail
 
 *JS*
-```
+```js
 (() => {
   const listener = e => { e.stopPropagation(); open(a.href) };
   const query = () => document.querySelectorAll('a[target=_blank]').forEach(a => {
