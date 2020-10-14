@@ -15,7 +15,7 @@ Each custom JS rule is specified with a URL, which gives you a few options for h
 *JS*
 ```js
 (() => {
-  const listener = e => { e.stopPropagation(); open(a.href) };
+  const listener = e => e.stopPropagation();
   const query = () => document.querySelectorAll('a[target=_blank]').forEach(a => {
     a.removeEventListener('click', listener);
     a.addEventListener('click', listener, true);
@@ -27,7 +27,7 @@ Each custom JS rule is specified with a URL, which gives you a few options for h
 
 *JS Data URI*
 ```
-data:,%28%28%29%20%3D%3E%20%7B%0A%20%20const%20listener%20%3D%20e%20%3D%3E%20%7B%20e.stopPropagation%28%29%3B%20open%28a.href%29%20%7D%3B%0A%20%20const%20query%20%3D%20%28%29%20%3D%3E%20document.querySelectorAll%28%27a%5Btarget%3D_blank%5D%27%29.forEach%28a%20%3D%3E%20%7B%0A%20%20%20%20a.removeEventListener%28%27click%27%2C%20listener%29%3B%0A%20%20%20%20a.addEventListener%28%27click%27%2C%20listener%2C%20true%29%3B%0A%20%20%7D%29%3B%0A%20%20query%28%29%3B%0A%20%20window.addEventListener%28%27hashchange%27%2C%20query%29%3B%0A%7D%29%28%29%3B
+data:,%28%28%29%20%3D%3E%20%7B%0A%20%20const%20listener%20%3D%20e%20%3D%3E%20e.stopPropagation%28%29%3B%0A%20%20const%20query%20%3D%20%28%29%20%3D%3E%20document.querySelectorAll%28%27a%5Btarget%3D_blank%5D%27%29.forEach%28a%20%3D%3E%20%7B%0A%20%20%20%20a.removeEventListener%28%27click%27%2C%20listener%29%3B%0A%20%20%20%20a.addEventListener%28%27click%27%2C%20listener%2C%20true%29%3B%0A%20%20%7D%29%3B%0A%20%20query%28%29%3B%0A%20%20window.addEventListener%28%27hashchange%27%2C%20query%29%3B%0A%7D%29%28%29%3B%0A
 ```
 
 
