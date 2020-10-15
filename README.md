@@ -15,7 +15,7 @@ Watch me create a Slack clone from scratch in 30 seconds (click the GIF for a hi
  - Configure settings with JSON
  - Built-in ad-blocker, provided by <https://better.fyi> (macOS 10.13+)
  - View one tab at a time or all at once with side-by-side view
- - Inject custom CSS to any site
+ - Inject custom CSS and JS to any site
  - Native bridges for Web APIs
      - `window.Notification`
      - `window.alert`
