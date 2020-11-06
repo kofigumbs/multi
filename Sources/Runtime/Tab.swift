@@ -20,6 +20,7 @@ class Tab: NSObject {
         webView.enableDevelop()
         webView.allowsMagnification = true
         webView.autoresizesSubviews = true
+        webView.allowsBackForwardNavigationGestures = true
         webView.uiDelegate = Browser.global
         webView.navigationDelegate = Browser.global
         if #available(macOS 10.13, *) {
