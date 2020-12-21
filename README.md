@@ -13,7 +13,7 @@ Watch me create a Slack clone from scratch in 30 seconds (click the GIF for a hi
 
  - Create apps from a UI or the command line
  - Configure settings with JSON
- - Built-in ad-blocker, provided by <https://better.fyi> (macOS 10.13+)
+ - Built-in ad-blocker, provided by <https://better.fyi>
  - View one tab at a time or all at once with side-by-side view
  - Inject custom CSS and JS to any site
  - Native bridges for Web APIs
@@ -23,15 +23,15 @@ Watch me create a Slack clone from scratch in 30 seconds (click the GIF for a hi
      - `window.prompt`
      - `<input type="file">`
 
+
 ## Installation
 
 Download the latest `.dmg` file from the [releases](https://github.com/kofigumbs/multi/releases) page.
 
-> **Note:** Multi 2.0.0 is a complete rewrite and works differently from previous versions.
-> Any older Multi apps on your computer will continue but will lack the new features listed above.
-
 > **Note:** Multi is not notarized, so you'll need to allow it to run via your "Security & Privacy" system preferences.
 > See [Licensing](#licensing) for more about sponsoring Multi's development.
+
+> **Note:** If you are on macOS 10.13 High Sierra (the minimum supported version), you'll also need to install [the Swift runtime from Apple](https://download.developer.apple.com/Developer_Tools/Swift_5_Runtime_Support_for_Command_Line_Tools/Swift_5_Runtime_Support_for_Command_Line_Tools.dmg).
 
 
 ## JSON configuration

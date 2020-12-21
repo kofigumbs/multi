@@ -34,12 +34,7 @@ extension Script {
 
     private static func execute(_ process: Process) {
         let url = URL(fileURLWithPath: "/usr/bin/env")
-        if #available(macOS 10.13, *) {
-            process.executableURL = url
-            try! process.run()
-        } else {
-            process.launchPath = url.path
-            process.launch()
-        }
+        process.executableURL = url
+        try! process.run()
     }
 }

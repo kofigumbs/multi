@@ -5,7 +5,7 @@ import PackageDescription
 let package = Package(
     name: "Multi",
     platforms: [
-        .macOS(.v10_11),
+        .macOS(.v10_13),
     ],
     products: [
         .executable(name: "Preferences", targets: ["Preferences"]),

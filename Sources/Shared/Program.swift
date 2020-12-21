@@ -44,10 +44,6 @@ public class Program: NSObject {
             Program.addSubmenu(NSMenu(title: name), submenu)
         }
 
-        if #available(macOS 10.12, *) {
-            NSWindow.allowsAutomaticWindowTabbing = false
-        }
-
         _ = NSApplication.shared
         NSApp.delegate = self
         NSApp.setActivationPolicy(.regular)

@@ -9,10 +9,8 @@ class Tab: NSObject {
         Browser.global.notification(configuration)
         Browser.global.customCss(configuration, urls: customCss)
         Browser.global.customJs(configuration, urls: customJs)
-        if #available(macOS 10.13, *) {
-            WKContentRuleListStore.default().compileContentRuleList(forIdentifier: "blocklist", encodedContentRuleList: Browser.blocklist) { (rules, error) in
-                rules.map { configuration.userContentController.add($0) }
-            }
+        WKContentRuleListStore.default().compileContentRuleList(forIdentifier: "blocklist", encodedContentRuleList: Browser.blocklist) { (rules, error) in
+            rules.map { configuration.userContentController.add($0) }
         }
 
         self.title = title
@@ -23,10 +21,7 @@ class Tab: NSObject {
         webView.allowsBackForwardNavigationGestures = true
         webView.uiDelegate = Browser.global
         webView.navigationDelegate = Browser.global
-        if #available(macOS 10.13, *) {
-            webView.customUserAgent = Browser.userAgent
-        }
-
+        webView.customUserAgent = Browser.userAgent
         webView.load(URLRequest(url: url))
     }
 

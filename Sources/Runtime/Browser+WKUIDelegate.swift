@@ -33,7 +33,6 @@ extension Browser: WKUIDelegate {
         alert.window.makeFirstResponder(textField)
     }
 
-    @available(macOS 10.12, *)
     func webView(_ webView: WKWebView, runOpenPanelWith: WKOpenPanelParameters, initiatedByFrame: WKFrameInfo, completionHandler: @escaping ([URL]?) -> Void) {
         let openPanel = NSOpenPanel()
         if #available(macOS 10.13.4, *) {
