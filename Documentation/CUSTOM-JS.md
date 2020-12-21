@@ -10,26 +10,10 @@ Each custom JS rule is specified with a URL, which gives you a few options for h
 
 ## Examples
 
-### Fix external links in GMail
-
-*JS*
-```js
-(() => {
-  const listener = e => e.stopPropagation();
-  const query = () => document.querySelectorAll('a[target=_blank]').forEach(a => {
-    a.removeEventListener('click', listener);
-    a.addEventListener('click', listener, true);
-  });
-  query();
-  window.addEventListener('hashchange', query);
-})();
-```
-
-*JS Data URI*
-```
-data:,%28%28%29%20%3D%3E%20%7B%0A%20%20const%20listener%20%3D%20e%20%3D%3E%20e.stopPropagation%28%29%3B%0A%20%20const%20query%20%3D%20%28%29%20%3D%3E%20document.querySelectorAll%28%27a%5Btarget%3D_blank%5D%27%29.forEach%28a%20%3D%3E%20%7B%0A%20%20%20%20a.removeEventListener%28%27click%27%2C%20listener%29%3B%0A%20%20%20%20a.addEventListener%28%27click%27%2C%20listener%2C%20true%29%3B%0A%20%20%7D%29%3B%0A%20%20query%28%29%3B%0A%20%20window.addEventListener%28%27hashchange%27%2C%20query%29%3B%0A%7D%29%28%29%3B%0A
-```
-
+- [Drag & Drop to open URLs](https://gist.github.com/kofigumbs/37c4dd92fade342be705245f39310a46)
+- [Find in page](https://gist.github.com/kofigumbs/a966f381cd08ec27addf2b4e7e3246bc)
+- [Fix links in GMail and Google Calendar](https://gist.github.com/kofigumbs/9a374fe1d99c57dd2f69dd17ede367a8)
+- [Reload Slack when it disconnects](https://gist.github.com/kofigumbs/a77b981fb5f52e04581d96ea654fd7a5)
 
 > **Share yours!**
 > I'm actively looking for neat JS snippets to share here.
