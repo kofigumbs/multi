@@ -114,16 +114,16 @@ If you'd like to configure your app entirely from the command-line, you can set 
 
 Multi's shortcuts should work equivalently to those in modern browsers.
 
-|      |            |   |                |                     |
-|------|------------|---|----------------|---------------------|
-| `⌘X` | Cut        |   | `⌘[`           | Back                |
-| `⌘C` | Copy       |   | `⌘]`           | Forward             |
-| `⌘V` | Paste      |   | `⌘R`           | Reload This Page    |
-| `⌘A` | Select All |   | `⌘+`/`⌘-`/`⌘0` | Zoom in/out/default |
-| `⌘M` | Minimize   |   | `^Tab`         | Select Next Tab     |
-| `⌘H` | Hide       |   | `^↑Tab`        | Select Previous Tab |
-| `⌘Q` | Quit       |   | `⌘1` - `⌘9`    | Select Tab          |
-|      |            |   | `⌘L`           | Copy current URL    |
+|       |                       |   |                |                     |
+|-------|-----------------------|---|----------------|---------------------|
+| `⌘X`  | Cut                   |   | `⌘[`           | Back                |
+| `⌘C`  | Copy                  |   | `⌘]`           | Forward             |
+| `⌘V`  | Paste                 |   | `⌘R`           | Reload This Page    |
+| `⌘↑V` | Paste and Match Style |   | `⌘+`/`⌘-`/`⌘0` | Zoom in/out/default |
+| `⌘A`  | Select All            |   | `^Tab`         | Select Next Tab     |
+| `⌘M`  | Minimize              |   | `^↑Tab`        | Select Previous Tab |
+| `⌘H`  | Hide                  |   | `⌘1` - `⌘9`    | Select Tab          |
+| `⌘Q`  | Quit                  |   | `⌘L`           | Copy current URL    |
 
 ## Licensing
 
