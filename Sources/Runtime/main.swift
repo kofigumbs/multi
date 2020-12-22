@@ -2,7 +2,13 @@ import Shared
 import WebKit
 
 let preferences = Preferences.update
-Config.tabs.isEmpty ? preferences.view() : Config.tabs.first!.view()
+if Config.tabs.isEmpty {
+    preferences.view()
+} else {
+    let first = Config.tabs.first!
+    Config.tabs.dropFirst().forEach { first.window.addTabbedWindow($0.window, ordered: .above) }
+    first.view()
+}
 Program(name: Bundle.main.title ?? "Multi", menu: preferences.menuItems).start(menu: [
     "View": [
         .init(title: "Reload This Page", action: #selector(WKWebView.reload(_:)), keyEquivalent: "r"),

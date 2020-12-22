@@ -2,7 +2,6 @@ import Shared
 import WebKit
 
 class Browser: NSResponder {
-    static var firstWindow: NSWindow? = nil
     static let global = Browser()
 
     // Fake a more popular browser to circumvent UA-sniffing
@@ -26,11 +25,6 @@ class Browser: NSResponder {
         window.setFrameAutosaveName(title)
         webView.frame = window.frame
         window.contentView = webView
-        if let firstWindow = firstWindow {
-            firstWindow.addTabbedWindow(window, ordered: .above)
-        } else {
-            self.firstWindow = window
-        }
         return window
     }
 

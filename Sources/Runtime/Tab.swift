@@ -44,9 +44,6 @@ class Tab: NSObject {
     }
 
     @objc func view(_: Any? = nil) {
-        if let firstWindow = Browser.firstWindow,
-           let tabGroup = firstWindow.tabGroup {
-            tabGroup.selectedWindow = window
-        }
+        window.tabGroup?.selectedWindow = window
     }
 }
