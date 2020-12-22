@@ -3,6 +3,7 @@ import WebKit
 
 class Tab: NSObject {
     let title: String
+    let webView: WKWebView
     let window: NSWindow
 
     init(title: String, url: URL, customCss: [URL], customJs: [URL]) {
@@ -14,7 +15,7 @@ class Tab: NSObject {
             rules.map { configuration.userContentController.add($0) }
         }
 
-        let webView = WKWebView(frame: .zero, configuration: configuration)
+        self.webView = WKWebView(frame: .zero, configuration: configuration)
         webView.enableDevelop()
         webView.allowsMagnification = true
         webView.autoresizesSubviews = true
@@ -29,7 +30,7 @@ class Tab: NSObject {
     }
 
     init(license: ()) {
-        let webView = WKWebView()
+        self.webView = WKWebView()
         webView.setValue(false, forKey: "drawsBackground")
         webView.navigationDelegate = Browser.global
         webView.configuration.userContentController.add(License.global, name: "license")
@@ -45,5 +46,7 @@ class Tab: NSObject {
 
     @objc func view(_: Any? = nil) {
         window.tabGroup?.selectedWindow = window
+        window.makeFirstResponder(webView)
+        webView.nextResponder = Browser.global
     }
 }
