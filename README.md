@@ -43,6 +43,7 @@ The JSON configuration allows 3 top-level fields:
 | Field Name                   | Type                                              | Description                                                          |
 |------------------------------|---------------------------------------------------|----------------------------------------------------------------------|
 | `tabs`                       | Array (Required)                                  | Titles and URLs of tabs for this app                                 |
+| `windowed`                   | Boolean (Optional, default `false`)               | Start the app with each tab in its own window                        |
 | `alwaysNotify`               | Boolean (Optional, default `false`)               | Show macOS notifications even if your app is currently focused       |
 | `openNewWindowsWith`         | String (Optional, macOS 10.15+)                   | Override system default browser for external links — value is a _bundle identifier_ like `com.apple.Safari`, `com.google.Chrome`, or `com.mozilla.firefox` |
 | `openNewWindowsInBackground` | Boolean (Optional, default `false`, macOS 10.15+) | Determines if browser app becomes active when opening external links |
@@ -122,6 +123,8 @@ Multi's shortcuts should work equivalently to those in modern browsers.
 | `⌘M`  | Minimize              |   | `^↑Tab`        | Select Previous Tab |
 | `⌘H`  | Hide                  |   | `⌘1` - `⌘9`    | Select Tab          |
 | `⌘Q`  | Quit                  |   | `⌘L`           | Copy current URL    |
+                                    | `⌘↑T`          | Toggle Tab Bar      |
+                                    | `⌘↑\`          | Toggle Tab Overview |
 
 ## Licensing
 

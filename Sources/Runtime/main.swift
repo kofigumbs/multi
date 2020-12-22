@@ -2,13 +2,16 @@ import Shared
 import WebKit
 
 let preferences = Preferences.update
+
 if Config.tabs.isEmpty {
     preferences.view()
+} else if Config.windowed {
+    Config.tabs.first!.view()
 } else {
-    let first = Config.tabs.first!
-    Config.tabs.dropFirst().forEach { first.window.addTabbedWindow($0.window, ordered: .above) }
-    first.view()
+    Config.tabs.dropFirst().forEach { Config.tabs.first!.window.addTabbedWindow($0.window, ordered: .above) }
+    Config.tabs.first!.view()
 }
+
 Program(name: Bundle.main.title ?? "Multi", menu: preferences.menuItems).start(menu: [
     "View": [
         .init(title: "Reload This Page", action: #selector(WKWebView.reload(_:)), keyEquivalent: "r"),

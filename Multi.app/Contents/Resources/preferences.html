@@ -66,6 +66,7 @@
         customJs.forEach(item => validate(string(item), `a STRING for each item in "customJs"`));
       }, tab.customJs);
     });
+    validate(undefinedOr(boolean, config.windowed), `an OPTIONAL BOOLEAN at "windowed" field`);
     validate(undefinedOr(boolean, config.alwaysNotify), `an OPTIONAL BOOLEAN at "alwaysNotify" field`);
     validate(undefinedOr(string, config.openNewWindowsWith), `an OPTIONAL STRING at "openNewWindowsWith" field`);
     validate(undefinedOr(boolean, config.openNewWindowsInBackground), `an OPTIONAL BOOLEAN at "openNewWindowsInBackground" field`);
