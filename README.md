@@ -43,7 +43,6 @@ The JSON configuration allows 3 top-level fields:
 | Field Name                   | Type                                              | Description                                                          |
 |------------------------------|---------------------------------------------------|----------------------------------------------------------------------|
 | `tabs`                       | Array (Required)                                  | Titles and URLs of tabs for this app                                 |
-| `sideBySide`                 | Boolean (Optional, default `false`)               | Show each tab simultaneously in one row                              |
 | `alwaysNotify`               | Boolean (Optional, default `false`)               | Show macOS notifications even if your app is currently focused       |
 | `openNewWindowsWith`         | String (Optional, macOS 10.15+)                   | Override system default browser for external links — value is a _bundle identifier_ like `com.apple.Safari`, `com.google.Chrome`, or `com.mozilla.firefox` |
 | `openNewWindowsInBackground` | Boolean (Optional, default `false`, macOS 10.15+) | Determines if browser app becomes active when opening external links |
@@ -79,7 +78,6 @@ Here's a fancier example that uses the optional fields referenced above:
       "customJs": [ "https://raw.githubusercontent.com/kofigumbs/multi/2.x/Assets/test.js" ]
     }
   ],
-  "sideBySide": true,
   "alwaysNotify": true,
   "openNewWindowsWith": "com.apple.Safari",
   "openNewWindowsInBackground": true

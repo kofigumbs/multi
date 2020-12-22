@@ -2,7 +2,6 @@ import AppKit
 
 struct Config {
     struct Schema: Decodable {
-        let sideBySide: Bool?
         let alwaysNotify: Bool?
         let openNewWindowsWith: String?
         let openNewWindowsInBackground: Bool?
@@ -14,10 +13,6 @@ struct Config {
             let customJs: [URL]?
         }
     }
-
-    static let sideBySide: Bool = {
-        return schema?.sideBySide ?? false
-    }()
 
     static let alwaysNotify: Bool = {
         return schema?.alwaysNotify ?? false

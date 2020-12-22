@@ -48,12 +48,12 @@ Verify trial expiration page.
 Save the license key via the UI.
 App should no longer have trial expiration page.
 
-# Side-by-side + Notifications + Alert + Confirm + File + Ad-blocker + Popup
+# Notifications + Alert + Confirm + File + Ad-blocker + Popup
 
 ```bash
 MULTI_APP_NAME='Test 3' \
   MULTI_ICON_PATH='Assets/test-icon.icns' \
-  MULTI_JSON_CONFIG='{"sideBySide":true,"tabs":[{"title":"Notifications","url":"https://www.bennish.net/web-notifications.html"},{"title":"Alert","url":"https://www.w3schools.com/jsref/tryit.asp?filename=tryjsref_alert"},{"title":"Confirm","url":"https://www.w3schools.com/jsref/tryit.asp?filename=tryjsref_confirm"},{"title":"File","url":"https://www.w3schools.com/tags/tryit.asp?filename=tryhtml5_input_type_file"},{"title":"Ads","url":"https://ads-blocker.com/testing/#ad-blocker-test-steps"},{"title":"Popup","url":"https://javascript.info/popup-windows#example-a-minimalistic-window"}]}' \
+  MULTI_JSON_CONFIG='{"tabs":[{"title":"Notifications","url":"https://www.bennish.net/web-notifications.html"},{"title":"Alert","url":"https://www.w3schools.com/jsref/tryit.asp?filename=tryjsref_alert"},{"title":"Confirm","url":"https://www.w3schools.com/jsref/tryit.asp?filename=tryjsref_confirm"},{"title":"File","url":"https://www.w3schools.com/tags/tryit.asp?filename=tryhtml5_input_type_file"},{"title":"Ads","url":"https://ads-blocker.com/testing/#ad-blocker-test-steps"},{"title":"Popup","url":"https://javascript.info/popup-windows#example-a-minimalistic-window"}]}' \
   /Applications/Multi.app/Contents/Resources/create-mac-app
 open /Applications/Multi/Test\ 3.app
 ```
