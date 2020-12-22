@@ -66,6 +66,7 @@ public class Program: NSObject {
         )
         window.title = title
         window.titlebarAppearsTransparent = true
+        window.isReleasedWhenClosed = false
         window.center()
         window.makeKeyAndOrderFront(nil)
         return window

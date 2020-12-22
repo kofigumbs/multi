@@ -1,7 +1,7 @@
 import Shared
 import WebKit
 
-class Browser: NSResponder {
+class Browser: NSObject {
     static let global = Browser()
 
     // Fake a more popular browser to circumvent UA-sniffing
@@ -25,6 +25,7 @@ class Browser: NSResponder {
         window.setFrameAutosaveName(title)
         webView.frame = window.frame
         window.contentView = webView
+        window.tabbingMode = .preferred
         return window
     }
 

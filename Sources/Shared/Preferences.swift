@@ -53,7 +53,6 @@ public class Preferences: NSObject {
             contentRect: NSScreen.main!.frame.applying(.init(scaleX: 0.5, y: 0.5)),
             styleMask: [.titled, .closable, .miniaturizable, .resizable]
         )
-        window.isReleasedWhenClosed = false
         return window
     }()
 

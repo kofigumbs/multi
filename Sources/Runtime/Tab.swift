@@ -45,8 +45,7 @@ class Tab: NSObject {
     }
 
     @objc func view(_: Any? = nil) {
-        window.tabGroup?.selectedWindow = window
+        window.makeKeyAndOrderFront(nil)
         window.makeFirstResponder(webView)
-        webView.nextResponder = Browser.global
     }
 }
