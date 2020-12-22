@@ -11,7 +11,7 @@ extension Browser: WKNavigationDelegate {
             decisionHandler(.allow)
         case .none:
             decisionHandler(.cancel)
-            _ = decidePolicyFor.request.url.map(self.openNewWindow)
+            _ = decidePolicyFor.request.url.map(self.open)
         }
     }
 }

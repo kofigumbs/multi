@@ -3,14 +3,14 @@ import WebKit
 
 extension Browser: WKUIDelegate {
     func webView(_: WKWebView, createWebViewWith: WKWebViewConfiguration, for navigationAction: WKNavigationAction, windowFeatures: WKWindowFeatures) -> WKWebView? {
-        _ = navigationAction.request.url.map(self.openNewWindow)
+        _ = navigationAction.request.url.map(self.open)
         return nil
     }
 
     func webView(_ webView: WKWebView, runJavaScriptAlertPanelWithMessage: String, initiatedByFrame: WKFrameInfo, completionHandler: @escaping () -> Void) {
         let alert = NSAlert()
         alert.messageText = runJavaScriptAlertPanelWithMessage
-        alert.beginSheetModal(for: Browser.window) { _ in completionHandler() }
+        alert.beginSheetModal(for: webView.window!) { _ in completionHandler() }
     }
 
     func webView(_ webView: WKWebView, runJavaScriptConfirmPanelWithMessage: String, initiatedByFrame: WKFrameInfo, completionHandler: @escaping (Bool) -> Void) {
@@ -18,7 +18,7 @@ extension Browser: WKUIDelegate {
         alert.messageText = runJavaScriptConfirmPanelWithMessage
         alert.addButton(withTitle: "OK")
         alert.addButton(withTitle: "Cancel")
-        alert.beginSheetModal(for: Browser.window) { response in completionHandler(response == .alertFirstButtonReturn) }
+        alert.beginSheetModal(for: webView.window!) { response in completionHandler(response == .alertFirstButtonReturn) }
     }
 
     func webView(_ webView: WKWebView, runJavaScriptTextInputPanelWithPrompt: String, defaultText: String?, initiatedByFrame: WKFrameInfo, completionHandler: @escaping (String?) -> Void) {
@@ -29,7 +29,7 @@ extension Browser: WKUIDelegate {
         alert.messageText = runJavaScriptTextInputPanelWithPrompt
         alert.addButton(withTitle: "OK")
         alert.addButton(withTitle: "Cancel")
-        alert.beginSheetModal(for: Browser.window) { response in completionHandler(response == .alertFirstButtonReturn ? textField.stringValue : nil) }
+        alert.beginSheetModal(for: webView.window!) { response in completionHandler(response == .alertFirstButtonReturn ? textField.stringValue : nil) }
         alert.window.makeFirstResponder(textField)
     }
 
@@ -39,6 +39,6 @@ extension Browser: WKUIDelegate {
             openPanel.canChooseDirectories = runOpenPanelWith.allowsDirectories
         }
         openPanel.allowsMultipleSelection = runOpenPanelWith.allowsMultipleSelection
-        openPanel.beginSheetModal(for: Browser.window) { _ in completionHandler(openPanel.urls) }
+        openPanel.beginSheetModal(for: webView.window!) { _ in completionHandler(openPanel.urls) }
     }
 }

@@ -3,7 +3,7 @@ import WebKit
 
 let preferences = Preferences.update
 Config.tabs.isEmpty ? preferences.view() : Config.tabs.first!.view()
-Program(name: Browser.title, menu: preferences.menuItems).start(menu: [
+Program(name: Bundle.main.title ?? "Multi", menu: preferences.menuItems).start(menu: [
     "View": [
         .init(title: "Reload This Page", action: #selector(WKWebView.reload(_:)), keyEquivalent: "r"),
         .separator(),
@@ -16,8 +16,8 @@ Program(name: Browser.title, menu: preferences.menuItems).start(menu: [
         .init(title: "Forward", action: #selector(WKWebView.goForward(_:)), keyEquivalent: "]"),
     ],
     "Tab": [
-        .init(title: "Select Next Tab", action: #selector(Browser.nextTab(_:)), keyEquivalent: "⇥", target: Browser.global, modifiers: [.control]),
-        .init(title: "Select Previous Tab", action: #selector(Browser.previousTab(_:)), keyEquivalent: "⇥", target: Browser.global, modifiers: [.control, .shift]),
+        .init(title: "Select Next Tab", action: #selector(NSWindow.selectNextTab(_:)), keyEquivalent: "⇥", modifiers: [.control]),
+        .init(title: "Select Previous Tab", action: #selector(NSWindow.selectPreviousTab(_:)), keyEquivalent: "⇥", modifiers: [.control, .shift]),
         .init(title: "Copy URL", action: #selector(WKWebView.copyUrl(_:)), keyEquivalent: "l"),
         .separator(),
     ] + Config.tabs.enumerated().map { (index, tab) in

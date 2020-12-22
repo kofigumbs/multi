@@ -1,8 +1,9 @@
+import Shared
 import WebKit
 
 class Tab: NSObject {
     let title: String
-    let webView: WKWebView
+    let window: NSWindow
 
     init(title: String, url: URL, customCss: [URL], customJs: [URL]) {
         let configuration = WKWebViewConfiguration()
@@ -13,8 +14,7 @@ class Tab: NSObject {
             rules.map { configuration.userContentController.add($0) }
         }
 
-        self.title = title
-        self.webView = WKWebView(frame: Browser.window.frame, configuration: configuration)
+        let webView = WKWebView(frame: .zero, configuration: configuration)
         webView.enableDevelop()
         webView.allowsMagnification = true
         webView.autoresizesSubviews = true
@@ -23,11 +23,13 @@ class Tab: NSObject {
         webView.navigationDelegate = Browser.global
         webView.customUserAgent = Browser.userAgent
         webView.load(URLRequest(url: url))
+
+        self.title = title
+        self.window = Browser.window(title: title, webView: webView)
     }
 
     init(license: ()) {
-        self.title = "Purchase a license"
-        self.webView = WKWebView(frame: Browser.window.frame)
+        let webView = WKWebView()
         webView.setValue(false, forKey: "drawsBackground")
         webView.navigationDelegate = Browser.global
         webView.configuration.userContentController.add(License.global, name: "license")
@@ -36,19 +38,15 @@ class Tab: NSObject {
            let html = try? String(contentsOf: url) {
             webView.loadHTMLString(html, baseURL: nil)
         }
+
+        self.title = "Purchase a license"
+        self.window = Browser.window(title: title, webView: webView)
     }
 
     @objc func view(_: Any? = nil) {
-        if Config.sideBySide {
-            let stack = NSStackView(views: Config.tabs.map { $0.webView })
-            stack.spacing = 0
-            stack.distribution = .fillEqually
-            Browser.window.contentView = stack
-        } else {
-            Browser.window.contentView = webView
+        if let firstWindow = Browser.firstWindow,
+           let tabGroup = firstWindow.tabGroup {
+            tabGroup.selectedWindow = window
         }
-        Browser.selectedTab = self
-        Browser.window.makeFirstResponder(webView)
-        webView.nextResponder = Browser.global
     }
 }

@@ -33,7 +33,12 @@ struct Config {
 
     static let tabs: [Tab] = {
         guard let schema = schema else { return [] }
-        var tabs = schema.tabs.map { Tab(title: $0.title, url: $0.url, customCss: $0.customCss ?? [], customJs: $0.customJs ?? []) }
+        var tabs = schema.tabs.map { tab in Tab(
+            title: tab.title,
+            url: tab.url,
+            customCss: tab.customCss ?? [],
+            customJs: tab.customJs ?? []
+        )}
         if !tabs.isEmpty && !License.isValid {
             tabs.insert(Tab(license: ()), at: 0)
         }

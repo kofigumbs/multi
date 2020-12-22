@@ -2,9 +2,8 @@ import Shared
 import WebKit
 
 class Browser: NSResponder {
-    static var selectedTab: Tab? = nil
+    static var firstWindow: NSWindow? = nil
     static let global = Browser()
-    static let title = Bundle.main.title ?? "Multi"
 
     // Fake a more popular browser to circumvent UA-sniffing
     static let userAgent = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.0 Safari/605.1.15"
@@ -18,17 +17,24 @@ class Browser: NSResponder {
         return json.lowercased()
     }()
 
-    static let window: NSWindow = {
+    static func window(title: String, webView: WKWebView) -> NSWindow {
         let window = Program.window(
             title: title,
             contentRect: NSScreen.main!.frame,
             styleMask: [.titled, .closable, .miniaturizable, .resizable]
         )
-        window.setFrameAutosaveName("Browser")
+        window.setFrameAutosaveName(title)
+        window.contentView = webView
+        webView.frame = window.frame
+        if let firstWindow = firstWindow {
+            firstWindow.addTabbedWindow(window, ordered: .above)
+        } else {
+            self.firstWindow = window
+        }
         return window
-    }()
+    }
 
-    func openNewWindow(url: URL) {
+    func `open`(url: URL) {
         guard #available(macOS 10.15, *) else {
             NSWorkspace.shared.open(url)
             return
@@ -40,23 +46,6 @@ class Browser: NSResponder {
             NSWorkspace.shared.open([url], withApplicationAt: applicationURL, configuration: configuration)
         } else {
             NSWorkspace.shared.open(url, configuration: configuration)
-        }
-    }
-
-    @objc func nextTab(_: Any? = nil) {
-        Browser.shiftTab(by: 1)
-    }
-
-    @objc func previousTab(_: Any? = nil) {
-        Browser.shiftTab(by: Config.tabs.count - 1)
-    }
-
-    private static func shiftTab(by diff: Int) {
-        for (index, tab) in Config.tabs.enumerated() {
-            if tab == selectedTab {
-                Config.tabs[(index + diff) % Config.tabs.count].view()
-                return
-            }
         }
     }
 }
