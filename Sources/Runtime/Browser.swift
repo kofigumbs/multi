@@ -5,7 +5,7 @@ class Browser: NSObject {
     static let global = Browser()
 
     // Fake a more popular browser to circumvent UA-sniffing
-    static let userAgent = "Mozilla/5.0 AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.0 Safari/605.1.15"
+    static let userAgent = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.0 Safari/605.1.15"
 
     static let blocklist: String = {
         guard let url = Bundle.multi?.url(forResource: "blocklist", withExtension: "json"),
