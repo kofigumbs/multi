@@ -57,6 +57,8 @@
     config.tabs.forEach(tab => {
       validate(string(tab.title), `a STRING at "title" field`);
       validate(string(tab.url), `a STRING at "url" field`);
+      validate(undefinedOr(string, tab.basicAuthUser), `a STRING at "user" field`);
+      validate(undefinedOr(string, tab.basicAuthPassword), `a STRING at "password" field`);
       undefinedOr(customCss => {
         validate(Array.isArray(customCss), `an OPTIONAL ARRAY at "customCss" field`);
         customCss.forEach(item => validate(string(item), `a STRING for each item in "customCss"`));

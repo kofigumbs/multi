@@ -50,12 +50,14 @@ The JSON configuration allows 3 top-level fields:
 
 The `tabs` field is an array of objects with the following fields:
 
-| Field Name  | Type                        | Description                                                                      |
-|-------------|-----------------------------|----------------------------------------------------------------------------------|
-| `title`     | String (Required)           | Whatever you want to call this tab                                               |
-| `url`       | String (Required)           | Starting page for this tab                                                       |
-| `customCss` | Array of Strings (Optional) | Custom CSS URLs (see [Documentation/CUSTOM-CSS.md](Documentation/CUSTOM-CSS.md)) |
-| `customJs`  | Array of Strings (Optional) | Custom JS URLs (see [Documentation/CUSTOM-JS.md](Documentation/CUSTOM-JS.md)) |
+| Field Name          | Type                        | Description                                                                      |
+|---------------------|-----------------------------|----------------------------------------------------------------------------------|
+| `title`             | String (Required)           | Whatever you want to call this tab                                               |
+| `url`               | String (Required)           | Starting page for this tab                                                       |
+| `customCss`         | Array of Strings (Optional) | Custom CSS URLs (see [Documentation/CUSTOM-CSS.md](Documentation/CUSTOM-CSS.md)) |
+| `customJs`          | Array of Strings (Optional) | Custom JS URLs (see [Documentation/CUSTOM-JS.md](Documentation/CUSTOM-JS.md))    |
+| `basicAuthUser`     | String (Optional)           | User name credential for requests that use basic access authentication           |
+| `basicAuthPassword` | String (Optional)           | Password credential for requests that use basic access authentication            |
 
 Here's the bare minimum example used in the Slack demo video above:
 
@@ -70,7 +72,9 @@ Here's a fancier example that uses the optional fields referenced above:
   "tabs": [
     {
       "title": "Dancing",
-      "url": "https://rc.kofi.sexy/bathroom-floss"
+      "url": "https://rc.kofi.sexy/bathroom-floss",
+      "basicAuthUser": "user",
+      "basicAuthPassword": "password"
     },
     {
       "title": "Walking",
@@ -79,6 +83,7 @@ Here's a fancier example that uses the optional fields referenced above:
       "customJs": [ "https://raw.githubusercontent.com/kofigumbs/multi/2.x/Assets/test.js" ]
     }
   ],
+  "windowed": true,
   "alwaysNotify": true,
   "openNewWindowsWith": "com.apple.Safari",
   "openNewWindowsInBackground": true

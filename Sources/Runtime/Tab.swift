@@ -3,10 +3,12 @@ import WebKit
 
 class Tab: NSObject {
     let title: String
+    let basicAuthUser: String
+    let basicAuthPassword: String
     let webView: WKWebView
     let window: NSWindow
 
-    init(title: String, url: URL, customCss: [URL], customJs: [URL]) {
+    init(title: String, url: URL, customCss: [URL], customJs: [URL], basicAuthUser: String, basicAuthPassword: String) {
         let configuration = WKWebViewConfiguration()
         Browser.global.notification(configuration)
         Browser.global.customCss(configuration, urls: customCss)
@@ -21,18 +23,20 @@ class Tab: NSObject {
         webView.autoresizesSubviews = true
         webView.allowsBackForwardNavigationGestures = true
         webView.uiDelegate = Browser.global
-        webView.navigationDelegate = Browser.global
         webView.customUserAgent = Browser.userAgent
         webView.load(URLRequest(url: url))
 
         self.title = title
+        self.basicAuthUser = basicAuthUser
+        self.basicAuthPassword = basicAuthPassword
         self.window = Browser.window(title: title, webView: webView)
+        super.init()
+        webView.navigationDelegate = self
     }
 
     init(license: ()) {
         self.webView = WKWebView()
         webView.setValue(false, forKey: "drawsBackground")
-        webView.navigationDelegate = Browser.global
         webView.configuration.userContentController.add(License.global, name: "license")
         webView.enableDevelop()
         if let url = Bundle.multi?.url(forResource: "license", withExtension: "html"),
@@ -41,7 +45,11 @@ class Tab: NSObject {
         }
 
         self.title = "Purchase a license"
+        self.basicAuthUser = ""
+        self.basicAuthPassword = ""
         self.window = Browser.window(title: title, webView: webView)
+        super.init()
+        webView.navigationDelegate = self
     }
 
     @objc func view(_: Any? = nil) {

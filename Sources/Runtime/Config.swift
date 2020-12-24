@@ -12,6 +12,8 @@ struct Config {
             let url: URL
             let customCss: [URL]?
             let customJs: [URL]?
+            let basicAuthUser: String?
+            let basicAuthPassword: String?
         }
     }
 
@@ -37,7 +39,9 @@ struct Config {
             title: tab.title,
             url: tab.url,
             customCss: tab.customCss ?? [],
-            customJs: tab.customJs ?? []
+            customJs: tab.customJs ?? [],
+            basicAuthUser: tab.basicAuthUser ?? "",
+            basicAuthPassword: tab.basicAuthPassword ?? ""
         )}
         if !tabs.isEmpty && !License.isValid {
             tabs.insert(Tab(license: ()), at: 0)
