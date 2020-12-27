@@ -31,7 +31,7 @@ Download the latest `.dmg` file from the [releases](https://github.com/kofigumbs
 > **Note:** Multi is not notarized, so you'll need to allow it to run via your "Security & Privacy" system preferences.
 > See [Licensing](#licensing) for more about sponsoring Multi's development.
 
-> **Note:** If you are on macOS 10.13 High Sierra (the minimum supported version), you'll also need to install [the Swift runtime from Apple](https://download.developer.apple.com/Developer_Tools/Swift_5_Runtime_Support_for_Command_Line_Tools/Swift_5_Runtime_Support_for_Command_Line_Tools.dmg).
+> **Note:** If you are on macOS 10.13 High Sierra (the minimum supported version), you'll also need to install [the Swift runtime from Apple](https://support.apple.com/kb/dl1998?locale=en_US).
 
 
 ## JSON configuration
