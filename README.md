@@ -2,7 +2,12 @@
 
 <a href="https://www.producthunt.com/posts/multi-3?utm_source=badge-featured&utm_medium=badge&utm_souce=badge-multi-3" target="_blank"><img src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=229000&theme=dark" alt="Multi - Create a custom macOS app from a group of websites | Product Hunt Embed" style="width: 250px; height: 54px;" width="250px" height="54px" /></a>
 
-Create a custom, lightweight macOS app from a group of websites.
+Create a custom, lightweight macOS app from a group of websites, complete with:
+
+ - Native notifications, file uploads, and dialogs
+ - Ad-blocking, provided by [better.fyi](https://better.fyi)
+ - Customization options with JSON, CSS, and JavaScript
+
 Watch me create a Slack clone from scratch in 30 seconds (click the GIF for a higher resolution video):
 
 <p align="center">
@@ -11,31 +16,39 @@ Watch me create a Slack clone from scratch in 30 seconds (click the GIF for a hi
   </a>
 </p>
 
- - Create apps from a UI or the command line
- - Configure settings with JSON
- - Built-in ad-blocker, provided by <https://better.fyi>
- - View one tab at a time or all at once with side-by-side view
- - Inject custom CSS and JS to any site
- - Native bridges for Web APIs
-     - `window.Notification`
-     - `window.alert`
-     - `window.confirm`
-     - `window.prompt`
-     - `<input type="file">`
+
+## Table of contents
+
+ - [Installation](#installation)
+ - [JSON configuration](#json-configuration)
+ - [Using the CLI: `create-mac-app`](#using-the-cli-create-mac-app)
+ - [Custom JS/CSS](#custom-jscss)
+   - [Fix links in GMail and Google Calendar](#fix-links-in-gmail-and-google-calendar)
+   - [Reload Slack when it disconnects](#reload-slack-when-it-disconnects)
+   - [Find in page](#find-in-page)
+   - [Drag-and-drop to open URLs](#drag-and-drop-to-open-urls)
+   - [Preview link targets](#preview-link-targets)
+ - [Keyboard shortcuts](#keyboard-shortcuts)
+ - [Purchasing](#purchasing)
 
 
 ## Installation
 
-Download the latest `.dmg` file from the [releases](https://github.com/kofigumbs/multi/releases) page.
+The easiest method is to use [Homebrew](https://brew.sh/):
 
-> **Note:** If you are on macOS 10.13 High Sierra (the minimum supported version), you'll also need to install [the Swift runtime from Apple](https://support.apple.com/kb/dl1998?locale=en_US).
+```
+brew cask install multi
+```
+
+Alternatively, you can manually download and run the latest `.dmg` from [Releases](https://github.com/kofigumbs/multi/releases).
+If you are on macOS 10.13 High Sierra (the minimum supported version), you'll also need to install [the Swift runtime from Apple](https://support.apple.com/kb/dl1998?locale=en_US).
 
 
 ## JSON configuration
 
 Multi apps store their configuration in a single JSON file.
 If your app is named `Test`, then you'll find that file at `/Applications/Multi/Test.app/Contents/Resources/config.json`.
-The JSON configuration allows 3 top-level fields:
+The JSON configuration uses the following top-level fields:
 
 | Field Name                   | Type                                              | Description                                                          |
 |------------------------------|---------------------------------------------------|----------------------------------------------------------------------|
@@ -47,14 +60,14 @@ The JSON configuration allows 3 top-level fields:
 
 The `tabs` field is an array of objects with the following fields:
 
-| Field Name          | Type                        | Description                                                                      |
-|---------------------|-----------------------------|----------------------------------------------------------------------------------|
-| `title`             | String (Required)           | Whatever you want to call this tab                                               |
-| `url`               | String (Required)           | Starting page for this tab                                                       |
-| `customCss`         | Array of Strings (Optional) | Custom CSS URLs (see [Documentation/CUSTOM-CSS.md](Documentation/CUSTOM-CSS.md)) |
-| `customJs`          | Array of Strings (Optional) | Custom JS URLs (see [Documentation/CUSTOM-JS.md](Documentation/CUSTOM-JS.md))    |
-| `basicAuthUser`     | String (Optional)           | User name credential for requests that use basic access authentication           |
-| `basicAuthPassword` | String (Optional)           | Password credential for requests that use basic access authentication            |
+| Field Name          | Type                        | Description                                                            |
+|---------------------|-----------------------------|------------------------------------------------------------------------|
+| `title`             | String (Required)           | Whatever you want to call this tab                                     |
+| `url`               | String (Required)           | Starting page for this tab                                             |
+| `customJs`          | Array of Strings (Optional) | Custom JS URLs (see [Custom JS/CSS](#custom-jscss))                   |
+| `customCss`         | Array of Strings (Optional) | Custom CSS URLs (see [Custom JS/CSS](#custom-jscss))                  |
+| `basicAuthUser`     | String (Optional)           | User name credential for requests that use basic access authentication |
+| `basicAuthPassword` | String (Optional)           | Password credential for requests that use basic access authentication  |
 
 Here's the bare minimum example used in the Slack demo video above:
 
@@ -76,8 +89,8 @@ Here's a fancier example that uses the optional fields referenced above:
     {
       "title": "Walking",
       "url": "https://kofi.sexy/cel-shading",
-      "customCss": [ "https://raw.githubusercontent.com/kofigumbs/multi/2.x/Assets/test.css" ],
-      "customJs": [ "https://raw.githubusercontent.com/kofigumbs/multi/2.x/Assets/test.js" ]
+      "customJs": [ "https://raw.githubusercontent.com/kofigumbs/multi/2.x/Assets/test.js" ],
+      "customCss": [ "https://raw.githubusercontent.com/kofigumbs/multi/2.x/Assets/test.css" ]
     }
   ],
   "windowed": true,
@@ -111,9 +124,156 @@ If you'd like to configure your app entirely from the command-line, you can set 
 | `MULTI_OVERWRITE`   | Set to `1` to replace an existing Multi app with the same name |
 
 
+## Custom JS/CSS
+
+Multi lets you customize any site by injecting JavaScript and CSS on every page in your app.
+Each custom JS/CSS file is specified with a URL, which gives you a few options for how you want to manage your customizations:
+
+1. Host your file online, and use its URL: ex. `https://raw.githubusercontent.com/kofigumbs/dotfiles/master/example.js`
+2. Reference a local file on your computer: ex. `file:///Users/kofi/workspace/dotfiles/example.js`
+3. Encode your script directly in the JSON using [Data URIs](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/Data_URIs): ex. `data:,console.log%28%27Hello%2C%20from%20Multi%21%27%29%3B%0A`
+
+Custom JS/CSS is one of the most important parts of Multi.
+It lets the main project stay small and focused, while letting you extend it with new features that fit your use case.
+If you have a neat JS/CSS snippet, you'd like to share, please open an Issue or Pull Request!
+Here are a few that have come up before:
+
+#### Fix links in GMail and Google Calendar
+
+Google seems to be doing some trickery here.
+Instead of allowing the browser to handle the <a target=_blank> links, they use JS to open a blank popup window, then dynamically set the URL to google.com/url?q=REAL_URL_HERE.
+Presumably all of this is so that they can track you for a few moments on your way out of their app.
+Custom JS solution:
+
+```js
+(() => {
+  const listener = e => e.stopPropagation();
+  const query = () => document.querySelectorAll('a[target=_blank]').forEach(a => {
+    a.removeEventListener('click', listener);
+    a.addEventListener('click', listener, true);
+  });
+  query();
+  setInterval(query, 400); // wait time between DOM queries, in milliseconds
+})();
+```
+
+#### Reload Slack when it disconnects
+
+Sometimes Slack's WebSocket disconnects and stops loading new messages.
+It seems like this is either an issue with [WebKit](https://bugs.webkit.org/show_bug.cgi?id=149551) or [Slack.com](https://slack.com/help/articles/205138367-Troubleshoot-connection-issues#websocket-trouble).
+Custom JS solution:
+
+```js
+setInterval(() => {
+  if (document.body.innerText.includes('Load new messages.'))
+    window.location.reload();
+}, 90000);
+```
+
+#### Find in page
+
+Multi doesn't include any search functionality (Cmd-F).
+Custom JS solution:
+
+```js
+(() => {
+  const highlightResults = (text, color) => {
+    document.designMode = "on"; // https://stackoverflow.com/a/5887719
+    var selection = window.getSelection();
+    selection.collapse(document.body, 0);
+    while (window.find(text)) {
+      document.execCommand("HiliteColor", false, color);
+      selection.collapseToEnd();
+    }
+    document.designMode = "off";
+  };
+
+  let mostRecentSearchText = "";
+  const search = text => {
+    highlightResults(mostRecentSearchText, "transparent");
+    highlightResults(text, "rgb(255 255 1 / 50%)");
+    mostRecentSearchText = text;
+  };
+
+  const input = document.createElement("input");
+  input.placeholder = "Search...";
+  input.style.padding = "10px 15px";
+  input.style.fontSize = "15px";
+  input.style.borderRadius = "3px";
+  input.style.border = "solid 1px lightgray";
+
+  const form = document.createElement("form");
+  form.style.display = "none";
+  form.style.position = "fixed";
+  form.style.top = "15px";
+  form.style.right = "15px";
+  form.style.zIndex = "2147483647"; // https://stackoverflow.com/a/856569
+  form.addEventListener("submit", e => {
+    e.preventDefault();
+    search(input.value);
+  });
+
+  const close = document.createElement("a");
+  close.innerText = "⨯";
+  close.href = "javascript:void(0)";
+  close.style.fontSize = "30px";
+  close.style.padding = "15px";
+  close.style.textDecoration = "none";
+  close.addEventListener("click", e => {
+    e.preventDefault();
+    search("");
+    form.style.display = "none";
+  });
+
+  form.appendChild(input);
+  form.appendChild(close);
+  document.body.appendChild(form);
+
+  document.addEventListener("keydown", event => {
+    if (event.metaKey && event.key === "f") {
+      event.preventDefault();
+      form.style.display = "block";
+      input.focus();
+    }
+  });
+})();
+```
+
+#### Drag-and-drop to open URLs
+
+Sometimes you have a URL outside of Multi (maybe in an email), and you want to open it in Multi.
+Custom JS solution:
+
+```js
+document.addEventListener("dragover", e => e.preventDefault());
+```
+
+#### Preview link targets
+
+Multi doesn't include any hover-to-preview-link-target functionality.
+Custom CSS solution:
+
+```css
+a:hover::after {
+  content: attr(href);
+  position: fixed;
+  left: 4px;
+  bottom: 4px;
+  padding: 4px;
+  font-size: 12px;
+  font-family: -apple-system, BlinkMacSystemFont;
+  font-weight: normal;
+  color: black;
+  background: ghostwhite;
+  border: solid 1px black;
+  border-radius: 1px;
+}
+```
+
+
 ## Keyboard shortcuts
 
-Multi's shortcuts should work equivalently to those in modern browsers.
+Multi's shortcuts should basically match those of other macOS apps:
 
 |       |                       |   |                |                     |
 |-------|-----------------------|---|----------------|---------------------|
@@ -124,15 +284,14 @@ Multi's shortcuts should work equivalently to those in modern browsers.
 | `⌘A`  | Select All            |   | `^Tab`         | Select Next Tab     |
 | `⌘M`  | Minimize              |   | `^↑Tab`        | Select Previous Tab |
 | `⌘H`  | Hide                  |   | `⌘1` - `⌘9`    | Select Tab          |
-| `⌘Q`  | Quit                  |   | `⌘L`           | Copy current URL    |
-                                    | `⌘↑T`          | Toggle Tab Bar      |
-                                    | `⌘↑\`          | Toggle Tab Overview |
+| `⌘W`  | Close Tab             |   | `⌘L`           | Copy current URL    |
+| `⌘Q`  | Quit                  |   | `⌘↑T`          | Toggle Tab Bar      |
+|       |                       |   | `⌘↑\`          | Toggle Tab Overview |
 
-## Licensing
 
-Multi is open source software (GPLv3), but it is also paid software.
-One week after you first try Multi, you'll see a message in your apps asking you to
-[purchase a license](https://gumbs.llc/multi/).
-Since Multi is open source, and since I've made no attempt to obfuscate the code, you _could_ remove the license check and recompile the project.
-Please don't do that.
-I'd like to continue improving Multi with new features and bug fixes, and license purchases enable me to do so.
+## Purchasing
+
+Multi is paid software, with an unlimited free trial.
+One week after you first use Multi, you'll see a message asking you to [make a purchase](https://gumbs.llc/multi/).
+This message appears as a normal Multi tab, so if you wish to "extend your trial", just close that tab and continue doing what you were doing.
+Of course, if you enjoy using Multi, I'd really appreciate if you purchased it eventually.
