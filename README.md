@@ -28,9 +28,6 @@ Watch me create a Slack clone from scratch in 30 seconds (click the GIF for a hi
 
 Download the latest `.dmg` file from the [releases](https://github.com/kofigumbs/multi/releases) page.
 
-> **Note:** Multi is not notarized, so you'll need to allow it to run via your "Security & Privacy" system preferences.
-> See [Licensing](#licensing) for more about sponsoring Multi's development.
-
 > **Note:** If you are on macOS 10.13 High Sierra (the minimum supported version), you'll also need to install [the Swift runtime from Apple](https://support.apple.com/kb/dl1998?locale=en_US).
 
 

@@ -4,9 +4,12 @@ SWIFT_CONFIGURATION := debug
 SWIFT_BUILD_PATH = .build/x86_64-apple-macosx/$(SWIFT_CONFIGURATION)
 
 .PHONY: Multi.app
-Multi.app: Multi.app/Preferences Multi.app/Contents/Resources/Runtime Multi.app/Contents/Resources/blocklist.json
+Multi.app: Multi.app/Contents/MacOS Multi.app/Contents/MacOS/Preferences Multi.app/Contents/Resources/Runtime Multi.app/Contents/Resources/blocklist.json
 
-Multi.app/Preferences: $(SWIFT_BUILD_PATH)/Preferences
+Multi.app/Contents/MacOS:
+	mkdir $@
+
+Multi.app/Contents/MacOS/Preferences: $(SWIFT_BUILD_PATH)/Preferences
 	cp $^ $@
 Multi.app/Contents/Resources/Runtime: $(SWIFT_BUILD_PATH)/Runtime
 	cp $^ $@
@@ -21,4 +24,10 @@ Multi.app/Contents/Resources/blocklist.json:
 release:
 	swift package clean
 	make SWIFT_CONFIGURATION=release Multi.app
-	npx create-dmg Multi.app --overwrite .build/
+	# http://www.zarkonnen.com/signing_notarizing_catalina
+	codesign --sign "$$APPLE_DEVELOPER_SIGNING_IDENTITY" --timestamp --options runtime Multi.app/Contents/Resources/Runtime
+	codesign --sign "$$APPLE_DEVELOPER_SIGNING_IDENTITY" --timestamp --options runtime Multi.app/Contents/MacOS/Preferences
+	npx create-dmg --identity "$$APPLE_DEVELOPER_SIGNING_IDENTITY" Multi.app .build/
+	xcrun altool --notarize-app --primary-bundle-id "llc.gumbs.multi" -u "$$APPLE_DEVELOPER_ID" -p "$$APPLE_DEVELOPER_PASSWORD" --file .build/Multi*.dmg
+	@read -p "Wait for notarization, then press Enter to continue..."
+	xcrun stapler staple .build/Multi*.dmg
