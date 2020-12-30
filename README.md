@@ -31,6 +31,11 @@ Watch me create a Slack clone from scratch in 30 seconds (click the GIF for a hi
  - [Keyboard shortcuts](#keyboard-shortcuts)
  - [Purchasing](#purchasing)
 
+I've also written a few blog posts that discuss some of the ideas behind Multi:
+
+ - Motivation: <https://kofi.sexy/blog/multi>
+ - Performance: <https://kofi.sexy/blog/slack-app-fewer-resources>
+
 
 ## Installation
 
