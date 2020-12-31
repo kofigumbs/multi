@@ -7,15 +7,6 @@
     <key>CFBundleExecutable</key>            <string>Preferences</string>
     <key>CFBundleIconFile</key>              <string>Icon.icns</string>
     <key>LSMinimumSystemVersion</key>        <string>10.13</string>
-
-    <key>CFBundleURLTypes</key>              <array>
-                                               <dict>
-																								 <key>CFBundleTypeRole</key>    <string>Viewer</string>
-                                                 <key>CFBundleURLName</key>     <string>llc.gumbs.multi.scheme</string>
-                                                 <key>CFBundleURLSchemes</key>  <array><string>llc.gumbs.multi</string></array>
-                                               </dict>
-                                             </array>
-
     <key>CFBundlePackageType</key>           <string>APPL</string>
     <key>CFBundleInfoDictionaryVersion</key> <string>6.0</string>
     <key>CFBundleVersion</key>               <string>2.0.8</string>
