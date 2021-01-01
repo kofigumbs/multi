@@ -1,7 +1,7 @@
 SHELL = /bin/bash
 
 SWIFT_CONFIGURATION := debug
-SWIFT_BUILD_PATH = .build/x86_64-apple-macosx/$(SWIFT_CONFIGURATION)
+SWIFT_BUILD_PATH = .build/apple/Products/$(SWIFT_CONFIGURATION)
 
 .PHONY: Multi.app
 Multi.app: Multi.app/Contents/MacOS Multi.app/Contents/MacOS/Preferences Multi.app/Contents/Resources/Runtime Multi.app/Contents/Resources/blocklist.json
@@ -15,7 +15,7 @@ Multi.app/Contents/Resources/Runtime: $(SWIFT_BUILD_PATH)/Runtime
 	cp $^ $@
 
 $(SWIFT_BUILD_PATH)/%: Sources/%/*.swift Sources/Shared/*.swift
-	swift build --configuration $(SWIFT_CONFIGURATION) --product $*
+	swift build --arch arm64 --arch x86_64 --configuration $(SWIFT_CONFIGURATION) --product $*
 
 Multi.app/Contents/Resources/blocklist.json:
 	curl https://better.fyi/blockerList.json > $@
