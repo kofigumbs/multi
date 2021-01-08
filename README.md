@@ -43,7 +43,7 @@ I've also written a few blog posts that discuss some of the ideas behind Multi:
 The easiest method is to use [Homebrew](https://brew.sh/):
 
 ```
-brew cask install multi
+brew install --cask multi
 ```
 
 Alternatively, you can manually download and run the latest `.dmg` from [Releases](https://github.com/kofigumbs/multi/releases).
