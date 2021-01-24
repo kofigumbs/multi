@@ -91,7 +91,8 @@ Here's a fancier example that uses the optional fields referenced above:
       "title": "Dancing",
       "url": "https://rc.kofi.sexy/bathroom-floss",
       "basicAuthUser": "user",
-      "basicAuthPassword": "password"
+      "basicAuthPassword": "password",
+      "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.141 Safari/537.36"
     },
     {
       "title": "Walking",
