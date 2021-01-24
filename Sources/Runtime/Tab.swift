@@ -8,7 +8,7 @@ class Tab: NSObject {
     let webView: WKWebView
     let window: NSWindow
 
-    init(title: String, url: URL, customCss: [URL], customJs: [URL], basicAuthUser: String, basicAuthPassword: String) {
+    init(title: String, url: URL, customCss: [URL], customJs: [URL], basicAuthUser: String, basicAuthPassword: String, userAgent: String) {
         let configuration = WKWebViewConfiguration()
         Browser.global.notification(configuration)
         Browser.global.customCss(configuration, urls: customCss)
@@ -23,7 +23,7 @@ class Tab: NSObject {
         webView.autoresizesSubviews = true
         webView.allowsBackForwardNavigationGestures = true
         webView.uiDelegate = Browser.global
-        webView.customUserAgent = Browser.userAgent
+        webView.customUserAgent = userAgent
         webView.load(URLRequest(url: url))
 
         self.title = title

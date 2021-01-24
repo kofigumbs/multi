@@ -14,6 +14,7 @@ struct Config {
             let customJs: [URL]?
             let basicAuthUser: String?
             let basicAuthPassword: String?
+            let userAgent: String?
         }
     }
 
@@ -41,7 +42,8 @@ struct Config {
             customCss: tab.customCss ?? [],
             customJs: tab.customJs ?? [],
             basicAuthUser: tab.basicAuthUser ?? "",
-            basicAuthPassword: tab.basicAuthPassword ?? ""
+            basicAuthPassword: tab.basicAuthPassword ?? "",
+            userAgent: tab.userAgent ?? "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.0 Safari/605.1.15"
         )}
         if !tabs.isEmpty && !License.isValid {
             tabs.insert(Tab(license: ()), at: 0)

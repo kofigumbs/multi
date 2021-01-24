@@ -70,10 +70,11 @@ The `tabs` field is an array of objects with the following fields:
 |---------------------|-----------------------------|------------------------------------------------------------------------|
 | `title`             | String (Required)           | Whatever you want to call this tab                                     |
 | `url`               | String (Required)           | Starting page for this tab                                             |
-| `customJs`          | Array of Strings (Optional) | Custom JS URLs (see [Custom JS/CSS](#custom-jscss))                   |
-| `customCss`         | Array of Strings (Optional) | Custom CSS URLs (see [Custom JS/CSS](#custom-jscss))                  |
+| `customJs`          | Array of Strings (Optional) | Custom JS URLs (see [Custom JS/CSS](#custom-jscss))                    |
+| `customCss`         | Array of Strings (Optional) | Custom CSS URLs (see [Custom JS/CSS](#custom-jscss))                   |
 | `basicAuthUser`     | String (Optional)           | User name credential for requests that use basic access authentication |
 | `basicAuthPassword` | String (Optional)           | Password credential for requests that use basic access authentication  |
+| `userAgent`         | String (Optional)           | Override the user agent header (Defaults to a recent Safari value)     |
 
 Here's the bare minimum example used in the Slack demo video above:
 
