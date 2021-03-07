@@ -8,7 +8,7 @@ if Config.tabs.isEmpty {
 } else if Config.windowed {
     Config.tabs.first!.view()
 } else {
-    Config.tabs.dropFirst().forEach { Config.tabs.first!.window.addTabbedWindow($0.window, ordered: .above) }
+    Config.tabs.dropLast().forEach { Config.tabs.last!.window.addTabbedWindow($0.window, ordered: .below) }
     Config.tabs.first!.view()
 }
 
