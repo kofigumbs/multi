@@ -31,3 +31,7 @@ release:
 	xcrun altool --notarize-app --primary-bundle-id "llc.gumbs.multi" -u "$$APPLE_DEVELOPER_ID" -p "$$APPLE_DEVELOPER_PASSWORD" --file .build/Multi*.dmg
 	@read -p "Wait for notarization, then press Enter to continue..."
 	xcrun stapler staple .build/Multi*.dmg
+
+.PHONY: cask
+cask:
+	brew bump-cask-pr --no-fork --version `grep CFBundleVersion Multi.app/Contents/Info.plist | grep -o '\d\.\d\.\d'` multi
