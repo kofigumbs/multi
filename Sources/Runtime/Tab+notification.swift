@@ -10,33 +10,32 @@ extension Tab: WKScriptMessageHandler {
             WKUserScript(source: js, injectionTime: .atDocumentStart, forMainFrameOnly: false)
         )
         configuration.userContentController.add(self, name: "notify")
-        configuration.userContentController.add(self, name: "unnotify")
     }
 
     public func userContentController(_: WKUserContentController, didReceive: WKScriptMessage) {
-        guard let arguments = didReceive.body as? NSArray,
-              let id = arguments[0] as? String else {
+        guard let options = didReceive.body as? NSDictionary,
+              let tag = options["tag"] as? String else {
             return
         }
-        if (didReceive.name == "unnotify" ) {
-            Browser.notifications.removeValue(forKey: id).map {
-                NSUserNotificationCenter.default.removeDeliveredNotification($0.1)
-            }
-            return
+        switch options["method"] as? String {
+            case "show":
+                guard let title = options["title"] as? String else {
+                    return
+                }
+                let notification = NSUserNotification()
+                notification.identifier = tag
+                notification.title = title
+                notification.informativeText = options["body"] as? String
+                notification.contentImage = (options["icon"] as? String).flatMap(URL.init(string:)).flatMap(NSImage.init(contentsOf:))
+                NSUserNotificationCenter.default.delegate = Browser.global
+                NSUserNotificationCenter.default.deliver(notification)
+                Browser.notifications[tag] = (self, notification)
+            case "close":
+                Browser.notifications.removeValue(forKey: tag).map {
+                    NSUserNotificationCenter.default.removeDeliveredNotification($0.1)
+                }
+            default:
+                return
         }
-        guard let title = arguments[1] as? String else {
-            return
-        }
-        let notification = NSUserNotification()
-        notification.identifier = id
-        notification.title = title
-        notification.informativeText = option("body", arguments)
-        NSUserNotificationCenter.default.delegate = Browser.global
-        NSUserNotificationCenter.default.deliver(notification)
-        Browser.notifications[id] = (self, notification)
-    }
-
-    private func option(_ name: String, _ arguments: NSArray) -> String? {
-        return (arguments[2] as? NSObject)?.value(forKey: name) as? String
     }
 }
