@@ -2,10 +2,10 @@
 
 set -eo pipefail
 
+MULTI_RESOURCES="$(cd "$(dirname "$0")"; pwd -P)"
 MULTI_APP_BUNDLE_ID=`echo "$MULTI_APP_NAME" | sed -e 's/[^a-zA-Z0-9.]/-/g'`
-MULTI_APP_LOCATION="/Applications/Multi/$MULTI_APP_NAME.app"
+MULTI_APP_LOCATION="$MULTI_RESOURCES/../../../Multi/$MULTI_APP_NAME.app"
 MULTI_ICON_TMP_DIR="`mktemp -d`/Icon.iconset"
-MULTI_RESOURCES=`dirname $0`
 
 bold() {
   echo -e "\n`tput bold`$1`tput sgr0`\n"
