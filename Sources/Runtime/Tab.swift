@@ -8,6 +8,11 @@ class Tab: NSObject {
     let webView: WKWebView
     let window: NSWindow
 
+    // Would be nice to derive this from NSUserNotificationCenter.deliveredNotifications,
+    // but it seems like this doesn't automatically clear closed notifications.
+    // Also: https://stackoverflow.com/a/64012633
+    var badgeCount: Int = 0
+
     init(title: String, url: URL, customCss: [URL], customJs: [URL], basicAuthUser: String, basicAuthPassword: String, userAgent: String) {
         let configuration = WKWebViewConfiguration()
         Browser.global.customCss(configuration, urls: customCss)
