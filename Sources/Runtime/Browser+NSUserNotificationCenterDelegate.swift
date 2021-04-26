@@ -6,10 +6,10 @@ extension Browser: NSUserNotificationCenterDelegate {
     }
 
     func userNotificationCenter(_ center: NSUserNotificationCenter, didActivate notification: NSUserNotification) {
-        guard let id = notification.identifier,
-              let tab = Browser.notifications[id]?.0 else {
+        guard let i = notification.userInfo?["tab"] as? Int,
+              i < Config.tabs.count else {
             return
         }
-        tab.view()
+        Config.tabs[i].view()
     }
 }

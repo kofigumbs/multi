@@ -3,7 +3,6 @@ import WebKit
 
 class Browser: NSObject {
     static let global = Browser()
-    static var notifications = [String: (Tab, NSUserNotification)]()
 
     static let blocklist: String = {
         guard let url = Bundle.multi?.url(forResource: "blocklist", withExtension: "json"),

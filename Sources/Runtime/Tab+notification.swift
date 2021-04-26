@@ -27,13 +27,13 @@ extension Tab: WKScriptMessageHandler {
                 notification.title = title
                 notification.informativeText = options["body"] as? String
                 notification.contentImage = (options["icon"] as? String).flatMap(URL.init(string:)).flatMap(NSImage.init(contentsOf:))
+                notification.userInfo = Config.tabs.firstIndex(of: self).map { ["tab": $0] }
                 NSUserNotificationCenter.default.delegate = Browser.global
                 NSUserNotificationCenter.default.deliver(notification)
-                Browser.notifications[tag] = (self, notification)
             case "close":
-                Browser.notifications.removeValue(forKey: tag).map {
-                    NSUserNotificationCenter.default.removeDeliveredNotification($0.1)
-                }
+                NSUserNotificationCenter.default.deliveredNotifications
+                    .filter { $0.identifier == tag }
+                    .forEach(NSUserNotificationCenter.default.removeDeliveredNotification)
             default:
                 return
         }
