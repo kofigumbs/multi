@@ -10,7 +10,6 @@ class Tab: NSObject {
 
     init(title: String, url: URL, customCss: [URL], customJs: [URL], basicAuthUser: String, basicAuthPassword: String, userAgent: String) {
         let configuration = WKWebViewConfiguration()
-        Browser.global.notification(configuration)
         Browser.global.customCss(configuration, urls: customCss)
         Browser.global.customJs(configuration, urls: customJs)
         WKContentRuleListStore.default().compileContentRuleList(forIdentifier: "blocklist", encodedContentRuleList: Browser.blocklist) { (rules, error) in
@@ -24,7 +23,6 @@ class Tab: NSObject {
         webView.allowsBackForwardNavigationGestures = true
         webView.uiDelegate = Browser.global
         webView.customUserAgent = userAgent
-        webView.load(URLRequest(url: url))
 
         self.title = title
         self.basicAuthUser = basicAuthUser
@@ -32,6 +30,9 @@ class Tab: NSObject {
         self.window = Browser.window(title: title, webView: webView)
         super.init()
         webView.navigationDelegate = self
+
+        self.notification(configuration)
+        webView.load(URLRequest(url: url))
     }
 
     init(license: ()) {
