@@ -36,6 +36,7 @@ I've also written a few blog posts that discuss some of the ideas behind Multi:
 
  - Motivation: <https://kofi.sexy/blog/multi>
  - Performance: <https://kofi.sexy/blog/slack-app-fewer-resources>
+ - Retrospective: <https://kofi.sexy/blog/multi-retrospective>
 
 
 ## Installation

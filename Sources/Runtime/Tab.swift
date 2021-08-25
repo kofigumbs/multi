@@ -40,24 +40,6 @@ class Tab: NSObject {
         webView.load(URLRequest(url: url))
     }
 
-    init(license: ()) {
-        self.webView = WKWebView()
-        webView.setValue(false, forKey: "drawsBackground")
-        webView.configuration.userContentController.add(License.global, name: "license")
-        webView.enableDevelop()
-        if let url = Bundle.multi?.url(forResource: "license", withExtension: "html"),
-           let html = try? String(contentsOf: url) {
-            webView.loadHTMLString(html, baseURL: nil)
-        }
-
-        self.title = "Purchase a license"
-        self.basicAuthUser = ""
-        self.basicAuthPassword = ""
-        self.window = Browser.window(title: title, webView: webView)
-        super.init()
-        webView.navigationDelegate = self
-    }
-
     @objc func view(_: Any? = nil) {
         window.makeKeyAndOrderFront(nil)
         window.makeFirstResponder(webView)

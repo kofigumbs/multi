@@ -36,7 +36,7 @@ struct Config {
 
     static let tabs: [Tab] = {
         guard let schema = schema else { return [] }
-        var tabs = schema.tabs.map { tab in Tab(
+        return schema.tabs.map { tab in Tab(
             title: tab.title,
             url: tab.url,
             customCss: tab.customCss ?? [],
@@ -45,10 +45,6 @@ struct Config {
             basicAuthPassword: tab.basicAuthPassword ?? "",
             userAgent: tab.userAgent ?? "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.0 Safari/605.1.15"
         )}
-        if !tabs.isEmpty && !License.isValid {
-            tabs.insert(Tab(license: ()), at: 0)
-        }
-        return tabs
     }()
 
     private static let schema: Config.Schema? = {
