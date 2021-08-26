@@ -300,7 +300,4 @@ Multi's shortcuts should basically match those of other macOS apps:
 
 ## Purchasing
 
-Multi is paid software, with an unlimited free trial.
-One week after you first use Multi, you'll see a message asking you to [make a purchase](https://gumbs.llc/multi/).
-This message appears as a normal Multi tab, so if you wish to "extend your trial", just close that tab and continue doing what you were doing.
-Of course, if you enjoy using Multi, I'd really appreciate if you purchased it eventually.
+As of Multi 2.1.4, Multi is free (as in beer).
