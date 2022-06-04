@@ -5,10 +5,10 @@ public class Program: NSObject {
 
     static let title: String = {
         switch Bundle.multi?.version {
-        case .none:
-            return "Multi"
-        case .some(let version):
-            return "Multi — \(version)"
+            case .none:
+                return "Multi"
+            case .some(let version):
+                return "Multi — \(version)"
         }
     }()
 

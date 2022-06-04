@@ -12,8 +12,8 @@ extension WKWebView {
     func setDefaultZoom() {
         guard let defaultKey = self.defaultKey() else { return }
         switch UserDefaults.standard.double(forKey: defaultKey) {
-        case 0: return
-        case let zoom: setZoom(zoom.description)
+            case 0: return
+            case let zoom: setZoom(zoom.description)
         }
     }
 
