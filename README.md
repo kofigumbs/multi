@@ -9,14 +9,10 @@ Create a custom, lightweight macOS app from a group of websites, complete with:
  - Ad-blocking, provided by [better.fyi](https://better.fyi)
  - Customization options with JSON, CSS, and JavaScript
 
-Watch me create a Slack clone from scratch in 30 seconds:
+Watch me create a Slack clone from scratch in 30 seconds (<a href="https://kofi.sexy/slack-app-fewer-resources/demo.mp4" target="_blank">high res video</a>):
 
 <p align="center">
-  <a href="https://kofi.sexy/slack-app-fewer-resources/demo.mp4" target="_blank">
-    <img src="/Assets/demo.gif" alt="Demo GIF">
-    <br>
-    Open a higher resolution video
-  </a>
+ <img src="./Assets/demo.gif" alt="Demo GIF">
 </p>
 
 
