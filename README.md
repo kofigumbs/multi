@@ -73,7 +73,7 @@ The `tabs` field is an array of objects with the following fields:
 | `customCss`         | Array of Strings (Optional) | Custom CSS URLs (see [Custom JS/CSS](#custom-jscss))                   |
 | `basicAuthUser`     | String (Optional)           | User name credential for requests that use basic access authentication |
 | `basicAuthPassword` | String (Optional)           | Password credential for requests that use basic access authentication  |
-| `userAgent`         | String (Optional)           | Override the user agent header (Defaults to a recent Safari value)     |
+| `userAgent`         | String (Optional)           | Override the default WebKit user agent header                          |
 
 Here's the bare minimum example used in the Slack demo video above:
 
