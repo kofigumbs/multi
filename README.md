@@ -20,6 +20,7 @@ Watch me create a Slack clone from scratch in 30 seconds (<a href="https://kofi.
 
  - [Installation](#installation)
  - [JSON configuration](#json-configuration)
+   - [User-agent tip](#user-agent-tip)
  - [Using the CLI: `create-mac-app`](#using-the-cli-create-mac-app)
  - [Custom JS/CSS](#custom-jscss)
    - [Fix links in GMail and Google Calendar](#fix-links-in-gmail-and-google-calendar)
@@ -91,7 +92,7 @@ Here's a fancier example that uses the optional fields referenced above:
       "url": "https://rc.kofi.sexy/bathroom-floss",
       "basicAuthUser": "user",
       "basicAuthPassword": "password",
-      "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.141 Safari/537.36"
+      "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.6 Safari/605.1.15"
     },
     {
       "title": "Walking",
@@ -108,6 +109,16 @@ Here's a fancier example that uses the optional fields referenced above:
 ```
 
 If your configuration file fails to decode for any reason, your Multi app will open to the preferences window, where you can fix any issues.
+
+
+#### User-agent tip
+
+Before v2.2.0, Multi included a hard-coded user-agent that made it appear like Safari.
+This behavior caused [subtle issues](https://github.com/kofigumbs/multi/issues/84) and [confusion](https://github.com/kofigumbs/multi/issues/83) when the hard-coded user-agent didn't reflect the system WebKit version.
+Recent Multi versions remove the hard-coded user-agent, but now sites like Slack and WhatsApp complain that your browser is out of date.
+(Ideally these sites would use [feature detection](https://developer.mozilla.org/en-US/docs/Learn/Tools_and_testing/Cross_browser_testing/Feature_detection) instead of user-agent sniffing to gracefully degrade behavior; alas, the world does not work ideally.)
+
+If your site doesn't work because it thinks you're using an outdated browser, try setting the `userAgent` config to match your Safari version.
 
 
 ## Using the CLI: `create-mac-app`
