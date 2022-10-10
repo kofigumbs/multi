@@ -31,6 +31,9 @@ public class Program: NSObject {
             NSMenuItem(title: "Quit \(name)", action: #selector(NSApplication.terminate(_:)), keyEquivalent: "q"),
         ])
         Program.addSubmenu(NSMenu(title: "Edit"), [
+            NSMenuItem(title: "Undo", action: #selector(NSTextField.undo(_:)), keyEquivalent: "z"),
+            NSMenuItem(title: "Redo", action: #selector(NSTextField.redo(_:)), keyEquivalent: "z", modifiers: [.command, .shift]),
+            .separator(),
             NSMenuItem(title: "Cut", action: #selector(NSText.cut(_:)), keyEquivalent: "x"),
             NSMenuItem(title: "Copy", action: #selector(NSText.copy(_:)), keyEquivalent: "c"),
             NSMenuItem(title: "Paste", action: #selector(NSText.paste(_:)), keyEquivalent: "v"),
