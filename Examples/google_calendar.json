@@ -1,7 +1,7 @@
 {
   "tabs": [
     {
-      "title": "Calendar",
+      "title": "Google Calendar",
       "url": "https://calendar.google.com/calendar/u/0/r",
       "customJs": [
         "https://gist.github.com/clinejj/ca02dbb6a811aec1cc433c97cae45d69/raw/a538a0108e8f0c2498a8a9a7782c55f281e1f5cf/multi_google.js"
