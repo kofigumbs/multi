@@ -34,4 +34,6 @@ release:
 
 .PHONY: cask
 cask:
+	# local repo: /usr/local/Homebrew/Library/Taps/homebrew/homebrew-cask
+	# example PR: https://github.com/Homebrew/homebrew-cask/pull/104655
 	brew bump-cask-pr --no-fork --version `grep CFBundleVersion Multi.app/Contents/Info.plist | grep -o '\d\.\d\.\d'` multi

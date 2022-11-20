@@ -300,11 +300,11 @@ Multi's shortcuts should basically match those of other macOS apps:
 | `⌘V`  | Paste                 |   | `⌘R`           | Reload This Page    |
 | `⌘↑V` | Paste and Match Style |   | `⌘+`/`⌘-`/`⌘0` | Zoom in/out/default |
 | `⌘A`  | Select All            |   | `^Tab`         | Select Next Tab     |
-| `⌘M`  | Minimize              |   | `^↑Tab`        | Select Previous Tab |
-| `⌘H`  | Hide                  |   | `⌘1` - `⌘9`    | Select Tab          |
-| `⌘W`  | Close Tab             |   | `⌘L`           | Copy current URL    |
-| `⌘Q`  | Quit                  |   | `⌘↑T`          | Toggle Tab Bar      |
-|       |                       |   | `⌘↑\`          | Toggle Tab Overview |
+| `⌘^F` | Toggle Full Screen    |   | `^↑Tab`        | Select Previous Tab |
+| `⌘M`  | Minimize              |   | `⌘1` - `⌘9`    | Select Tab          |
+| `⌘H`  | Hide                  |   | `⌘L`           | Copy current URL    |
+| `⌘W`  | Close Tab             |   | `⌘↑T`          | Toggle Tab Bar      |
+| `⌘Q`  | Quit                  |   | `⌘↑\`          | Toggle Tab Overview |
 
 
 ## Purchasing

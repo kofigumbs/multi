@@ -17,6 +17,7 @@ class Tab: NSObject {
         let configuration = WKWebViewConfiguration()
         Browser.global.customCss(configuration, urls: customCss)
         Browser.global.customJs(configuration, urls: customJs)
+        configuration.preferences.setValue(true, forKey: "fullScreenEnabled")
         WKContentRuleListStore.default().compileContentRuleList(forIdentifier: "blocklist", encodedContentRuleList: Browser.blocklist) { (rules, error) in
             rules.map { configuration.userContentController.add($0) }
         }

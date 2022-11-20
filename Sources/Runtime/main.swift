@@ -22,6 +22,8 @@ Program(name: Bundle.main.title ?? "Multi", menu: preferences.menuItems).start(m
         .init(title: "Actual Size", action: #selector(WKWebView.actualSize(_:)), keyEquivalent: "0"),
         .init(title: "Zoom In", action: #selector(WKWebView.zoomIn(_:)), keyEquivalent: "+"),
         .init(title: "Zoom Out", action: #selector(WKWebView.zoomOut(_:)), keyEquivalent: "-"),
+        .separator(),
+        .init(title: "Toggle Full Screen", action: #selector(NSWindow.toggleFullScreen(_:)), keyEquivalent: "f", modifiers: [.command, .control]),
     ],
     "History": [
         .init(title: "Back", action: #selector(WKWebView.goBack(_:)), keyEquivalent: "["),

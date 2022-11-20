@@ -4,6 +4,7 @@
 /Packages
 /*.xcodeproj
 
+/Multi
 Multi.app/Contents/MacOS/Preferences
 Multi.app/Contents/Resources/Runtime
 Multi.app/Contents/Resources/blocklist.json
