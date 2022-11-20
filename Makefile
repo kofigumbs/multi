@@ -1,14 +1,15 @@
-SHELL = /bin/bash
+SHELL=/bin/bash
 
-SWIFT_CONFIGURATION := debug
-SWIFT_BUILD_PATH = .build/apple/Products/$(SWIFT_CONFIGURATION)
+GITHUB_USER:=kofigumbs
+SWIFT_CONFIGURATION:=debug
+SWIFT_BUILD_PATH=.build/apple/Products/$(SWIFT_CONFIGURATION)
+VERSION=$(shell grep CFBundleVersion Multi.app/Contents/Info.plist | grep -o '\d\.\d\.\d')
 
 .PHONY: Multi.app
 Multi.app: Multi.app/Contents/MacOS Multi.app/Contents/MacOS/Preferences Multi.app/Contents/Resources/Runtime Multi.app/Contents/Resources/blocklist.json
 
 Multi.app/Contents/MacOS:
 	mkdir $@
-
 Multi.app/Contents/MacOS/Preferences: $(SWIFT_BUILD_PATH)/Preferences
 	cp $^ $@
 Multi.app/Contents/Resources/Runtime: $(SWIFT_BUILD_PATH)/Runtime
@@ -34,6 +35,7 @@ release:
 
 .PHONY: cask
 cask:
-	# local repo: /usr/local/Homebrew/Library/Taps/homebrew/homebrew-cask
-	# example PR: https://github.com/Homebrew/homebrew-cask/pull/104655
-	brew bump-cask-pr --no-fork --version `grep CFBundleVersion Multi.app/Contents/Info.plist | grep -o '\d\.\d\.\d'` multi
+	brew bump-cask-pr --no-fork --write-only --commit --version ${VERSION} multi
+	git -C /usr/local/Homebrew/Library/Taps/homebrew/homebrew-cask push ${GITHUB_USER} HEAD:bump-multi-${VERSION}
+	git -C /usr/local/Homebrew/Library/Taps/homebrew/homebrew-cask reset --hard origin/HEAD
+	open 'https://github.com/Homebrew/homebrew-cask/compare/master...kofigumbs:homebrew-cask:bump-multi-${VERSION}?body=Created with `brew bump-cask-pr`'
