@@ -18,9 +18,6 @@ class Tab: NSObject {
         Browser.global.customCss(configuration, urls: customCss)
         Browser.global.customJs(configuration, urls: customJs)
         configuration.preferences.setValue(true, forKey: "fullScreenEnabled")
-        WKContentRuleListStore.default().compileContentRuleList(forIdentifier: "blocklist", encodedContentRuleList: Browser.blocklist) { (rules, error) in
-            rules.map { configuration.userContentController.add($0) }
-        }
 
         self.webView = WKWebView(frame: .zero, configuration: configuration)
         webView.enableDevelop()
@@ -35,6 +32,7 @@ class Tab: NSObject {
         self.basicAuthPassword = basicAuthPassword
         self.window = Browser.window(title: title, webView: webView)
         super.init()
+        webView.navigationDelegate = self
 
         if let script = Bundle.multi?.url(forResource: "notification", withExtension: "js"),
            let source = try? String(contentsOf: script) {
@@ -44,8 +42,10 @@ class Tab: NSObject {
             configuration.userContentController.add(self, name: "notify")
         }
 
-        webView.navigationDelegate = self
-        webView.load(URLRequest(url: url))
+        WKContentRuleListStore.default().compileContentRuleList(forIdentifier: "blocklist", encodedContentRuleList: Browser.blocklist) { (rules, error) in
+            rules.map { configuration.userContentController.add($0) }
+            self.webView.load(URLRequest(url: url))
+        }
     }
 
     @objc func view(_: Any? = nil) {
