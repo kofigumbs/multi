@@ -12,7 +12,7 @@ if Config.tabs.isEmpty {
     Config.tabs.first!.view()
 }
 
-Program(name: Bundle.main.title ?? "Multi", menu: preferences.menuItems).start(menu: [
+Program(name: Bundle.main.title ?? "Multi", menu: preferences.menuItems).start(delegate: Browser.global, menu: [
     "View": [
         .init(title: "Reload This Page", action: #selector(WKWebView.reload(_:)), keyEquivalent: "r"),
         .separator(),

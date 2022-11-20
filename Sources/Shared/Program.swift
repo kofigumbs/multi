@@ -42,13 +42,13 @@ public class Program: NSObject {
         ])
     }
 
-    public func start(menu: KeyValuePairs<String, [NSMenuItem]>) {
+    public func start(delegate: NSApplicationDelegate, menu: KeyValuePairs<String, [NSMenuItem]>) {
         for (name, submenu) in menu {
             Program.addSubmenu(NSMenu(title: name), submenu)
         }
 
         _ = NSApplication.shared
-        NSApp.delegate = self
+        NSApp.delegate = delegate
         NSApp.setActivationPolicy(.regular)
         NSApp.activate(ignoringOtherApps: true)
         NSApp.run()

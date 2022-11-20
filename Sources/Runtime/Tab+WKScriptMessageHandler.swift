@@ -17,7 +17,6 @@ extension Tab: WKScriptMessageHandler {
                 notification.informativeText = options["body"] as? String
                 notification.contentImage = (options["icon"] as? String).flatMap(URL.init(string:)).flatMap(NSImage.init(contentsOf:))
                 notification.userInfo = Config.tabs.firstIndex(of: self).map { ["tab": $0] }
-                NSUserNotificationCenter.default.delegate = Browser.global
                 NSUserNotificationCenter.default.deliver(notification)
             case "close":
                 guard let tag = options["tag"] as? String else {
