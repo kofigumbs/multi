@@ -69,7 +69,7 @@ public class Program: NSObject {
         return window
     }
 
-    static func error(message: String) -> NSTextView {
+    static func error(message: String) {
         let window = self.window(title: title, contentRect: messageFrame, styleMask: [.titled, .closable])
 
         let text = NSTextView(frame: window.contentView!.bounds)
@@ -79,6 +79,5 @@ public class Program: NSObject {
         text.font = .boldSystemFont(ofSize: NSFont.systemFontSize)
         text.textContainerInset = NSSize(width: 20, height: 20)
         window.contentView = text
-        return text
     }
 }
