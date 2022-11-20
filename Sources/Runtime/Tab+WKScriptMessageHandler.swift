@@ -1,17 +1,6 @@
 import WebKit
 
 extension Tab: WKScriptMessageHandler {
-    func notification(_ configuration: WKWebViewConfiguration) {
-        guard let url = Bundle.multi?.url(forResource: "notification", withExtension: "js"),
-              let js = try? String(contentsOf: url) else {
-            return
-        }
-        configuration.userContentController.addUserScript(
-            WKUserScript(source: js, injectionTime: .atDocumentStart, forMainFrameOnly: false)
-        )
-        configuration.userContentController.add(self, name: "notify")
-    }
-
     public func userContentController(_: WKUserContentController, didReceive: WKScriptMessage) {
         guard let options = didReceive.body as? NSDictionary else {
             return

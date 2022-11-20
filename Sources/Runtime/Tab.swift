@@ -35,9 +35,16 @@ class Tab: NSObject {
         self.basicAuthPassword = basicAuthPassword
         self.window = Browser.window(title: title, webView: webView)
         super.init()
-        webView.navigationDelegate = self
 
-        self.notification(configuration)
+        if let script = Bundle.multi?.url(forResource: "notification", withExtension: "js"),
+           let source = try? String(contentsOf: script) {
+            configuration.userContentController.addUserScript(
+                WKUserScript(source: source, injectionTime: .atDocumentStart, forMainFrameOnly: false)
+            )
+            configuration.userContentController.add(self, name: "notify")
+        }
+
+        webView.navigationDelegate = self
         webView.load(URLRequest(url: url))
     }
 
