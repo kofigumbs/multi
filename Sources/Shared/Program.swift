@@ -54,12 +54,6 @@ public class Program: NSObject {
         NSApp.run()
     }
 
-    public static func error(code: Int32, message: String) -> Never {
-        _ = errorWindow(message: message)
-        Program(name: "Multi").start(menu: [:])
-        exit(code)
-    }
-
     public static func window(title: String, contentRect: NSRect, styleMask: NSWindow.StyleMask) -> NSWindow {
         let window = NSWindow(
             contentRect: contentRect,
@@ -75,7 +69,7 @@ public class Program: NSObject {
         return window
     }
 
-    static func errorWindow(message: String) -> NSWindow {
+    static func error(message: String) -> NSTextView {
         let window = self.window(title: title, contentRect: messageFrame, styleMask: [.titled, .closable])
 
         let text = NSTextView(frame: window.contentView!.bounds)
@@ -85,6 +79,6 @@ public class Program: NSObject {
         text.font = .boldSystemFont(ofSize: NSFont.systemFontSize)
         text.textContainerInset = NSSize(width: 20, height: 20)
         window.contentView = text
-        return window
+        return text
     }
 }

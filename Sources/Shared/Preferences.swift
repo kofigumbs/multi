@@ -59,7 +59,7 @@ public class Preferences: NSObject {
     @objc public func view(_: Any? = nil) {
         guard let url = Bundle.multi?.url(forResource: "preferences", withExtension: "html"),
               let html = try? String(contentsOf: url) else {
-            _ = Program.errorWindow(message: "Multi.app is missing essential files — try re-installing it.")
+            Program.error(message: "Multi.app is missing essential files — try re-installing it.")
             return
         }
         let webView = WKWebView(frame: Preferences.window.frame)
