@@ -46,7 +46,7 @@ class Form: NSObject, WKScriptMessageHandler {
 
     private func fail(_ reason: String) {
         let alert = NSAlert()
-        alert.messageText = "Multi run into an issue creating your app"
+        alert.messageText = "Multi ran into an issue creating your app"
         alert.informativeText = reason
         alert.alertStyle = .critical
         alert.runModal()
