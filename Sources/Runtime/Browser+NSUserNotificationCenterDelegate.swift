@@ -7,7 +7,7 @@ extension Browser: NSUserNotificationCenterDelegate {
 
     func userNotificationCenter(_ center: NSUserNotificationCenter, didActivate notification: NSUserNotification) {
         guard let i = notification.userInfo?["tab"] as? Int,
-              i < Config.tabs.count else {
+              Config.tabs.indices.contains(i) else {
             return
         }
         Config.tabs[i].view()

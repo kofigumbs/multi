@@ -63,7 +63,8 @@ fi
 
 if [[ ! -z "$MULTI_RELAUNCH_PID" ]]; then
   echo "Launching ..."
-  source "$MULTI_RESOURCES"/relaunch
+  kill "$MULTI_RELAUNCH_PID"
+  open -n "$MULTI_APP_LOCATION" || true
 fi
 
 echo "Done!"
