@@ -7,7 +7,8 @@ MULTI_APP_BUNDLE_ID=`echo "$MULTI_APP_NAME" | sed -e 's/[^a-zA-Z0-9.]/-/g'`
 MULTI_APP_LOCATION="$MULTI_RESOURCES/../../../Multi/$MULTI_APP_NAME.app"
 MULTI_ICON_TMP_DIR="`mktemp -d`/Icon.iconset"
 
-if [[ -z "$MULTI_APP_NAME" ]]; then
+if [[ -z "$MULTI_APP_NAME" ]]
+then
   echo "USAGE: MULTI_APP_NAME=xxx `basename "$0"`"
   echo "Create a custom, lightweight macOS app from a group of websites."
   echo "All options are passed as environment variables:"
@@ -15,13 +16,15 @@ if [[ -z "$MULTI_APP_NAME" ]]; then
   echo "  MULTI_APP_NAME     Required"
   echo "  MULTI_ICON_PATH    Optional  PNG or ICNS path to icon image"
   echo "  MULTI_JSON_CONFIG  Optional  Configuration as a JSON string"
-  echo "  MULTI_OVERWRITE    Optional  Set to "1" to replace an existing Multi app with the same name"
+  echo "  MULTI_OVERWRITE    Optional  Set to '1' to replace an existing Multi app with the same name"
   echo ""
   echo "More documentation at <https://github.com/kofigumbs/multi#using-the-cli-create-mac-app>"
   exit 1
 
-elif [[ -e "$MULTI_APP_LOCATION" ]]; then
-  if [[ "$MULTI_OVERWRITE" -ne "1" ]]; then
+elif [[ -e "$MULTI_APP_LOCATION" ]]
+then
+  if [[ "$MULTI_OVERWRITE" -ne "1" ]]
+  then
     echo "ERROR: \"$MULTI_APP_LOCATION\" already exists!"
     if [[ -z "$MULTI_UI" ]];
     then echo "Rerun with MULTI_OVERWRITE=1 to replace it."
@@ -42,9 +45,11 @@ cp "$MULTI_RESOURCES/Stub.plist" "$MULTI_APP_LOCATION/Contents/Info.plist"
 sed -e "s/{{name}}/$MULTI_APP_NAME/g" -e "s/{{id}}/$MULTI_APP_BUNDLE_ID/g" -i'.template' "$MULTI_APP_LOCATION/Contents/Info.plist"
 echo "$MULTI_JSON_CONFIG" > "$MULTI_APP_LOCATION/Contents/Resources/config.json"
 
-if [[ "$MULTI_ICON_PATH" == *.icns ]]; then
+if [[ "$MULTI_ICON_PATH" == *.icns ]]
+then
   cp "$MULTI_ICON_PATH" "$MULTI_APP_LOCATION/Contents/Resources/Icon.icns"
-elif [[ "$MULTI_ICON_PATH" == *.png ]]; then
+elif [[ "$MULTI_ICON_PATH" == *.png ]]
+then
   mkdir "$MULTI_ICON_TMP_DIR"
   sips -z 16   16   "$MULTI_ICON_PATH" --out "$MULTI_ICON_TMP_DIR/icon_16x16.png"      > /dev/null
   sips -z 32   32   "$MULTI_ICON_PATH" --out "$MULTI_ICON_TMP_DIR/icon_16x16@2x.png"   > /dev/null
@@ -61,7 +66,8 @@ else
   echo "WARNING: Skipping icon creation because no PNG or ICNS provided ..."
 fi
 
-if [[ ! -z "$MULTI_RELAUNCH_PID" ]]; then
+if [[ ! -z "$MULTI_RELAUNCH_PID" ]]
+then
   echo "Launching ..."
   kill "$MULTI_RELAUNCH_PID"
   open -n "$MULTI_APP_LOCATION" || true
