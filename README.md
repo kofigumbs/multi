@@ -29,7 +29,7 @@ Watch me create a Slack clone from scratch in 30 seconds (<a href="https://kofi.
    - [Drag-and-drop to open URLs](#drag-and-drop-to-open-urls)
    - [Preview link targets](#preview-link-targets)
  - [Keyboard shortcuts](#keyboard-shortcuts)
- - [Purchasing](#purchasing)
+ - [Donating](#donating)
 
 I've also written a few blog posts that discuss some of the decisions behind Multi:
 
@@ -307,6 +307,6 @@ Multi's shortcuts should basically match those of other macOS apps:
 | `⌘Q`  | Quit                  |   | `⌘↑\`          | Toggle Tab Overview |
 
 
-## Purchasing
+## Donating
 
-As of Multi 2.1.4, Multi is free (as in beer).
+<a href='https://ko-fi.com/P5P5GCTKI' target='_blank'><img height='36' style='border:0px;height:36px;' src='https://storage.ko-fi.com/cdn/kofi3.png?v=3' border='0' alt='Buy Me a Coffee at ko-fi.com' /></a>
