@@ -12,11 +12,11 @@ class Form: NSObject, WKScriptMessageHandler {
         guard let body = didReceive.body as? NSObject,
               let name = body.value(forKey: "name") as? String,
               let json = body.value(forKey: "json") as? String else {
-            fail("Cannot load your configuration.")
+            Program.alert(message: "Cannot load your configuration.")
             return
         }
         guard let createMacApp = Bundle.multi?.url(forResource: "create-mac-app", withExtension: nil) else {
-            fail("Cannot find create-mac-app.")
+            Program.alert(message: "Cannot find create-mac-app.")
             return
         }
 
@@ -37,18 +37,10 @@ class Form: NSObject, WKScriptMessageHandler {
         process.terminationHandler = { process in
             if process.terminationStatus != 0 {
                 let output = String(data: pipe.fileHandleForReading.availableData, encoding: .utf8)
-                self.fail(output ?? "create-mac-app exited with code \(process.terminationStatus)")
+                Program.alert(message: output ?? "create-mac-app exited with code \(process.terminationStatus)")
             }
         }
 
         try! process.run()
-    }
-
-    private func fail(_ reason: String) {
-        let alert = NSAlert()
-        alert.messageText = "Multi ran into an issue creating your app"
-        alert.informativeText = reason
-        alert.alertStyle = .critical
-        alert.runModal()
     }
 }

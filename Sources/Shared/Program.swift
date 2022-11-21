@@ -1,8 +1,6 @@
 import AppKit
 
 public class Program: NSObject {
-    public static let messageFrame = NSRect(x: 0, y: 0, width: 500, height: 80)
-
     static let title: String = {
         switch Bundle.multi?.version {
             case .none:
@@ -69,15 +67,11 @@ public class Program: NSObject {
         return window
     }
 
-    static func error(message: String) {
-        let window = self.window(title: title, contentRect: messageFrame, styleMask: [.titled, .closable])
-
-        let text = NSTextView(frame: window.contentView!.bounds)
-        text.string = message
-        text.backgroundColor = .clear
-        text.isEditable = false
-        text.font = .boldSystemFont(ofSize: NSFont.systemFontSize)
-        text.textContainerInset = NSSize(width: 20, height: 20)
-        window.contentView = text
+    static func alert(message: String) {
+        let alert = NSAlert()
+        alert.messageText = title
+        alert.informativeText = message
+        alert.alertStyle = .critical
+        alert.runModal()
     }
 }

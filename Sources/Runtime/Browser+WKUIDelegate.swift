@@ -23,7 +23,7 @@ extension Browser: WKUIDelegate {
 
     func webView(_ webView: WKWebView, runJavaScriptTextInputPanelWithPrompt: String, defaultText: String?, initiatedByFrame: WKFrameInfo, completionHandler: @escaping (String?) -> Void) {
         let alert = NSAlert()
-        let textField = NSTextField(frame: Program.messageFrame)
+        let textField = NSTextField(frame: NSRect(x: 0, y: 0, width: 224, height: 21))
         textField.stringValue = defaultText ?? ""
         alert.accessoryView = textField
         alert.messageText = runJavaScriptTextInputPanelWithPrompt
