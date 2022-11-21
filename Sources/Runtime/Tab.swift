@@ -18,9 +18,9 @@ class Tab: NSObject {
         Browser.global.customCss(configuration, urls: customCss)
         Browser.global.customJs(configuration, urls: customJs)
         configuration.preferences.setValue(true, forKey: "fullScreenEnabled")
+        configuration.preferences.setValue(true, forKey: "developerExtrasEnabled")
 
         self.webView = WKWebView(frame: .zero, configuration: configuration)
-        webView.enableDevelop()
         webView.allowsMagnification = true
         webView.autoresizesSubviews = true
         webView.allowsBackForwardNavigationGestures = true

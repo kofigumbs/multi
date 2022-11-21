@@ -64,11 +64,11 @@ public class Preferences: NSObject {
         }
         let webView = WKWebView(frame: Preferences.window.frame)
         webView.setValue(false, forKey: "drawsBackground")
+        webView.configuration.preferences.setValue(true, forKey: "developerExtrasEnabled")
         webView.configuration.userContentController.add(form.icon, name: "icon")
         webView.configuration.userContentController.add(form, name: "save")
         webView.configuration.userContentController.addUserScript(WKUserScript(source: script, injectionTime: .atDocumentEnd, forMainFrameOnly: true))
         webView.loadHTMLString(html, baseURL: nil)
-        webView.enableDevelop()
         Preferences.window.contentView = webView
         Preferences.window.makeKeyAndOrderFront(nil)
     }
