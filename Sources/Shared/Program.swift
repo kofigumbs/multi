@@ -68,10 +68,12 @@ public class Program: NSObject {
     }
 
     static func alert(message: String) {
-        let alert = NSAlert()
-        alert.messageText = title
-        alert.informativeText = message
-        alert.alertStyle = .critical
-        alert.runModal()
+        DispatchQueue.main.async {
+            let alert = NSAlert()
+            alert.messageText = title
+            alert.informativeText = message
+            alert.alertStyle = .critical
+            alert.runModal()
+        }
     }
 }

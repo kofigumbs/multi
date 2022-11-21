@@ -41,6 +41,9 @@ class Form: NSObject, WKScriptMessageHandler {
             }
         }
 
-        try! process.run()
+        guard let _ = try? process.run() else {
+            Program.alert(message: "Cannot execute create-mac-app.")
+            return
+        }
     }
 }
