@@ -66,4 +66,27 @@ class Browser: NSObject {
             )
         }
     }
+
+    func customCookies(_ configuration: WKWebViewConfiguration, cookies: [Config.Schema.Cookie]) {
+        cookies.forEach { cookie in
+            let properties: [HTTPCookiePropertyKey: Any?] = [
+                .name: cookie.name,
+                .path: cookie.path,
+                .value: cookie.value,
+                .comment: cookie.comment,
+                .commentURL: cookie.commentURL,
+                .discard: cookie.discard,
+                .domain: cookie.domain,
+                .expires: cookie.expires,
+                .maximumAge: cookie.maximumAge,
+                .originURL: cookie.originURL,
+                .port: cookie.port,
+                .secure: cookie.secure,
+                .version: cookie.version,
+            ]
+            if let cookie = HTTPCookie(properties: properties.compactMapValues { $0 }) {
+                configuration.websiteDataStore.httpCookieStore.setCookie(cookie)
+            }
+        }
+    }
 }

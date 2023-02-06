@@ -68,6 +68,25 @@
         validate(Array.isArray(customJs), `an OPTIONAL ARRAY at "customJs" field`);
         customJs.forEach(item => validate(string(item), `a STRING for each item in "customJs"`));
       }, tab.customJs);
+      undefinedOr(customCookies => {
+        validate(Array.isArray(customCookies), `an OPTIONAL ARRAY at "customCookies" field`);
+        customCookies.forEach(item => {
+          validate(item, `an OBJECT for each item in "customCookies"`);
+          validate(string(item.name), `a STRING at "name" field in "customCookies"`)
+          validate(string(item.path), `a STRING at "path" field in "customCookies"`)
+          validate(string(item.value), `a STRING at "value" field in "customCookies"`)
+          validate(undefinedOr(string, item.comment), `an OPTIONAL STRING at "comment" field in "customCookies"`)
+          validate(undefinedOr(string, item.commentURL), `an OPTIONAL STRING at "commentURL" field in "customCookies"`)
+          validate(undefinedOr(string, item.discard), `an OPTIONAL STRING at "discard" field in "customCookies"`)
+          validate(undefinedOr(string, item.domain), `an OPTIONAL STRING at "domain" field in "customCookies"`)
+          validate(undefinedOr(string, item.expires), `an OPTIONAL STRING at "expires" field in "customCookies"`)
+          validate(undefinedOr(string, item.maximumAge), `an OPTIONAL STRING at "maximumAge" field in "customCookies"`)
+          validate(undefinedOr(string, item.originURL), `an OPTIONAL STRING at "originURL" field in "customCookies"`)
+          validate(undefinedOr(string, item.port), `an OPTIONAL STRING at "port" field in "customCookies"`)
+          validate(undefinedOr(string, item.secure), `an OPTIONAL STRING at "secure" field in "customCookies"`)
+          validate(undefinedOr(string, item.version), `an OPTIONAL STRING at "version" field in "customCookies"`)
+        });
+      }, tab.customCookies);
     });
     validate(undefinedOr(boolean, config.windowed), `an OPTIONAL BOOLEAN at "windowed" field`);
     validate(undefinedOr(boolean, config.alwaysNotify), `an OPTIONAL BOOLEAN at "alwaysNotify" field`);

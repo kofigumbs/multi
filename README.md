@@ -66,15 +66,16 @@ The JSON configuration uses the following top-level fields:
 
 The `tabs` field is an array of objects with the following fields:
 
-| Field Name          | Type                        | Description                                                            |
-|---------------------|-----------------------------|------------------------------------------------------------------------|
-| `title`             | String (Required)           | Whatever you want to call this tab                                     |
-| `url`               | String (Required)           | Starting page for this tab                                             |
-| `customJs`          | Array of Strings (Optional) | Custom JS URLs (see [Custom JS/CSS](#custom-jscss))                    |
-| `customCss`         | Array of Strings (Optional) | Custom CSS URLs (see [Custom JS/CSS](#custom-jscss))                   |
-| `basicAuthUser`     | String (Optional)           | User name credential for requests that use basic access authentication |
-| `basicAuthPassword` | String (Optional)           | Password credential for requests that use basic access authentication  |
-| `userAgent`         | String (Optional)           | Override the default WebKit user agent header                          |
+| Field Name          | Type                        | Description                                                                                                              |
+|---------------------|-----------------------------|--------------------------------------------------------------------------------------------------------------------------|
+| `title`             | String (Required)           | Whatever you want to call this tab                                                                                       |
+| `url`               | String (Required)           | Starting page for this tab                                                                                               |
+| `customJs`          | Array of Strings (Optional) | Custom JS URLs (see [Custom JS/CSS](#custom-jscss))                                                                      |
+| `customCss`         | Array of Strings (Optional) | Custom CSS URLs (see [Custom JS/CSS](#custom-jscss))                                                                     |
+| `customCookies`     | Array of Objects (Optional) | Custom cookies using [HTTPCookiePropertyKey](https://developer.apple.com/documentation/foundation/httpcookiepropertykey) |
+| `basicAuthUser`     | String (Optional)           | User name credential for requests that use basic access authentication                                                   |
+| `basicAuthPassword` | String (Optional)           | Password credential for requests that use basic access authentication                                                    |
+| `userAgent`         | String (Optional)           | Override the default WebKit user agent header                                                                            |
 
 Here's the bare minimum example used in the Slack demo video above:
 
@@ -98,7 +99,15 @@ Here's a fancier example that uses the optional fields referenced above:
       "title": "Walking",
       "url": "https://kofi.sexy/cel-shading",
       "customJs": [ "https://raw.githubusercontent.com/kofigumbs/multi/2.x/Assets/test.js" ],
-      "customCss": [ "https://raw.githubusercontent.com/kofigumbs/multi/2.x/Assets/test.css" ]
+      "customCss": [ "https://raw.githubusercontent.com/kofigumbs/multi/2.x/Assets/test.css" ],
+      "customCookies": [
+        {
+          "name": "login_token_tab",
+          "value": "eyJoZWxsbyI6ICJ3b3JsZCJ9",
+          "domain": ".example.com",
+          "path": "/"
+        }
+      ]
     }
   ],
   "windowed": true,
@@ -287,7 +296,6 @@ a:hover::after {
   border-radius: 1px;
 }
 ```
-
 
 ## Keyboard shortcuts
 

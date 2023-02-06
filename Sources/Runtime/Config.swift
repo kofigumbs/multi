@@ -12,9 +12,25 @@ struct Config {
             let url: URL
             let customCss: [URL]?
             let customJs: [URL]?
+            let customCookies: [Config.Schema.Cookie]?
             let basicAuthUser: String?
             let basicAuthPassword: String?
             let userAgent: String?
+        }
+        struct Cookie: Decodable {
+            let comment: String?
+            let commentURL: String?
+            let discard: String?
+            let domain: String?
+            let expires: String?
+            let maximumAge: String?
+            let name: String
+            let originURL: String?
+            let path: String
+            let port: String?
+            let secure: String?
+            let value: String
+            let version: String?
         }
     }
 
@@ -41,6 +57,7 @@ struct Config {
             url: tab.url,
             customCss: tab.customCss ?? [],
             customJs: tab.customJs ?? [],
+            customCookies: tab.customCookies ?? [],
             basicAuthUser: tab.basicAuthUser ?? "",
             basicAuthPassword: tab.basicAuthPassword ?? "",
             userAgent: tab.userAgent
