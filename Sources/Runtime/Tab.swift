@@ -13,10 +13,11 @@ class Tab: NSObject {
     // Also: https://stackoverflow.com/a/64012633
     var badgeCount: Int = 0
 
-    init(title: String, url: URL, customCss: [URL], customJs: [URL], basicAuthUser: String, basicAuthPassword: String, userAgent: String?) {
+    init(title: String, url: URL, customCss: [URL], customJs: [URL], customCookie: [Config.Schema.Cookie], basicAuthUser: String, basicAuthPassword: String, userAgent: String?) {
         let configuration = WKWebViewConfiguration()
         Browser.global.customCss(configuration, urls: customCss)
         Browser.global.customJs(configuration, urls: customJs)
+        Browser.global.customCookie(configuration, cookies: customCookie)
         configuration.preferences.setValue(true, forKey: "fullScreenEnabled")
         configuration.preferences.setValue(true, forKey: "developerExtrasEnabled")
 

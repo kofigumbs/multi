@@ -66,4 +66,51 @@ class Browser: NSObject {
             )
         }
     }
+
+    func customCookie(_ configuration: WKWebViewConfiguration, cookies: [Config.Schema.Cookie]) {
+        guard !cookies.isEmpty else { return }
+
+        cookies.forEach { values in
+            var props: [HTTPCookiePropertyKey : Any] = [
+                .name: values.name,
+                .path: values.path,
+                .value: values.value
+            ]
+
+            if let comment = values.comment {
+                props[.comment] = comment
+            }
+            if let commentURL = values.commentURL {
+                props[.commentURL] = commentURL
+            }
+            if let discard = values.discard {
+                props[.discard] = discard
+            }
+            if let domain = values.domain {
+                props[.domain] = domain
+            }
+            if let expires = values.expires {
+                props[.expires] = expires
+            }
+            if let maximumAge = values.maximumAge {
+                props[.maximumAge] = maximumAge
+            }
+            if let originURL = values.originURL {
+                props[.originURL] = originURL
+            }
+            if let port = values.port {
+                props[.port] = port
+            }
+            if let secure = values.secure {
+                props[.secure] = secure
+            }
+            if let version = values.version {
+                props[.version] = version
+            }
+
+            if let cookie = HTTPCookie(properties: props) {
+                configuration.websiteDataStore.httpCookieStore.setCookie(cookie)
+            }
+        }
+    }
 }

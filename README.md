@@ -18,18 +18,20 @@ Watch me create a Slack clone from scratch in 30 seconds (<a href="https://kofi.
 
 ## Table of contents
 
- - [Installation](#installation)
- - [JSON configuration](#json-configuration)
-   - [User-agent tip](#user-agent-tip)
- - [Using the CLI: `create-mac-app`](#using-the-cli-create-mac-app)
- - [Custom JS/CSS](#custom-jscss)
-   - [Fix links in GMail and Google Calendar](#fix-links-in-gmail-and-google-calendar)
-   - [Reload Slack when it disconnects](#reload-slack-when-it-disconnects)
-   - [Find in page](#find-in-page)
-   - [Drag-and-drop to open URLs](#drag-and-drop-to-open-urls)
-   - [Preview link targets](#preview-link-targets)
- - [Keyboard shortcuts](#keyboard-shortcuts)
- - [Donating](#donating)
+- [Table of contents](#table-of-contents)
+- [Installation](#installation)
+- [JSON configuration](#json-configuration)
+    - [User-agent tip](#user-agent-tip)
+- [Using the CLI: `create-mac-app`](#using-the-cli-create-mac-app)
+- [Custom JS/CSS](#custom-jscss)
+    - [Fix links in GMail and Google Calendar](#fix-links-in-gmail-and-google-calendar)
+    - [Reload Slack when it disconnects](#reload-slack-when-it-disconnects)
+    - [Find in page](#find-in-page)
+    - [Drag-and-drop to open URLs](#drag-and-drop-to-open-urls)
+    - [Preview link targets](#preview-link-targets)
+- [Custom Cookies](#custom-cookies)
+- [Keyboard shortcuts](#keyboard-shortcuts)
+- [Donating](#donating)
 
 I've also written a few blog posts that discuss some of the decisions behind Multi:
 
@@ -72,6 +74,7 @@ The `tabs` field is an array of objects with the following fields:
 | `url`               | String (Required)           | Starting page for this tab                                             |
 | `customJs`          | Array of Strings (Optional) | Custom JS URLs (see [Custom JS/CSS](#custom-jscss))                    |
 | `customCss`         | Array of Strings (Optional) | Custom CSS URLs (see [Custom JS/CSS](#custom-jscss))                   |
+| `customCookie`      | Array of Cookies (Optional) | Custom Cookies injection (see [Custom Cookies](#custom-cookies))       |
 | `basicAuthUser`     | String (Optional)           | User name credential for requests that use basic access authentication |
 | `basicAuthPassword` | String (Optional)           | Password credential for requests that use basic access authentication  |
 | `userAgent`         | String (Optional)           | Override the default WebKit user agent header                          |
@@ -288,6 +291,41 @@ a:hover::after {
 }
 ```
 
+## Custom Cookies
+
+Multi lets you inject cookeis on every page in your app.
+Custom cookies are mapped 1:1 to [HTTPCookiePropertyKey](https://developer.apple.com/documentation/foundation/httpcookiepropertykey)
+
+Custom Cookies can be injected globally for all tabs or specific for a tab
+
+Example:
+
+```json
+{
+  "tabs": [
+    {
+      "title": "WebSite",
+      "url": "https://example.com",
+      "customCookie": [
+        {
+          "name": "login_token_tab",
+          "value": "eyJoZWxsbyI6ICJ3b3JsZCJ9",
+          "domain": ".example.com",
+          "path": "/"
+        }
+      ]
+    }
+  ],
+  "customCookie": [
+    {
+      "name": "login_token_global",
+      "value": "eyJoZWxsbyI6ICJ3b3JsZCJ9",
+      "domain": ".example.com",
+      "path": "/"
+    }
+  ]
+}
+```
 
 ## Keyboard shortcuts
 
