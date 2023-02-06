@@ -101,7 +101,15 @@ Here's a fancier example that uses the optional fields referenced above:
       "title": "Walking",
       "url": "https://kofi.sexy/cel-shading",
       "customJs": [ "https://raw.githubusercontent.com/kofigumbs/multi/2.x/Assets/test.js" ],
-      "customCss": [ "https://raw.githubusercontent.com/kofigumbs/multi/2.x/Assets/test.css" ]
+      "customCss": [ "https://raw.githubusercontent.com/kofigumbs/multi/2.x/Assets/test.css" ],
+      "customCookie": [
+        {
+          "name": "login_token_tab",
+          "value": "eyJoZWxsbyI6ICJ3b3JsZCJ9",
+          "domain": ".example.com",
+          "path": "/"
+        }
+      ]
     }
   ],
   "windowed": true,
