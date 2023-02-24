@@ -67,7 +67,7 @@ class Browser: NSObject {
         }
     }
 
-    func customCookie(_ configuration: WKWebViewConfiguration, cookies: [Config.Schema.Cookie]) {
+    func customCookies(_ configuration: WKWebViewConfiguration, cookies: [Config.Schema.Cookie]) {
         guard !cookies.isEmpty else { return }
 
         cookies.forEach { values in

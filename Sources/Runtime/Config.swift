@@ -6,14 +6,14 @@ struct Config {
         let alwaysNotify: Bool?
         let openNewWindowsWith: String?
         let openNewWindowsInBackground: Bool?
-        let customCookie: [Config.Schema.Cookie]?
+        let customCookies: [Config.Schema.Cookie]?
         let tabs: [Config.Schema.Tab]
         struct Tab: Decodable {
             let title: String
             let url: URL
             let customCss: [URL]?
             let customJs: [URL]?
-            let customCookie: [Config.Schema.Cookie]?
+            let customCookies: [Config.Schema.Cookie]?
             let basicAuthUser: String?
             let basicAuthPassword: String?
             let userAgent: String?
@@ -58,7 +58,7 @@ struct Config {
             url: tab.url,
             customCss: tab.customCss ?? [],
             customJs: tab.customJs ?? [],
-            customCookie: [schema.customCookie ?? [], tab.customCookie ?? []].flatMap { $0 },
+            customCookies: [schema.customCookies ?? [], tab.customCookies ?? []].flatMap { $0 },
             basicAuthUser: tab.basicAuthUser ?? "",
             basicAuthPassword: tab.basicAuthPassword ?? "",
             userAgent: tab.userAgent

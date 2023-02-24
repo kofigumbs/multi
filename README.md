@@ -73,7 +73,7 @@ The `tabs` field is an array of objects with the following fields:
 | `url`               | String (Required)           | Starting page for this tab                                             |
 | `customJs`          | Array of Strings (Optional) | Custom JS URLs (see [Custom JS/CSS](#custom-jscss))                    |
 | `customCss`         | Array of Strings (Optional) | Custom CSS URLs (see [Custom JS/CSS](#custom-jscss))                   |
-| `customCookie`      | Array of Cookies (Optional) | Custom Cookies injection (see [Custom Cookies](#custom-cookies))       |
+| `customCookies`     | Array of Cookies (Optional) | Custom Cookies injection (see [Custom Cookies](#custom-cookies))       |
 | `basicAuthUser`     | String (Optional)           | User name credential for requests that use basic access authentication |
 | `basicAuthPassword` | String (Optional)           | Password credential for requests that use basic access authentication  |
 | `userAgent`         | String (Optional)           | Override the default WebKit user agent header                          |
@@ -101,7 +101,7 @@ Here's a fancier example that uses the optional fields referenced above:
       "url": "https://kofi.sexy/cel-shading",
       "customJs": [ "https://raw.githubusercontent.com/kofigumbs/multi/2.x/Assets/test.js" ],
       "customCss": [ "https://raw.githubusercontent.com/kofigumbs/multi/2.x/Assets/test.css" ],
-      "customCookie": [
+      "customCookies": [
         {
           "name": "login_token_tab",
           "value": "eyJoZWxsbyI6ICJ3b3JsZCJ9",
@@ -313,7 +313,7 @@ Example:
     {
       "title": "WebSite",
       "url": "https://example.com",
-      "customCookie": [
+      "customCookies": [
         {
           "name": "login_token_tab",
           "value": "eyJoZWxsbyI6ICJ3b3JsZCJ9",
@@ -323,7 +323,7 @@ Example:
       ]
     }
   ],
-  "customCookie": [
+  "customCookies": [
     {
       "name": "login_token_global",
       "value": "eyJoZWxsbyI6ICJ3b3JsZCJ9",
