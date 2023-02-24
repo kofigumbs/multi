@@ -3,6 +3,7 @@
 /.swiftpm
 /Packages
 /*.xcodeproj
+/.vscode
 
 /Multi
 Multi.app/Contents/MacOS/Preferences

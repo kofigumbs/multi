@@ -18,20 +18,19 @@ Watch me create a Slack clone from scratch in 30 seconds (<a href="https://kofi.
 
 ## Table of contents
 
-- [Table of contents](#table-of-contents)
-- [Installation](#installation)
-- [JSON configuration](#json-configuration)
-    - [User-agent tip](#user-agent-tip)
-- [Using the CLI: `create-mac-app`](#using-the-cli-create-mac-app)
-- [Custom JS/CSS](#custom-jscss)
-    - [Fix links in GMail and Google Calendar](#fix-links-in-gmail-and-google-calendar)
-    - [Reload Slack when it disconnects](#reload-slack-when-it-disconnects)
-    - [Find in page](#find-in-page)
-    - [Drag-and-drop to open URLs](#drag-and-drop-to-open-urls)
-    - [Preview link targets](#preview-link-targets)
-- [Custom Cookies](#custom-cookies)
-- [Keyboard shortcuts](#keyboard-shortcuts)
-- [Donating](#donating)
+ - [Installation](#installation)
+ - [JSON configuration](#json-configuration)
+   - [User-agent tip](#user-agent-tip)
+ - [Using the CLI: `create-mac-app`](#using-the-cli-create-mac-app)
+ - [Custom JS/CSS](#custom-jscss)
+   - [Fix links in GMail and Google Calendar](#fix-links-in-gmail-and-google-calendar)
+   - [Reload Slack when it disconnects](#reload-slack-when-it-disconnects)
+   - [Find in page](#find-in-page)
+   - [Drag-and-drop to open URLs](#drag-and-drop-to-open-urls)
+   - [Preview link targets](#preview-link-targets)
+ - [Custom Cookies](#custom-cookies)
+ - [Keyboard shortcuts](#keyboard-shortcuts)
+ - [Donating](#donating)
 
 I've also written a few blog posts that discuss some of the decisions behind Multi:
 
