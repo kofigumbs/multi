@@ -4,9 +4,11 @@ struct Config {
     struct Schema: Decodable {
         let windowed: Bool?
         let alwaysNotify: Bool?
+        let alwaysOnTop: Bool?
         let openNewWindowsWith: String?
         let openNewWindowsInBackground: Bool?
         let tabs: [Config.Schema.Tab]
+
         struct Tab: Decodable {
             let title: String
             let url: URL
@@ -17,6 +19,7 @@ struct Config {
             let basicAuthPassword: String?
             let userAgent: String?
         }
+
         struct Cookie: Decodable {
             let comment: String?
             let commentURL: String?
@@ -40,6 +43,10 @@ struct Config {
 
     static let alwaysNotify: Bool = {
         return schema?.alwaysNotify ?? false
+    }()
+
+    static let alwaysOnTop: Bool = {
+        return schema?.alwaysOnTop ?? false
     }()
 
     static let openNewWindowsWith: String? = {

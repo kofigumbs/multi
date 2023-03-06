@@ -23,6 +23,9 @@ class Browser: NSObject {
         webView.frame = window.frame
         window.contentView = webView
         window.tabbingMode = .preferred
+        if Config.alwaysOnTop {
+            window.level = .floating
+        }
         return window
     }
 
