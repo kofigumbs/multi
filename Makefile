@@ -1,8 +1,9 @@
 SHELL=/bin/bash
 
 GITHUB_USER:=kofigumbs
+SWIFT_ARCH:=
 SWIFT_CONFIGURATION:=debug
-SWIFT_BUILD_PATH=.build/apple/Products/$(SWIFT_CONFIGURATION)
+SWIFT_BUILD_PATH:=.build/debug
 VERSION=$(shell grep CFBundleVersion Multi.app/Contents/Info.plist | grep -o '\d\.\d\.\d')
 
 .PHONY: Multi.app
@@ -16,7 +17,7 @@ Multi.app/Contents/Resources/Runtime: $(SWIFT_BUILD_PATH)/Runtime
 	cp $^ $@
 
 $(SWIFT_BUILD_PATH)/%: Sources/%/*.swift Sources/Shared/*.swift
-	swift build --arch arm64 --arch x86_64 --configuration $(SWIFT_CONFIGURATION) --product $*
+	swift build $(SWIFT_ARCH) --configuration $(SWIFT_CONFIGURATION) --product $*
 
 Multi.app/Contents/Resources/blocklist.json:
 	curl https://better.fyi/blockerList.json > $@
@@ -24,13 +25,12 @@ Multi.app/Contents/Resources/blocklist.json:
 .PHONY: release
 release:
 	swift package clean
-	make SWIFT_CONFIGURATION=release Multi.app
+	make SWIFT_ARCH='--arch arm64 --arch x86_64' SWIFT_CONFIGURATION=release SWIFT_BUILD_PATH=.build/apple/Products/release Multi.app
 	# http://www.zarkonnen.com/signing_notarizing_catalina
 	codesign --sign "$$APPLE_DEVELOPER_SIGNING_IDENTITY" --timestamp --options runtime Multi.app/Contents/Resources/Runtime
 	codesign --sign "$$APPLE_DEVELOPER_SIGNING_IDENTITY" --timestamp --options runtime Multi.app/Contents/MacOS/Preferences
 	npx create-dmg --identity "$$APPLE_DEVELOPER_SIGNING_IDENTITY" Multi.app .build/
-	xcrun altool --notarize-app --primary-bundle-id "llc.gumbs.multi" -u "$$APPLE_DEVELOPER_ID" -p "$$APPLE_DEVELOPER_PASSWORD" --file .build/Multi*.dmg
-	@read -p "Wait for notarization, then press Enter to continue..."
+	xcrun notarytool submit .build/Multi*.dmg --wait --team-id "$$APPLE_TEAM_ID" --apple-id "$$APPLE_DEVELOPER_ID" --password "$$APPLE_DEVELOPER_PASSWORD"
 	xcrun stapler staple .build/Multi*.dmg
 
 .PHONY: cask
