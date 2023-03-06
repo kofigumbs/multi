@@ -6,6 +6,6 @@ extension Browser: NSApplicationDelegate {
     }
 
     public func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool {
-        return true
+        return !Config.keepOpenAfterWindowClosed
     }
 }

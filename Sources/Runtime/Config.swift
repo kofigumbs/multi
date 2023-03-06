@@ -3,6 +3,7 @@ import AppKit
 struct Config {
     struct Schema: Decodable {
         let windowed: Bool?
+        let keepOpenAfterWindowClosed: Bool?
         let alwaysNotify: Bool?
         let alwaysOnTop: Bool?
         let openNewWindowsWith: String?
@@ -39,6 +40,10 @@ struct Config {
 
     static let windowed: Bool = {
         return schema?.windowed ?? false
+    }()
+
+    static let keepOpenAfterWindowClosed: Bool = {
+        return schema?.keepOpenAfterWindowClosed ?? false
     }()
 
     static let alwaysNotify: Bool = {

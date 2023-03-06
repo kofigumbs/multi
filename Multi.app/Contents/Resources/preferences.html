@@ -89,6 +89,7 @@
       }, tab.customCookies);
     });
     validate(undefinedOr(boolean, config.windowed), `an OPTIONAL BOOLEAN at "windowed" field`);
+    validate(undefinedOr(boolean, config.keepOpenAfterWindowClosed), `an OPTIONAL BOOLEAN at "keepOpenAfterWindowClosed" field`);
     validate(undefinedOr(boolean, config.alwaysNotify), `an OPTIONAL BOOLEAN at "alwaysNotify" field`);
     validate(undefinedOr(boolean, config.alwaysOnTop), `an OPTIONAL BOOLEAN at "alwaysOnTop" field`);
     validate(undefinedOr(string, config.openNewWindowsWith), `an OPTIONAL STRING at "openNewWindowsWith" field`);
