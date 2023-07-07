@@ -1,4 +1,4 @@
-import Shared
+import MultiSettings
 import WebKit
 
 extension Browser: WKUIDelegate {

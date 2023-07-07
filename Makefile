@@ -7,16 +7,16 @@ SWIFT_BUILD_PATH:=.build/debug
 VERSION=$(shell plutil -extract CFBundleVersion raw Multi.app/Contents/Info.plist )
 
 .PHONY: Multi.app
-Multi.app: Multi.app/Contents/MacOS Multi.app/Contents/MacOS/Preferences Multi.app/Contents/Resources/Runtime Multi.app/Contents/Resources/blocklist.json
+Multi.app: Multi.app/Contents/MacOS Multi.app/Contents/MacOS/App Multi.app/Contents/Resources/Runtime Multi.app/Contents/Resources/blocklist.json
 
 Multi.app/Contents/MacOS:
 	mkdir $@
-Multi.app/Contents/MacOS/Preferences: $(SWIFT_BUILD_PATH)/Preferences
+Multi.app/Contents/MacOS/App: $(SWIFT_BUILD_PATH)/App
 	cp $^ $@
 Multi.app/Contents/Resources/Runtime: $(SWIFT_BUILD_PATH)/Runtime
 	cp $^ $@
 
-$(SWIFT_BUILD_PATH)/%: Sources/%/*.swift Sources/Shared/*.swift
+$(SWIFT_BUILD_PATH)/%: Sources/Multi%/*.swift Sources/MultiSettings/*.swift
 	swift build $(SWIFT_ARCH) --configuration $(SWIFT_CONFIGURATION) --product $*
 
 Multi.app/Contents/Resources/blocklist.json:
@@ -28,7 +28,7 @@ release:
 	make SWIFT_ARCH='--arch arm64 --arch x86_64' SWIFT_CONFIGURATION=release SWIFT_BUILD_PATH=.build/apple/Products/release Multi.app
 	# http://www.zarkonnen.com/signing_notarizing_catalina
 	codesign --sign "$$APPLE_DEVELOPER_SIGNING_IDENTITY" --timestamp --options runtime Multi.app/Contents/Resources/Runtime
-	codesign --sign "$$APPLE_DEVELOPER_SIGNING_IDENTITY" --timestamp --options runtime Multi.app/Contents/MacOS/Preferences
+	codesign --sign "$$APPLE_DEVELOPER_SIGNING_IDENTITY" --timestamp --options runtime Multi.app/Contents/MacOS/App
 	npx create-dmg --identity "$$APPLE_DEVELOPER_SIGNING_IDENTITY" Multi.app .build/
 	xcrun notarytool submit .build/Multi*.dmg --wait --team-id "$$APPLE_TEAM_ID" --apple-id "$$APPLE_DEVELOPER_ID" --password "$$APPLE_DEVELOPER_PASSWORD"
 	xcrun stapler staple .build/Multi*.dmg

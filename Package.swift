@@ -8,14 +8,14 @@ let package = Package(
         .macOS(.v10_13),
     ],
     products: [
-        .executable(name: "Preferences", targets: ["Preferences"]),
-        .executable(name: "Runtime",     targets: ["Runtime"]),
+        .executable(name: "App",     targets: ["MultiApp"]),
+        .executable(name: "Runtime", targets: ["MultiRuntime"]),
     ],
     dependencies: [
     ],
     targets: [
-        .target(name: "Preferences", dependencies: ["Shared"]),
-        .target(name: "Runtime",     dependencies: ["Shared"]),
-        .target(name: "Shared"),
+        .target(name: "MultiApp",     dependencies: ["MultiSettings"]),
+        .target(name: "MultiRuntime", dependencies: ["MultiSettings"]),
+        .target(name: "MultiSettings"),
     ]
 )

@@ -1,4 +1,4 @@
-import Shared
+import MultiSettings
 import WebKit
 
 let preferences = Preferences.update

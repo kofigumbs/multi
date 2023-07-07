@@ -1,4 +1,4 @@
-import Shared
+import MultiSettings
 import AppKit
 
 extension Preferences: NSApplicationDelegate {

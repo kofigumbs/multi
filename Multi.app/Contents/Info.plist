@@ -4,7 +4,7 @@
   <dict>
     <key>CFBundleName</key>                  <string>Multi</string>
     <key>CFBundleIdentifier</key>            <string>llc.gumbs.multi</string>
-    <key>CFBundleExecutable</key>            <string>Preferences</string>
+    <key>CFBundleExecutable</key>            <string>App</string>
     <key>CFBundleIconFile</key>              <string>Icon.icns</string>
     <key>LSMinimumSystemVersion</key>        <string>10.13</string>
     <key>CFBundlePackageType</key>           <string>APPL</string>
