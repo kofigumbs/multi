@@ -4,7 +4,7 @@ GITHUB_USER:=kofigumbs
 SWIFT_ARCH:=
 SWIFT_CONFIGURATION:=debug
 SWIFT_BUILD_PATH:=.build/debug
-VERSION=$(shell grep CFBundleVersion Multi.app/Contents/Info.plist | grep -o '\d\.\d\.\d')
+VERSION=$(shell plutil -extract CFBundleVersion raw Multi.app/Contents/Info.plist )
 
 .PHONY: Multi.app
 Multi.app: Multi.app/Contents/MacOS Multi.app/Contents/MacOS/Preferences Multi.app/Contents/Resources/Runtime Multi.app/Contents/Resources/blocklist.json
