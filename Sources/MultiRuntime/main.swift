@@ -3,6 +3,12 @@ import WebKit
 
 let preferences = Preferences.update
 
+// guard let url = Bundle.main.url(forResource: "config", withExtension: "json"),
+//       let data = try? Data(contentsOf: url) else {
+//     return nil
+// }
+// return try? JSONDecoder().decode(Schema.self, from: data)
+
 if Config.tabs.isEmpty {
     preferences.view()
 } else if Config.windowed {

@@ -1,4 +1,14 @@
+import SwiftUI
 import MultiSettings
 
-Preferences.create.view()
-Program(name: "Multi").start(delegate: Preferences.create, menu: [:])
+@main
+struct SwiftUIApp: App {
+    var body: some Scene {
+        WindowGroup {
+            SettingsView(overwrite: false)
+        }
+            .commands {
+                CommandGroup(replacing: .newItem) {}
+            }
+    }
+}

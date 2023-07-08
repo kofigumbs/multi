@@ -1,146 +1,52 @@
 <!DOCTYPE html>
 <style>
-  html { font-size: 12px; font-family: -apple-system, BlinkMacSystemFont; }
-  html, body { height: 100%; margin: 0; padding: 0; }
-  body { display: flex; flex-direction: column; }
-
-  button { cursor: pointer; white-space: nowrap; }
-  button:active { opacity: .7; }
-  button[disabled] { opacity: .5; cursor: not-allowed; }
-  button, input { border: none; border-radius: 3px; padding: 4px 7px; }
-
-  * { color: black; }
-  input, textarea, button { background: white; }
-  @media (prefers-color-scheme: dark) {
-    * { color: white; }
-    input, textarea, button { background: dimgray; }
+  html {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont;
+    color: CanvasText;
+    color-scheme: light dark;
+    font-size: 12px;
+  }
+  body {
+    margin: 0;
+  }
+  h1 {
+    margin: 1rem;
+    font-weight: 100;
+  }
+  header, footer {
+    margin: 1rem;
+  }
+  button[disabled] {
+    opacity: .5;
+    cursor: not-allowed;
+  }
+  button, input {
+    border: none;
+    border-radius: 3px;
+    padding: 4px 7px;
+  }
+  input, textarea, button {
+    font-size: 1rem;
+    background: Canvas;
+  }
+  textarea {
+    padding: 1rem;
+    width: 100%;
+    border: none;
+    resize: none;
+    font-family: monospace;
   }
 </style>
 
-<header style="padding: 20px;">
-  <h1 style="margin: 0; padding: 0; font-weight:200;">Configure your <b>Multi</b> app</h1>
+<h1>Configure your <b>Multi</b> app</h1>
+<header>
+  <input type="text" placeholder="App Name" id="name" autofocus>
+  <button id="icon">Select Icon</button>
+  <label for="icon"><em id="path"></em></label>
 </header>
-
-<div style="padding: 20px; padding-top: 0; display: flex; flex-direction: row; align-items: baseline;">
-  <input style="margin-right: 10px;" type="text" placeholder="App Name" id="name" autofocus>
-  <button style="margin-right: 10px;" id="icon">Select Icon</button>
-  <label style="flex: 1 0 auto; font-style: italic; white-space: nowrap;" for="icon" id="path"></em>
-</div>
-
-<textarea style="margin: 0; padding: 20px; flex: 1 0 auto; border: none; white-space: pre; font-family: 'SF Mono', monospace; resize: none;" placeholder='{ "tabs": [{ "title": "Example", "url": "https://example.com" }] }' spellcheck="false" id="json"></textarea>
-
-<footer style="padding: 20px; display: flex; flex-direction: row; justify-content: space-between;">
-  <em id="error"></em>
+<textarea placeholder='{ "tabs": [{ "title": "Example", "url": "https://example.com" }] }' rows="15" spellcheck="false" id="json"></textarea>
+<footer>
   <button id="save">Save</button>
+  <em id="error"></em>
 </footer>
-
-<script>
-  const form = {};
-  const name = document.getElementById("name");
-  const json = document.getElementById("json");
-  const error = document.getElementById("error");
-  const save = document.getElementById("save");
-
-  connectExternalClick(save, x => x.save.postMessage(form));
-  connectExternalClick(document.getElementById("icon"), x => x.icon.postMessage({}));
-
-  connectInput(name, function(value) {
-    if (value === "") throw new Error("Name cannot be empty")
-    else return value;
-  });
-
-  connectInput(json, function(value) {
-    const config = JSON.parse(value);
-    validate(config, "an OBJECT at the top level");
-    validate(config.tabs, `an OBJECT FIELD named "tabs"`);
-    validate(Array.isArray(config.tabs), `an ARRAY at "tabs" field`);
-    config.tabs.forEach(tab => {
-      validate(string(tab.title), `a STRING at "title" field`);
-      validate(string(tab.url), `a STRING at "url" field`);
-      validate(undefinedOr(string, tab.basicAuthUser), `an OPTIONAL STRING at "basicAuthUser" field`);
-      validate(undefinedOr(string, tab.basicAuthPassword), `an OPTIONAL STRING at "basicAuthPassword" field`);
-      validate(undefinedOr(string, tab.userAgent), `an OPTIONAL STRING at "userAgent" field`);
-      undefinedOr(customCss => {
-        validate(Array.isArray(customCss), `an OPTIONAL ARRAY at "customCss" field`);
-        customCss.forEach(item => validate(string(item), `a STRING for each item in "customCss"`));
-      }, tab.customCss);
-      undefinedOr(customJs => {
-        validate(Array.isArray(customJs), `an OPTIONAL ARRAY at "customJs" field`);
-        customJs.forEach(item => validate(string(item), `a STRING for each item in "customJs"`));
-      }, tab.customJs);
-      undefinedOr(customCookies => {
-        validate(Array.isArray(customCookies), `an OPTIONAL ARRAY at "customCookies" field`);
-        customCookies.forEach(item => {
-          validate(item, `an OBJECT for each item in "customCookies"`);
-          validate(string(item.name), `a STRING at "name" field in "customCookies"`)
-          validate(string(item.path), `a STRING at "path" field in "customCookies"`)
-          validate(string(item.value), `a STRING at "value" field in "customCookies"`)
-          validate(undefinedOr(string, item.comment), `an OPTIONAL STRING at "comment" field in "customCookies"`)
-          validate(undefinedOr(string, item.commentURL), `an OPTIONAL STRING at "commentURL" field in "customCookies"`)
-          validate(undefinedOr(string, item.discard), `an OPTIONAL STRING at "discard" field in "customCookies"`)
-          validate(undefinedOr(string, item.domain), `an OPTIONAL STRING at "domain" field in "customCookies"`)
-          validate(undefinedOr(string, item.expires), `an OPTIONAL STRING at "expires" field in "customCookies"`)
-          validate(undefinedOr(string, item.maximumAge), `an OPTIONAL STRING at "maximumAge" field in "customCookies"`)
-          validate(undefinedOr(string, item.originURL), `an OPTIONAL STRING at "originURL" field in "customCookies"`)
-          validate(undefinedOr(string, item.port), `an OPTIONAL STRING at "port" field in "customCookies"`)
-          validate(undefinedOr(string, item.secure), `an OPTIONAL STRING at "secure" field in "customCookies"`)
-          validate(undefinedOr(string, item.version), `an OPTIONAL STRING at "version" field in "customCookies"`)
-        });
-      }, tab.customCookies);
-    });
-    validate(undefinedOr(boolean, config.windowed), `an OPTIONAL BOOLEAN at "windowed" field`);
-    validate(undefinedOr(boolean, config.keepOpenAfterWindowClosed), `an OPTIONAL BOOLEAN at "keepOpenAfterWindowClosed" field`);
-    validate(undefinedOr(boolean, config.alwaysNotify), `an OPTIONAL BOOLEAN at "alwaysNotify" field`);
-    validate(undefinedOr(boolean, config.alwaysOnTop), `an OPTIONAL BOOLEAN at "alwaysOnTop" field`);
-    validate(undefinedOr(string, config.openNewWindowsWith), `an OPTIONAL STRING at "openNewWindowsWith" field`);
-    validate(undefinedOr(boolean, config.openNewWindowsInBackground), `an OPTIONAL BOOLEAN at "openNewWindowsInBackground" field`);
-    return JSON.stringify(config, null, 2);
-  });
-
-  function validate(result, description) {
-    if (!result) throw new Error(`Expecting ${description}`);
-  }
-
-  function undefinedOr(check, value) {
-    return typeof value === "undefined" || check(value);
-  }
-
-  function boolean(value) {
-    return typeof value === "boolean";
-  }
-
-  function string(value) {
-    return typeof value === "string" || value instanceof String;
-  }
-
-  function connectExternalClick(element, callback) {
-    element.addEventListener("click", () => callback(window.webkit.messageHandlers));
-  }
-
-  function connectInput(element, validation) {
-    element.addEventListener("input", () => {
-      try { update(element.id, "", validation(element.value)) }
-      catch (e) { update(element.id, e.message, { error: true }) }
-    });
-  }
-
-  function update(id, message, data) {
-    error.innerText = message;
-    form[id] = data;
-    save.disabled = Object.values(form).some(x => x.error);
-  }
-
-  function load(data) {
-    if (!!data.name) {
-      name.disabled = true;
-      json.focus();
-    }
-    loadEncoded(name, data.name);
-    loadEncoded(json, data.json);
-  }
-
-  function loadEncoded(input, encoded) {
-    input.value = atob(encoded).trim();
-    input.dispatchEvent(new Event("input"));
-  }
-</script>

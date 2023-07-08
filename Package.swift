@@ -1,11 +1,11 @@
-// swift-tools-version:5.2
+// swift-tools-version:5.7
 
 import PackageDescription
 
 let package = Package(
     name: "Multi",
     platforms: [
-        .macOS(.v10_13),
+        .macOS(.v13),
     ],
     products: [
         .executable(name: "App",     targets: ["MultiApp"]),
@@ -14,8 +14,8 @@ let package = Package(
     dependencies: [
     ],
     targets: [
-        .target(name: "MultiApp",     dependencies: ["MultiSettings"]),
-        .target(name: "MultiRuntime", dependencies: ["MultiSettings"]),
+        .executableTarget(name: "MultiApp",     dependencies: ["MultiSettings"]),
+        .executableTarget(name: "MultiRuntime", dependencies: ["MultiSettings"]),
         .target(name: "MultiSettings"),
     ]
 )

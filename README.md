@@ -47,7 +47,6 @@ brew install --cask multi
 ```
 
 Alternatively, you can manually download and run the latest `.dmg` from [Releases](https://github.com/kofigumbs/multi/releases).
-If you are on macOS 10.13 High Sierra (the minimum supported version), you'll also need to install [the Swift runtime from Apple](https://support.apple.com/kb/dl1998?locale=en_US).
 
 
 ## JSON configuration
@@ -56,15 +55,15 @@ Multi apps store their configuration in a single JSON file.
 If your app is named `Test`, then you'll find that file at `/Applications/Multi/Test.app/Contents/Resources/config.json`.
 The JSON configuration uses the following top-level fields:
 
-| Field Name                   | Type                                              | Description                                                          |
-|------------------------------|---------------------------------------------------|----------------------------------------------------------------------|
-| `tabs`                       | Array (Required)                                  | Titles and URLs of tabs for this app                                 |
-| `windowed`                   | Boolean (Optional, default `false`)               | Start the app with each tab in its own window                        |
-| `keepOpenAfterWindowClosed`  | Boolean (Optional, default `false`)               | Prevents app from quitting when the last window is closed            |
-| `alwaysNotify`               | Boolean (Optional, default `false`)               | Show macOS notifications even if your app is currently focused       |
-| `alwaysOnTop`                | Boolean (Optional, default `false`)               | Position this app's window on top of all others                      |
-| `openNewWindowsWith`         | String (Optional, macOS 10.15+)                   | Override system default browser for external links — value is a _bundle identifier_ like `com.apple.Safari`, `com.google.Chrome`, or `com.mozilla.firefox` |
-| `openNewWindowsInBackground` | Boolean (Optional, default `false`, macOS 10.15+) | Determines if browser app becomes active when opening external links |
+| Field Name                   | Type                                 | Description                                                          |
+|------------------------------|--------------------------------------|----------------------------------------------------------------------|
+| `tabs`                       | Array (Required)                     | Titles and URLs of tabs for this app                                 |
+| `windowed`                   | Boolean (Optional, default `false`)  | Start the app with each tab in its own window                        |
+| `keepOpenAfterWindowClosed`  | Boolean (Optional, default `false`)  | Prevents app from quitting when the last window is closed            |
+| `alwaysNotify`               | Boolean (Optional, default `false`)  | Show macOS notifications even if your app is currently focused       |
+| `alwaysOnTop`                | Boolean (Optional, default `false`)  | Position this app's window on top of all others                      |
+| `openNewWindowsWith`         | String (Optional, macOS 10.15+)      | Override system default browser for external links — value is a _bundle identifier_ like `com.apple.Safari`, `com.google.Chrome`, or `com.mozilla.firefox` |
+| `openNewWindowsInBackground` | Boolean (Optional, default `false`)  | Determines if browser app becomes active when opening external links |
 
 The `tabs` field is an array of objects with the following fields:
 
