@@ -31,7 +31,7 @@ public struct SettingsView: View {
                   "tabs": [
                     {
                       "title": "Your first Multi app",
-                      "url": "https://github.com/hkgumbs/multi#json-configuration"
+                      "url": "https://github.com/kofigumbs/multi#json-configuration"
                     }
                   ]
                 }`
@@ -46,8 +46,8 @@ public struct SettingsView: View {
                 let json = try? JSONEncoder().encode(configContent) {
             return [WKUserScript(
                 source: """
-                    document.getElementById("name").value = \(name)
-                    document.getElementById("json").value = \(json)
+                    document.getElementById("name").value = \(String(data: name, encoding: .utf8)!)
+                    document.getElementById("json").value = \(String(data: json, encoding: .utf8)!)
                     document.getElementById("save").disabled = false
                 """,
                 injectionTime: .atDocumentEnd,
@@ -79,7 +79,7 @@ public struct SettingsView: View {
     func json(message: NSObject) async throws -> Any {
         guard let json = message as? String,
               let data = json.data(using: .utf8) else {
-            throw Error(message: "JSON is not UTF8-encoded")
+            throw Error(message: "JSON Configuration is not UTF8-encoded")
         }
         _ = try JSONDecoder().decode(Config.self, from: data)
         return 0
@@ -89,7 +89,7 @@ public struct SettingsView: View {
         guard let name = message.value(forKey: "name") as? String,
               let json = message.value(forKey: "json") as? String,
               let createMacApp = Bundle.multi?.url(forResource: "create-mac-app", withExtension: nil) else {
-            throw Error(message: "App Name and JSON Config are required to run create-mac-app")
+            throw Error(message: "App Name and JSON Configuration are required to run create-mac-app")
         }
         let task = Task.detached(priority: .userInitiated) {
             let process = Process()
