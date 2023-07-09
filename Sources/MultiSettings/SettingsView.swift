@@ -11,11 +11,11 @@ public struct SettingsView: View {
     }
 
     var html: String {
-        guard let url = Bundle.multi?.url(forResource: "preferences", withExtension: "html"),
+        guard let url = Bundle.multi?.url(forResource: "settings", withExtension: "html"),
               let html = try? String(contentsOf: url) else {
             return """
                 <!DOCTYPE html>
-                Cannot open <code>preferences.html</code>.
+                Cannot open <code>settings.html</code>.
             """
         }
         // TODO inject initialize script or add `init` delegete message
