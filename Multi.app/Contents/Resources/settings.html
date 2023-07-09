@@ -52,6 +52,9 @@
 </section>
 
 <script>
+  let iconPath = ""
+  let jsonError = ""
+
   const name = document.getElementById("name")
   const icon = document.getElementById("icon")
   const path = document.getElementById("path")
@@ -59,33 +62,27 @@
   const save = document.getElementById("save")
   const error = document.getElementById("error")
 
-  let iconPath = ""
-  let checkJsonError = ""
-
-  name.addEventListener("input", () => update())
-  icon.addEventListener("click", () => selectIcon())
-  json.addEventListener("input", () => checkJson())
-  save.addEventListener("click", () => app({ channel: "save", name: name.value, icon: iconPath, json: json.value }))
+  name.addEventListener("input", () => {
+    update()
+  })
+  icon.addEventListener("click", () => {
+    webkit.messageHandlers.icon.postMessage()
+      .then((x) => iconPath = x, () => {})
+      .then(update)
+  })
+  json.addEventListener("input", () => {
+    webkit.messageHandlers.json.postMessage(json)
+      .then(() => jsonError = "", (e) => jsonError = e.toString())
+      .then(update)
+  })
+  save.addEventListener("click", () => {
+    webkit.messageHandlers.save.postMessage({ name: name.value, icon: iconPath, json: json.value })
+      .catch((e) => error.innerText = e.toString())
+  })
 
   function update() {
     path.innerText = iconPath
-    save.disabled = !name.value || !checkJsonError
-    error.innerText = checkJsonError
-  }
-
-  function selectIcon() {
-    app({ channel: "selectIcon", json: json.value })
-      .then((x) => iconPath = x, () => {})
-      .then(update)
-  }
-
-  function checkJson() {
-    app({ channel: "checkJson", json: json.value })
-      .then(() => checkJsonError = "", (e) => checkJsonError = e.toString())
-      .then(update)
-  }
-
-  function app(message) {
-    return webkit.messageHandlers.app.postMessage(message)
+    save.disabled = !name.value || !jsonError
+    error.innerText = jsonError
   }
 </script>

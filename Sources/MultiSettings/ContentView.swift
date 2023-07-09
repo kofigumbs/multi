@@ -3,19 +3,25 @@ import SwiftUI
 import WebKit
 
 public struct ContentView: View, NSViewRepresentable {
+    private let scripts: [WKUserScript]
     private let delegate = ContentViewDelegate()
     private let onAppear: (WKWebView) -> Void
 
-    public init(handlers: [String: (NSObject) async throws -> Any], onAppear: @escaping (WKWebView) -> Void) {
+    public init(scripts: [WKUserScript], handlers: [String: (NSObject) async throws -> Any], onAppear: @escaping (WKWebView) -> Void) {
+        self.scripts = scripts
         self.delegate.handlers = handlers
         self.onAppear = onAppear
     }
 
     public func makeNSView(context: NSViewRepresentableContext<ContentView>) -> WKWebView {
-        let webView = WKWebView(frame: .zero)
+        let configuration = WKWebViewConfiguration()
+        for script in scripts {
+            configuration.userContentController.addUserScript(script)
+        }
+        configuration.preferences.setValue(true, forKey: "developerExtrasEnabled")
+        configuration.userContentController.addScriptMessageHandler(delegate, contentWorld: .page, name: "app")
+        let webView = WKWebView(frame: .zero, configuration: configuration)
         webView.setValue(false, forKey: "drawsBackground")
-        webView.configuration.preferences.setValue(true, forKey: "developerExtrasEnabled")
-        webView.configuration.userContentController.addScriptMessageHandler(delegate, contentWorld: .page, name: "app")
         onAppear(webView)
         return webView
     }
@@ -30,13 +36,11 @@ fileprivate class ContentViewDelegate: NSObject {
 
 extension ContentViewDelegate: WKScriptMessageHandlerWithReply {
     func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) async -> (Any?, String?) {
-        guard let arguments = message.body as? NSObject,
-              let channel = arguments.value(forKey: "channel") as? String,
-              let handler = handlers[channel] else {
+        guard let handler = handlers[message.name] else {
             return (nil, "NoMessageHandler")
         }
         do {
-            return (try await handler(arguments), nil)
+            return (try await handler(message.body as? NSObject ?? NSNull()), nil)
         }
         catch {
             return (nil, String(describing: error))
