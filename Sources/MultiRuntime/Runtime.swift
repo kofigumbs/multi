@@ -17,7 +17,10 @@ struct Runtime: App {
               let data = try? Data(contentsOf: url),
               let config = try? JSONDecoder().decode(Config.self, from: data),
               !config.tabs.isEmpty else {
-            return Config.fallback
+            return Config(tabs: [Config.Tab(
+                title: "",
+                url: URL(string: "data:text/html;charset=utf-8,%3C%21DOCTYPE%20html%3E%0D%0ACannot%20open%20%3Ccode%3Econfig.json%3C%2Fcode%3E")!
+            )])
         }
         return config
     }()

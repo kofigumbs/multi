@@ -34,9 +34,4 @@ public struct Config: Decodable {
     public init(tabs: [Tab]) {
         self.tabs = tabs
     }
-
-    public static let fallback = Config(tabs: [Config.Tab(
-        title: "",
-        url: URL(string: "data:text/html;charset=utf-8,%3C%21DOCTYPE%20html%3E%0D%0ACannot%20open%20%3Ccode%3Econfig.json%3C%2Fcode%3E")!
-    )])
 }
