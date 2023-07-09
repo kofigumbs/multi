@@ -15,11 +15,13 @@ public struct ContentView: View, NSViewRepresentable {
 
     public func makeNSView(context: NSViewRepresentableContext<ContentView>) -> WKWebView {
         let configuration = WKWebViewConfiguration()
+        configuration.preferences.setValue(true, forKey: "developerExtrasEnabled")
         for script in scripts {
             configuration.userContentController.addUserScript(script)
         }
-        configuration.preferences.setValue(true, forKey: "developerExtrasEnabled")
-        configuration.userContentController.addScriptMessageHandler(delegate, contentWorld: .page, name: "app")
+        for handler in delegate.handlers {
+            configuration.userContentController.addScriptMessageHandler(delegate, contentWorld: .page, name: handler.key)
+        }
         let webView = WKWebView(frame: .zero, configuration: configuration)
         webView.setValue(false, forKey: "drawsBackground")
         onAppear(webView)

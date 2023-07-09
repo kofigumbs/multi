@@ -17,7 +17,7 @@ public struct SettingsView: View {
               let html = try? String(contentsOf: url) else {
             return """
                 <!DOCTYPE html>
-                Cannot open <code>settings.html</code>.
+                Cannot open <code>settings.html</code>
             """
         }
         return html
@@ -43,9 +43,20 @@ public struct SettingsView: View {
     }
 
     public var body: some View {
-        ContentView(scripts: scripts, handlers: ["json": json, "save": save]) { webView in
+        ContentView(scripts: scripts, handlers: ["icon": icon, "json": json, "save": save]) { webView in
             webView.loadHTMLString(html, baseURL: nil)
         }
+    }
+
+    func icon(_: NSObject) async throws -> Any {
+        let task = Task { @MainActor in
+            let openPanel = NSOpenPanel()
+            openPanel.canChooseFiles = true
+            openPanel.allowedContentTypes = [.png, .icns]
+            let result = await openPanel.beginSheetModal(for: NSApp.mainWindow!)
+            return result == .OK ? openPanel.url?.path : nil
+        }
+        return await task.value ?? ""
     }
 
     func json(message: NSObject) async throws -> Any {
@@ -65,6 +76,7 @@ public struct SettingsView: View {
         }
         let task = Task.detached(priority: .userInitiated) {
             let process = Process()
+            let pipe = Pipe()
             process.environment = [
                 "MULTI_APP_NAME": name,
                 "MULTI_ICON_PATH": message.value(forKey: "icon") as? String ?? "",
@@ -74,8 +86,14 @@ public struct SettingsView: View {
                 "MULTI_UI": "1",
             ]
             process.executableURL = createMacApp
+            process.standardError = pipe
+            process.standardOutput = pipe
             try process.run()
             process.waitUntilExit()
+            if process.terminationStatus != 0 {
+                let message = String(data: pipe.fileHandleForReading.availableData, encoding: .utf8)
+                throw Error(message: message ?? "create-mac-app exited with code \(process.terminationStatus)")
+            }
             return process.terminationStatus
         }
         return try await task.value

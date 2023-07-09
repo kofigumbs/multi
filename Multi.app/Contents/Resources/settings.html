@@ -37,17 +37,22 @@
     resize: none;
     font-family: monospace;
   }
+  .right {
+    float: right;
+  }
 </style>
 
 <h1>Configure your <b>Multi</b> app</h1>
 <section>
-  <input type="text" placeholder="App Name" id="name" autofocus>
+  <input id="name" type="text" placeholder="App Name" autofocus>
   <button id="icon">Select Icon</button>
-  <label for="icon"><em id="path"></em></label>
+  <label for="icon">
+    <em id="path"></em>
+  </label>
 </section>
-<textarea placeholder="JSON Configuration" rows="15" spellcheck="false" id="json"></textarea>
+<textarea id="json" placeholder="JSON Configuration" rows="15" spellcheck="false"></textarea>
 <section>
-  <button id="save" disabled>Save</button>
+  <button id="save" class="right" disabled>Save</button>
   <em id="error"></em>
 </section>
 
@@ -66,12 +71,12 @@
     update()
   })
   icon.addEventListener("click", () => {
-    webkit.messageHandlers.icon.postMessage()
-      .then((x) => iconPath = x, () => {})
+    webkit.messageHandlers.icon.postMessage({})
+      .then((x) => iconPath = x, (e) => console.error(e))
       .then(update)
   })
   json.addEventListener("input", () => {
-    webkit.messageHandlers.json.postMessage(json)
+    webkit.messageHandlers.json.postMessage(json.value)
       .then(() => jsonError = "", (e) => jsonError = e.toString())
       .then(update)
   })
@@ -82,7 +87,7 @@
 
   function update() {
     path.innerText = iconPath
-    save.disabled = !name.value || !jsonError
+    save.disabled = !name.value || !!jsonError
     error.innerText = jsonError
   }
 </script>
