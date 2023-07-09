@@ -5,7 +5,7 @@ import MultiSettings
 struct SwiftUIApp: App {
     var body: some Scene {
         WindowGroup {
-            SettingsView(overwrite: false)
+            SettingsView(newApp: true)
         }
             .commands {
                 CommandGroup(replacing: .newItem) {}

@@ -6,40 +6,57 @@ public struct SettingsView: View {
         let message: String
     }
 
-    private let overwrite: Bool
+    private let newApp: Bool
 
-    public init(overwrite: Bool) {
-        self.overwrite = overwrite
+    public init(newApp: Bool) {
+        self.newApp = newApp
     }
 
     var html: String {
         guard let url = Bundle.multi?.url(forResource: "settings", withExtension: "html"),
               let html = try? String(contentsOf: url) else {
             return """
-                <!DOCTYPE html>
-                Cannot open <code>settings.html</code>
+            <!DOCTYPE html>
+            Cannot open <code>settings.html</code>
             """
         }
         return html
     }
 
     var scripts: [WKUserScript] {
-        guard overwrite,
-              let configFile = Bundle.main.url(forResource: "config", withExtension: "json"),
-              let configContent = try? String(contentsOf: configFile),
-              let name = try? JSONEncoder().encode(Bundle.main.title ?? ""),
-              let json = try? JSONEncoder().encode(configContent) else {
+        if newApp {
+            return [WKUserScript(
+                source: """
+                document.getElementById("json").value = `{
+                  "tabs": [
+                    {
+                      "title": "Your first Multi app",
+                      "url": "https://github.com/hkgumbs/multi#json-configuration"
+                    }
+                  ]
+                }`
+                """,
+                injectionTime: .atDocumentEnd,
+                forMainFrameOnly: true
+            )]
+        }
+        else if let configFile = Bundle.main.url(forResource: "config", withExtension: "json"),
+                let configContent = try? String(contentsOf: configFile),
+                let name = try? JSONEncoder().encode(Bundle.main.title ?? ""),
+                let json = try? JSONEncoder().encode(configContent) {
+            return [WKUserScript(
+                source: """
+                    document.getElementById("name").value = \(name)
+                    document.getElementById("json").value = \(json)
+                    document.getElementById("save").disabled = false
+                """,
+                injectionTime: .atDocumentEnd,
+                forMainFrameOnly: true
+            )]
+        }
+        else {
             return []
         }
-        return [WKUserScript(
-            source: """
-                document.getElementById("name").value = \(name)
-                document.getElementById("json").value = \(json)
-                document.getElementById("save").disabled = false
-            """,
-            injectionTime: .atDocumentStart,
-            forMainFrameOnly: true
-        )]
     }
 
     public var body: some View {
@@ -81,7 +98,7 @@ public struct SettingsView: View {
                 "MULTI_APP_NAME": name,
                 "MULTI_ICON_PATH": message.value(forKey: "icon") as? String ?? "",
                 "MULTI_JSON_CONFIG": json,
-                "MULTI_OVERWRITE": overwrite ? "1" : "0",
+                "MULTI_OVERWRITE": newApp ? "0" : "1",
                 "MULTI_RELAUNCH_PID": "\(ProcessInfo.processInfo.processIdentifier)",
                 "MULTI_UI": "1",
             ]
