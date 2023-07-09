@@ -4,18 +4,25 @@ public struct Config: Decodable {
     public struct Tab: Decodable {
         public var title: String
         public var url: URL
-        public var customCss: [URL] = []
-        public var customJs: [URL] = []
         public var basicAuthUser: String?
         public var basicAuthPassword: String?
         public var userAgent: String?
+        @DecodableDefault.EmptyList
+        public var customCss: [URL]
+        @DecodableDefault.EmptyList
+        public var customJs: [URL]
     }
 
-    public var windowed = false
-    public var keepOpenAfterWindowClosed = false
-    public var alwaysNotify = false
-    public var alwaysOnTop = false
-    public var openNewWindowsWith: String?
-    public var openNewWindowsInBackground = false
     public var tabs: [Tab]
+    @DecodableDefault.False
+    public var windowed
+    @DecodableDefault.False
+    public var keepOpenAfterWindowClosed
+    @DecodableDefault.False
+    public var alwaysNotify
+    @DecodableDefault.False
+    public var alwaysOnTop
+    @DecodableDefault.False
+    public var openNewWindowsInBackground
+    public var openNewWindowsWith: String?
 }

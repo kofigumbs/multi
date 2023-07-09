@@ -14,7 +14,7 @@
     margin: 1rem;
     font-weight: 100;
   }
-  header, footer {
+  section {
     margin: 1rem;
   }
   button[disabled] {
@@ -24,14 +24,14 @@
   button, input {
     border: none;
     border-radius: 3px;
-    padding: 4px 7px;
+    padding: .5rem;
   }
   input, textarea, button {
     font-size: 1rem;
     background: Canvas;
   }
   textarea {
-    padding: 1rem;
+    padding: 1rem 1.5rem;
     width: 100%;
     border: none;
     resize: none;
@@ -40,13 +40,52 @@
 </style>
 
 <h1>Configure your <b>Multi</b> app</h1>
-<header>
+<section>
   <input type="text" placeholder="App Name" id="name" autofocus>
   <button id="icon">Select Icon</button>
   <label for="icon"><em id="path"></em></label>
-</header>
-<textarea placeholder='{ "tabs": [{ "title": "Example", "url": "https://example.com" }] }' rows="15" spellcheck="false" id="json"></textarea>
-<footer>
-  <button id="save">Save</button>
+</section>
+<textarea placeholder="JSON Configuration" rows="15" spellcheck="false" id="json"></textarea>
+<section>
+  <button id="save" disabled>Save</button>
   <em id="error"></em>
-</footer>
+</section>
+
+<script>
+  const name = document.getElementById("name")
+  const icon = document.getElementById("icon")
+  const path = document.getElementById("path")
+  const json = document.getElementById("json")
+  const save = document.getElementById("save")
+  const error = document.getElementById("error")
+
+  let iconPath = ""
+  let checkJsonError = ""
+
+  name.addEventListener("input", () => update())
+  icon.addEventListener("click", () => selectIcon())
+  json.addEventListener("input", () => checkJson())
+  save.addEventListener("click", () => app({ channel: "save", name: name.value, icon: iconPath, json: json.value }))
+
+  function update() {
+    path.innerText = iconPath
+    save.disabled = !name.value || !checkJsonError
+    error.innerText = checkJsonError
+  }
+
+  function selectIcon() {
+    app({ channel: "selectIcon", json: json.value })
+      .then((x) => iconPath = x, () => {})
+      .then(update)
+  }
+
+  function checkJson() {
+    app({ channel: "checkJson", json: json.value })
+      .then(() => checkJsonError = "", (e) => checkJsonError = e.toString())
+      .then(update)
+  }
+
+  function app(message) {
+    return webkit.messageHandlers.app.postMessage(message)
+  }
+</script>
