@@ -54,9 +54,30 @@ struct Runtime: App {
                             .keyboardShortcut(KeyEquivalent((index+1).description.first!))
                     }
                 }
+                CommandGroup(after: .sidebar) {
+                    action("R", "Reload Page", #selector(WKWebView.reload(_:)))
+                    action("0", "Actual Size", #selector(WKWebView.actualSize(_:)))
+                    action("+", "Zoom In", #selector(WKWebView.zoomIn(_:)))
+                    action("-", "Zoom Out", #selector(WKWebView.zoomOut(_:)))
+                }
+                CommandMenu("History") {
+                    action("[", "Back", #selector(WKWebView.goBack(_:)))
+                    action("]", "Forward", #selector(WKWebView.goForward(_:)))
+                }
+                CommandMenu("Tab") {
+                    action("⇥", "Select Next Tab", #selector(NSWindow.selectNextTab(_:)), .control)
+                    action("⇥", "Select Previous Tab", #selector(NSWindow.selectPreviousTab(_:)), [.control, .shift])
+                }
             }
         Settings {
             SettingsView(newApp: false)
         }
+    }
+
+    func action(_ keyEquivalent: KeyEquivalent, _ title: String, _ selector: Selector, _ modifiers: EventModifiers = .command) -> some View {
+        Button(title) {
+            NSApp.sendAction(selector, to: nil, from: nil)
+        }
+            .keyboardShortcut(keyEquivalent, modifiers: modifiers)
     }
 }
