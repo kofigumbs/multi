@@ -15,4 +15,8 @@ extension WKWebView {
     func zoomOut(_: Any? = nil) {
         pageZoom /= 1.1
     }
+
+    /// Do nothing when tabbed window "+" button is clicked, maybe implement #57 here in the future
+    open override func newWindowForTab(_: Any? = nil) {
+    }
 }

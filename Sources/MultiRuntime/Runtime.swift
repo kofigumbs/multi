@@ -9,8 +9,7 @@ struct Runtime: App {
     @Environment(\.openWindow)
     var openWindow
 
-    @State
-    var once: [Void] = [()]
+    let once = Once()
 
     let config: Config = {
         guard let url = Bundle.main.url(forResource: "config", withExtension: "json"),
@@ -28,7 +27,7 @@ struct Runtime: App {
     var body: some Scene {
         WindowGroup(for: Int.self) { $index in
             TabView(tab: config.tabs[index]) { window in
-                if let _ = once.popLast() {
+                once {
                     for i in config.tabs.indices.reversed() {
                         openWindow(value: i)
                     }
@@ -55,29 +54,24 @@ struct Runtime: App {
                     }
                 }
                 CommandGroup(after: .sidebar) {
-                    action("R", "Reload Page", #selector(WKWebView.reload(_:)))
-                    action("0", "Actual Size", #selector(WKWebView.actualSize(_:)))
-                    action("+", "Zoom In", #selector(WKWebView.zoomIn(_:)))
-                    action("-", "Zoom Out", #selector(WKWebView.zoomOut(_:)))
+                    Button("Reload Page", #selector(WKWebView.reload(_:)))
+                        .keyboardShortcut("R")
+                    Button("Actual Size", #selector(WKWebView.actualSize(_:)))
+                        .keyboardShortcut("0")
+                    Button("Zoom In", #selector(WKWebView.zoomIn(_:)))
+                        .keyboardShortcut("+")
+                    Button("Zoom Out", #selector(WKWebView.zoomOut(_:)))
+                        .keyboardShortcut("-")
                 }
                 CommandMenu("History") {
-                    action("[", "Back", #selector(WKWebView.goBack(_:)))
-                    action("]", "Forward", #selector(WKWebView.goForward(_:)))
-                }
-                CommandMenu("Tab") {
-                    action("⇥", "Select Next Tab", #selector(NSWindow.selectNextTab(_:)), .control)
-                    action("⇥", "Select Previous Tab", #selector(NSWindow.selectPreviousTab(_:)), [.control, .shift])
+                    Button("Back", #selector(WKWebView.goBack(_:)))
+                        .keyboardShortcut("[")
+                    Button("Forward", #selector(WKWebView.goForward(_:)))
+                        .keyboardShortcut("]")
                 }
             }
         Settings {
             SettingsView(newApp: false)
         }
-    }
-
-    func action(_ keyEquivalent: KeyEquivalent, _ title: String, _ selector: Selector, _ modifiers: EventModifiers = .command) -> some View {
-        Button(title) {
-            NSApp.sendAction(selector, to: nil, from: nil)
-        }
-            .keyboardShortcut(keyEquivalent, modifiers: modifiers)
     }
 }
