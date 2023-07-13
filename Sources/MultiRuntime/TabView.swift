@@ -6,19 +6,11 @@ struct TabView: View {
     let tab: Config.Tab
     let onAdd: (NSWindow) -> Void
 
-    let blocklist: String = {
-        guard let url = Bundle.multi?.url(forResource: "blocklist", withExtension: "json"),
-              let data = try? Data(contentsOf: url),
-              let json = String(data: data, encoding: .utf8) else {
-            return "[]"
-        }
-        return json.lowercased()
-    }()
-
     var body: some View {
         ContentView(scripts: [], handlers: [:]) { webView in
             /// TODO custom CSS
             /// TODO custom JS
+            /// TODO custom cookies
             /// TODO user agent
             /// TODO basic auth
             /// TODO ui delegate
@@ -28,10 +20,7 @@ struct TabView: View {
                 onAdd(webView.window!)
                 webView.window!.contentView = webView
             }
-            WKContentRuleListStore.default().compileContentRuleList(forIdentifier: "blocklist", encodedContentRuleList: blocklist) { (rules, error) in
-                rules.map { webView.configuration.userContentController.add($0) }
-                webView.load(URLRequest(url: tab.url))
-            }
+            webView.load(URLRequest(url: tab.url))
         }
             .navigationTitle(tab.title)
     }

@@ -6,8 +6,9 @@
 Create a custom, lightweight macOS app from a group of websites, complete with:
 
  - Native notifications, file uploads, and dialogs
- - Ad-blocking, provided by [better.fyi](https://better.fyi)
  - Customization options with JSON, CSS, and JavaScript
+ - CLI for creating and updating apps
+ - Options for tabbed or floating windows
 
 Watch me create a Slack clone from scratch in 30 seconds (<a href="https://kofi.sexy/slack-app-fewer-resources/demo.mp4" target="_blank">high res video</a>):
 
@@ -62,7 +63,7 @@ The JSON configuration uses the following top-level fields:
 | `keepOpenAfterWindowClosed`  | Boolean (Optional, default `false`)  | Prevents app from quitting when the last window is closed            |
 | `alwaysNotify`               | Boolean (Optional, default `false`)  | Show macOS notifications even if your app is currently focused       |
 | `alwaysOnTop`                | Boolean (Optional, default `false`)  | Position this app's window on top of all others                      |
-| `openNewWindowsWith`         | String (Optional, macOS 10.15+)      | Override system default browser for external links — value is a _bundle identifier_ like `com.apple.Safari`, `com.google.Chrome`, or `com.mozilla.firefox` |
+| `openNewWindowsWith`         | String (Optional)                    | Override system default browser for external links — value is a _bundle identifier_ like `com.apple.Safari`, `com.google.Chrome`, or `com.mozilla.firefox` |
 | `openNewWindowsInBackground` | Boolean (Optional, default `false`)  | Determines if browser app becomes active when opening external links |
 
 The `tabs` field is an array of objects with the following fields:

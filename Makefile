@@ -7,7 +7,7 @@ SWIFT_BUILD_PATH:=.build/debug
 VERSION=$(shell plutil -extract CFBundleVersion raw Multi.app/Contents/Info.plist )
 
 .PHONY: Multi.app
-Multi.app: Multi.app/Contents/MacOS Multi.app/Contents/MacOS/App Multi.app/Contents/Resources/Runtime Multi.app/Contents/Resources/blocklist.json
+Multi.app: Multi.app/Contents/MacOS Multi.app/Contents/MacOS/App Multi.app/Contents/Resources/Runtime
 
 Multi.app/Contents/MacOS:
 	mkdir $@
@@ -18,9 +18,6 @@ Multi.app/Contents/Resources/Runtime: $(SWIFT_BUILD_PATH)/Runtime
 
 $(SWIFT_BUILD_PATH)/%: Sources/Multi%/*.swift Sources/MultiSettings/*.swift
 	swift build $(SWIFT_ARCH) --configuration $(SWIFT_CONFIGURATION) --product $*
-
-Multi.app/Contents/Resources/blocklist.json:
-	curl https://better.fyi/blockerList.json > $@
 
 .PHONY: release
 release:
