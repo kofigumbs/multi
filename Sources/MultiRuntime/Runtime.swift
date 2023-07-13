@@ -28,20 +28,21 @@ struct Runtime: App {
         WindowGroup(for: Int.self) { $index in
             TabView(tab: config.tabs[index]) { window in
                 once {
-                    for i in config.tabs.indices.reversed() {
+                    for i in config.tabs.indices {
                         openWindow(value: i)
                     }
-                    if !config.windowed {
-                        window.mergeAllWindows(nil)
-                    }
+                    window.makeKeyAndOrderFront(nil)
                 }
                 if config.alwaysOnTop {
                     window.level = .floating
                 }
+                if !config.windowed {
+                    NSApp.keyWindow?.tabGroup?.addWindow(window)
+                }
                 window.isExcludedFromWindowsMenu = true
             }
         } defaultValue: {
-            config.tabs.count - 1
+            0
         }
             .commands {
                 CommandGroup(replacing: .newItem) {}

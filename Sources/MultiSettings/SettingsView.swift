@@ -47,6 +47,7 @@ public struct SettingsView: View {
             return [WKUserScript(
                 source: """
                     document.getElementById("name").value = \(String(data: name, encoding: .utf8)!)
+                    document.getElementById("name").disabled = true
                     document.getElementById("json").value = \(String(data: json, encoding: .utf8)!)
                     document.getElementById("save").disabled = false
                 """,

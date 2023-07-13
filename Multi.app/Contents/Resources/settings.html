@@ -21,16 +21,12 @@
   section {
     margin: 1rem;
   }
-  button[disabled] {
-    opacity: .5;
-    cursor: not-allowed;
-  }
   button, input {
     border: none;
     border-radius: 3px;
     padding: .5rem;
   }
-  input, textarea, button {
+  button, input, textarea {
     font-size: 1rem;
     background: Canvas;
   }
@@ -40,6 +36,10 @@
     border: none;
     resize: none;
     font-family: monospace;
+  }
+  button[disabled], input[disabled] {
+    opacity: .5;
+    cursor: not-allowed;
   }
   .right {
     float: right;
