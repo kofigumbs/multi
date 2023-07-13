@@ -28,7 +28,10 @@ public struct ContentView: View, NSViewRepresentable {
         webView.autoresizesSubviews = true
         webView.allowsBackForwardNavigationGestures = true
         webView.setValue(false, forKey: "drawsBackground")
-        onAppear(webView)
+        DispatchQueue.main.async {
+            onAppear(webView)
+            webView.window!.contentView = webView
+        }
         return webView
     }
 

@@ -4,7 +4,7 @@ import MultiSettings
 
 struct TabView: View {
     let tab: Config.Tab
-    let onAdd: (NSWindow) -> Void
+    let onAppear: (NSWindow) -> Void
 
     var body: some View {
         ContentView(scripts: [], handlers: [:]) { webView in
@@ -16,10 +16,7 @@ struct TabView: View {
             /// TODO ui delegate
             /// TODO navigation delegate
             /// TODO notifications
-            DispatchQueue.main.async {
-                onAdd(webView.window!)
-                webView.window!.contentView = webView
-            }
+            onAppear(webView.window!)
             webView.load(URLRequest(url: tab.url))
         }
             .navigationTitle(tab.title)
