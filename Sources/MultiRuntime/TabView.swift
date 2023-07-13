@@ -26,6 +26,7 @@ struct TabView: View {
             /// TODO notifications
             DispatchQueue.main.async {
                 onAdd(webView.window!)
+                webView.window!.contentView = webView
             }
             WKContentRuleListStore.default().compileContentRuleList(forIdentifier: "blocklist", encodedContentRuleList: blocklist) { (rules, error) in
                 rules.map { webView.configuration.userContentController.add($0) }
