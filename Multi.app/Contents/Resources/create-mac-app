@@ -3,13 +3,13 @@
 set -eo pipefail
 
 MULTI_RESOURCES="$(cd "$(dirname "$0")"; pwd -P)"
-MULTI_APP_BUNDLE_ID=`echo "$MULTI_APP_NAME" | sed -e 's/[^a-zA-Z0-9.]/-/g'`
+MULTI_APP_BUNDLE_ID="$(echo "$MULTI_APP_NAME" | sed -e 's/[^a-zA-Z0-9.]/-/g')"
 MULTI_APP_LOCATION="$MULTI_RESOURCES/../../../Multi/$MULTI_APP_NAME.app"
-MULTI_ICON_TMP_DIR="`mktemp -d`/Icon.iconset"
+MULTI_ICON_TMP_DIR="$(mktemp -d)/Icon.iconset"
 
 if [[ -z "$MULTI_APP_NAME" ]]
 then
-  echo "USAGE: MULTI_APP_NAME=xxx `basename "$0"`"
+  echo "USAGE: MULTI_APP_NAME=xxx $(basename "$0")"
   echo "Create a custom, lightweight macOS app from a group of websites."
   echo "All options are passed as environment variables:"
   echo ""
@@ -42,7 +42,7 @@ fi
 echo "Generating Multi artifacts ..."
 ln -fs "$MULTI_RESOURCES/Runtime" "$MULTI_APP_LOCATION/Stub"
 cp "$MULTI_RESOURCES/Stub.plist" "$MULTI_APP_LOCATION/Contents/Info.plist"
-sed -e "s/{{name}}/$MULTI_APP_NAME/g" -e "s/{{id}}/$MULTI_APP_BUNDLE_ID/g" -i'.template' "$MULTI_APP_LOCATION/Contents/Info.plist"
+sed -e "s/{{name}}/$MULTI_APP_NAME/g" -e "s/{{id}}/$MULTI_APP_BUNDLE_ID/g" -i '' "$MULTI_APP_LOCATION/Contents/Info.plist"
 echo "$MULTI_JSON_CONFIG" > "$MULTI_APP_LOCATION/Contents/Resources/config.json"
 
 if [[ "$MULTI_ICON_PATH" == *.icns ]]

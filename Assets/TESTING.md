@@ -1,8 +1,6 @@
 Reset everything back to normal:
 
 ```bash
-defaults delete gumbs.llc
-defaults write gumbs.llc multi.first-launch -date "2020-01-01 00:00:00 +0000"
 rm -rf /Applications/Multi.app
 rm -rf /Applications/Multi/Test
 make
