@@ -3,14 +3,34 @@ import SwiftUI
 import WebKit
 
 public struct ContentView: View, NSViewRepresentable {
-    private let scripts: [WKUserScript]
-    private let delegate = ContentViewDelegate()
+    private var userAgent: String?
+    private var ui: WKUIDelegate?
+    private var navigation: WKNavigationDelegate?
+    private var scripts: [WKUserScript] = []
+    private var cookies: [HTTPCookie] = []
+    private var delegate = ContentViewDelegate()
     private let onAppear: (WKWebView) -> Void
 
-    public init(scripts: [WKUserScript], handlers: [String: (NSObject) async throws -> Any], onAppear: @escaping (WKWebView) -> Void) {
-        self.scripts = scripts
-        self.delegate.handlers = handlers
+    public init(onAppear: @escaping (WKWebView) -> Void) {
         self.onAppear = onAppear
+    }
+
+    public func with(
+        userAgent: String? = nil,
+        ui: WKUIDelegate? = nil,
+        navigation: WKNavigationDelegate? = nil,
+        scripts: [WKUserScript] = [],
+        cookies: [HTTPCookie] = [],
+        handlers: [String: (NSObject) async throws -> Any] = [:]
+    ) -> ContentView {
+        var this = self
+        this.userAgent = userAgent
+        this.ui = ui
+        this.navigation = navigation
+        this.scripts = scripts
+        this.cookies = cookies
+        this.delegate.handlers = handlers
+        return this
     }
 
     public func makeNSView(context: NSViewRepresentableContext<ContentView>) -> WKWebView {
@@ -20,6 +40,9 @@ public struct ContentView: View, NSViewRepresentable {
         for script in scripts {
             configuration.userContentController.addUserScript(script)
         }
+        for cookie in cookies {
+            configuration.websiteDataStore.httpCookieStore.setCookie(cookie)
+        }
         for handler in delegate.handlers {
             configuration.userContentController.addScriptMessageHandler(delegate, contentWorld: .page, name: handler.key)
         }
@@ -28,6 +51,9 @@ public struct ContentView: View, NSViewRepresentable {
         webView.autoresizesSubviews = true
         webView.allowsBackForwardNavigationGestures = true
         webView.setValue(false, forKey: "drawsBackground")
+        webView.customUserAgent = userAgent
+        webView.uiDelegate = ui
+        webView.navigationDelegate = navigation
         DispatchQueue.main.async {
             onAppear(webView)
             webView.window!.contentView = webView
@@ -39,11 +65,9 @@ public struct ContentView: View, NSViewRepresentable {
     }
 }
 
-fileprivate class ContentViewDelegate: NSObject {
+fileprivate class ContentViewDelegate: NSObject, WKScriptMessageHandlerWithReply {
     var handlers = [String: (NSObject) async throws -> Any]()
-}
 
-extension ContentViewDelegate: WKScriptMessageHandlerWithReply {
     func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) async -> (Any?, String?) {
         guard let handler = handlers[message.name] else {
             return (nil, "NoMessageHandler")

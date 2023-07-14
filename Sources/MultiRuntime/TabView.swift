@@ -7,18 +7,18 @@ struct TabView: View {
     let onAppear: (NSWindow) -> Void
 
     var body: some View {
-        ContentView(scripts: [], handlers: [:]) { webView in
-            /// TODO custom CSS
-            /// TODO custom JS
-            /// TODO custom cookies
-            /// TODO user agent
-            /// TODO basic auth
-            /// TODO ui delegate
-            /// TODO navigation delegate
-            /// TODO notifications
+        ContentView { webView in
             onAppear(webView.window!)
             webView.load(URLRequest(url: tab.url))
         }
+            .with(
+                userAgent: tab.userAgent
+                /// TODO ui: open, dialogs
+                /// TODO navigation: open, basic auth
+                /// TODO scripts: notifications, custom JS/CSS
+                /// TODO cookies
+                /// TODO handlers: notifications
+            )
             .navigationTitle(tab.title)
     }
 }

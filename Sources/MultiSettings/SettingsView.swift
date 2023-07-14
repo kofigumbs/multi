@@ -61,9 +61,13 @@ public struct SettingsView: View {
     }
 
     public var body: some View {
-        ContentView(scripts: scripts, handlers: ["icon": icon, "json": json, "save": save]) { webView in
+        ContentView { webView in
             webView.loadHTMLString(html, baseURL: nil)
         }
+            .with(
+                scripts: scripts,
+                handlers: ["icon": icon, "json": json, "save": save]
+            )
     }
 
     func icon(_: NSObject) async throws -> Any {
