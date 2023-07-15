@@ -7,6 +7,27 @@ struct TabView: View {
     let openExternal: OpenExternal
     let onPresent: (NSWindow) -> Void
 
+    var cookies: [HTTPCookie] {
+        tab.customCookies.compactMap { cookie in
+            let properties: [HTTPCookiePropertyKey: Any?] = [
+                .name: cookie.name,
+                .path: cookie.path,
+                .value: cookie.value,
+                .comment: cookie.comment,
+                .commentURL: cookie.commentURL,
+                .discard: cookie.discard,
+                .domain: cookie.domain,
+                .expires: cookie.expires,
+                .maximumAge: cookie.maximumAge,
+                .originURL: cookie.originURL,
+                .port: cookie.port,
+                .secure: cookie.secure,
+                .version: cookie.version,
+            ]
+            return HTTPCookie(properties: properties.compactMapValues { $0 })
+        }
+    }
+
     var body: some View {
         ContentView { webView in
             onPresent(webView.window!)
@@ -15,9 +36,9 @@ struct TabView: View {
             .with(
                 userAgent: tab.userAgent,
                 ui: TabViewUIDelegate(openExternal),
-                navigation: TabViewNavigationDelegate(tab, openExternal)
+                navigation: TabViewNavigationDelegate(tab, openExternal),
+                cookies: cookies
                 /// TODO scripts: notifications, custom JS/CSS
-                /// TODO cookies
                 /// TODO handlers: notifications
             )
             .navigationTitle(tab.title)
