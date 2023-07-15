@@ -26,7 +26,7 @@ struct Runtime: App {
 
     var body: some Scene {
         WindowGroup(for: Int.self) { $index in
-            TabView(tab: config.tabs[index]) { window in
+            TabView(config: config, index: index) { window in
                 once {
                     for i in config.tabs.indices {
                         openWindow(value: i)
