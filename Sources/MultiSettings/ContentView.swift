@@ -9,10 +9,10 @@ public struct ContentView: View, NSViewRepresentable {
     private var scripts: [WKUserScript] = []
     private var cookies: [HTTPCookie] = []
     private var delegate = ContentViewDelegate()
-    private let onAppear: (WKWebView) -> Void
+    private let onPresent: (WKWebView) -> Void
 
-    public init(onAppear: @escaping (WKWebView) -> Void) {
-        self.onAppear = onAppear
+    public init(onPresent: @escaping (WKWebView) -> Void) {
+        self.onPresent = onPresent
     }
 
     public func with(
@@ -55,7 +55,7 @@ public struct ContentView: View, NSViewRepresentable {
         webView.uiDelegate = ui
         webView.navigationDelegate = navigation
         DispatchQueue.main.async {
-            onAppear(webView)
+            onPresent(webView)
             webView.window!.contentView = webView
         }
         return webView

@@ -24,9 +24,13 @@ struct Runtime: App {
         return config
     }()
 
+    var openExternal: OpenExternal {
+        OpenExternal(config: config)
+    }
+
     var body: some Scene {
         WindowGroup(for: Int.self) { $index in
-            TabView(config: config, index: index) { window in
+            TabView(tab: config.tabs[index], openExternal: openExternal) { window in
                 once {
                     for i in config.tabs.indices {
                         openWindow(value: i)

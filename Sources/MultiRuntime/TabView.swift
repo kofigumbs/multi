@@ -3,21 +3,13 @@ import WebKit
 import MultiSettings
 
 struct TabView: View {
-    let config: Config
-    let index: Int
-    let onAppear: (NSWindow) -> Void
-
-    var tab: Config.Tab {
-        config.tabs[index]
-    }
-
-    var openExternal: OpenExternal {
-        OpenExternal(config: config)
-    }
+    let tab: Config.Tab
+    let openExternal: OpenExternal
+    let onPresent: (NSWindow) -> Void
 
     var body: some View {
         ContentView { webView in
-            onAppear(webView.window!)
+            onPresent(webView.window!)
             webView.load(URLRequest(url: tab.url))
         }
             .with(
