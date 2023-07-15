@@ -7,20 +7,10 @@ public struct SettingsView: View {
     }
 
     private let newApp: Bool
+    private let file = Bundle.multi?.url(forResource: "settings", withExtension: "html")
 
     public init(newApp: Bool) {
         self.newApp = newApp
-    }
-
-    var html: String {
-        guard let url = Bundle.multi?.url(forResource: "settings", withExtension: "html"),
-              let html = try? String(contentsOf: url) else {
-            return """
-            <!DOCTYPE html>
-            Cannot open <code>settings.html</code>
-            """
-        }
-        return html
     }
 
     var scripts: [WKUserScript] {
@@ -62,7 +52,12 @@ public struct SettingsView: View {
 
     public var body: some View {
         ContentView { webView in
-            webView.loadHTMLString(html, baseURL: nil)
+            if let file = file {
+                webView.loadFileURL(file, allowingReadAccessTo: file)
+            }
+            else {
+                webView.load(URLRequest(url: URL(cannotOpen: "settings.html")))
+            }
         }
             .with(
                 scripts: scripts,
