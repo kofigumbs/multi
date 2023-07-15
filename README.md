@@ -29,7 +29,6 @@ Watch me create a Slack clone from scratch in 30 seconds (<a href="https://kofi.
    - [Find in page](#find-in-page)
    - [Drag-and-drop to open URLs](#drag-and-drop-to-open-urls)
    - [Preview link targets](#preview-link-targets)
- - [Keyboard shortcuts](#keyboard-shortcuts)
  - [Donating](#donating)
 
 I've also written a few blog posts that discuss some of the decisions behind Multi:
@@ -300,23 +299,6 @@ a:hover::after {
   border-radius: 1px;
 }
 ```
-
-## Keyboard shortcuts
-
-Multi's shortcuts should basically match those of other macOS apps:
-
-|       |                       |   |                |                     |
-|-------|-----------------------|---|----------------|---------------------|
-| `⌘X`  | Cut                   |   | `⌘[`           | Back                |
-| `⌘C`  | Copy                  |   | `⌘]`           | Forward             |
-| `⌘V`  | Paste                 |   | `⌘R`           | Reload This Page    |
-| `⌘↑V` | Paste and Match Style |   | `⌘+`/`⌘-`/`⌘0` | Zoom in/out/default |
-| `⌘A`  | Select All            |   | `^Tab`         | Select Next Tab     |
-| `⌘^F` | Toggle Full Screen    |   | `^↑Tab`        | Select Previous Tab |
-| `⌘M`  | Minimize              |   | `⌘1` - `⌘9`    | Select Tab          |
-| `⌘H`  | Hide                  |   | `⌘L`           | Copy current URL    |
-| `⌘W`  | Close Tab             |   | `⌘↑T`          | Toggle Tab Bar      |
-| `⌘Q`  | Quit                  |   | `⌘↑\`          | Toggle Tab Overview |
 
 
 ## Donating

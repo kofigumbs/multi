@@ -60,7 +60,7 @@ fileprivate class TabViewUIDelegate: NSObject, WKUIDelegate {
 
     func webView(_ webView: WKWebView, runJavaScriptTextInputPanelWithPrompt: String, defaultText: String?, initiatedByFrame: WKFrameInfo, completionHandler: @escaping (String?) -> Void) {
         let alert = NSAlert()
-        let textField = NSTextField(frame: NSRect(x: 0, y: 0, width: 224, height: 21))
+        let textField = NSTextField()
         textField.stringValue = defaultText ?? ""
         alert.accessoryView = textField
         alert.messageText = runJavaScriptTextInputPanelWithPrompt
