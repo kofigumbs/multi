@@ -4,15 +4,18 @@ public struct Config: Decodable {
     public struct Tab: Decodable {
         public var title: String
         public var url: URL
-        public var basicAuthUser: String?
-        public var basicAuthPassword: String?
         public var userAgent: String?
+
+        @DecodableDefault.EmptyString
+        public var basicAuthUser: String
+        @DecodableDefault.EmptyString
+        public var basicAuthPassword: String
         @DecodableDefault.EmptyList
-        public var customCss: [URL] = []
+        public var customCss: [URL]
         @DecodableDefault.EmptyList
-        public var customJs: [URL] = []
+        public var customJs: [URL]
         @DecodableDefault.EmptyList
-        public var customCookies: [Cookie] = []
+        public var customCookies: [Cookie]
 
         public init(title: String, url: URL) {
             self.title = title
@@ -37,17 +40,18 @@ public struct Config: Decodable {
     }
 
     public var tabs: [Tab]
-    @DecodableDefault.False
-    public var windowed = false
-    @DecodableDefault.False
-    public var keepOpenAfterWindowClosed = false
-    @DecodableDefault.False
-    public var alwaysNotify = false
-    @DecodableDefault.False
-    public var alwaysOnTop = false
-    @DecodableDefault.False
-    public var openNewWindowsInBackground = false
     public var openNewWindowsWith: String?
+
+    @DecodableDefault.False
+    public var windowed: Bool
+    @DecodableDefault.False
+    public var keepOpenAfterWindowClosed: Bool
+    @DecodableDefault.False
+    public var alwaysNotify: Bool
+    @DecodableDefault.False
+    public var alwaysOnTop: Bool
+    @DecodableDefault.False
+    public var openNewWindowsInBackground: Bool
 
     public init(tabs: [Tab]) {
         self.tabs = tabs

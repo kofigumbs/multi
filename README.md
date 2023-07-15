@@ -99,8 +99,8 @@ Here's a fancier example that uses the optional fields referenced above:
     {
       "title": "Walking",
       "url": "https://kofi.sexy/cel-shading",
-      "customJs": [ "https://raw.githubusercontent.com/kofigumbs/multi/2.x/Assets/test.js" ],
-      "customCss": [ "https://raw.githubusercontent.com/kofigumbs/multi/2.x/Assets/test.css" ],
+      "customJs": [ "file:///Users/kofi/Documents/dotfiles/main/example.js" ],
+      "customCss": [ "https://example.com/custom.css" ],
       "customCookies": [
         {
           "name": "login_token_tab",

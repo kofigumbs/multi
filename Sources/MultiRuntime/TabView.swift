@@ -7,6 +7,28 @@ struct TabView: View {
     let openExternal: OpenExternal
     let onPresent: (NSWindow) -> Void
 
+    var customCss: [WKUserScript] {
+        tab.customCss.compactMap({ try? Data(contentsOf: $0).base64EncodedString() }).map { css in
+            WKUserScript(
+                source: """
+                document.documentElement.prepend(
+                    Object.assign(document.createElement("style"), { innerText: atob("\(css)") })
+                )
+                """,
+                injectionTime: .atDocumentStart,
+                forMainFrameOnly: false
+            )
+        }
+    }
+
+    var customJs: [WKUserScript] {
+        []
+    }
+
+    var notificationPolyfill: [WKUserScript] {
+        []
+    }
+
     var cookies: [HTTPCookie] {
         tab.customCookies.compactMap { cookie in
             let properties: [HTTPCookiePropertyKey: Any?] = [
@@ -37,8 +59,8 @@ struct TabView: View {
                 userAgent: tab.userAgent,
                 ui: TabViewUIDelegate(openExternal),
                 navigation: TabViewNavigationDelegate(tab, openExternal),
+                scripts: customCss + customJs + notificationPolyfill,
                 cookies: cookies
-                /// TODO scripts: notifications, custom JS/CSS
                 /// TODO handlers: notifications
             )
             .navigationTitle(tab.title)
@@ -101,22 +123,21 @@ fileprivate class TabViewNavigationDelegate: NSObject, WKNavigationDelegate {
     }
 
     func webView(_: WKWebView, decidePolicyFor: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) -> () {
-        switch decidePolicyFor.targetFrame {
-            case .some(_):
-                decisionHandler(.allow)
-            case .none:
-                decisionHandler(.cancel)
-                _ = decidePolicyFor.request.url.map(openExternal.callAsFunction)
+        if decidePolicyFor.targetFrame != nil || decidePolicyFor.request.url?.scheme == "about" {
+            decisionHandler(.allow)
+        }
+        else {
+            decisionHandler(.cancel)
+            _ = decidePolicyFor.request.url.map(openExternal.callAsFunction)
         }
     }
 
     func webView(_ webView: WKWebView, didReceive challenge: URLAuthenticationChallenge, completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) {
-        guard challenge.protectionSpace.authenticationMethod == NSURLAuthenticationMethodHTTPBasic,
-              let basicAuthUser = tab.basicAuthUser,
-              let basicAuthPassword = tab.basicAuthPassword else {
-            completionHandler(.performDefaultHandling, nil)
-            return
+        if challenge.protectionSpace.authenticationMethod == NSURLAuthenticationMethodHTTPBasic {
+            completionHandler(.useCredential, URLCredential(user: tab.basicAuthUser, password: tab.basicAuthPassword, persistence: .forSession))
         }
-        completionHandler(.useCredential, URLCredential(user: basicAuthUser, password: basicAuthPassword, persistence: .forSession))
+        else {
+            completionHandler(.performDefaultHandling, nil)
+        }
     }
 }
