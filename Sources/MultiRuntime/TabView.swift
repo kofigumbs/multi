@@ -60,14 +60,14 @@ fileprivate class TabViewUIDelegate: NSObject, WKUIDelegate {
 
     func webView(_ webView: WKWebView, runJavaScriptTextInputPanelWithPrompt: String, defaultText: String?, initiatedByFrame: WKFrameInfo, completionHandler: @escaping (String?) -> Void) {
         let alert = NSAlert()
-        let textField = NSTextField()
-        textField.stringValue = defaultText ?? ""
-        alert.accessoryView = textField
+        let field = NSTextField(string: defaultText ?? "")
+        field.frame = NSRect(x: alert.window.contentLayoutRect.minX, y: field.frame.minY, width: alert.window.contentLayoutRect.width, height: field.frame.height)
+        alert.accessoryView = field
         alert.messageText = runJavaScriptTextInputPanelWithPrompt
         alert.addButton(withTitle: "OK")
         alert.addButton(withTitle: "Cancel")
-        alert.beginSheetModal(for: webView.window!) { response in completionHandler(response == .alertFirstButtonReturn ? textField.stringValue : nil) }
-        alert.window.makeFirstResponder(textField)
+        alert.beginSheetModal(for: webView.window!) { response in completionHandler(response == .alertFirstButtonReturn ? field.stringValue : nil) }
+        alert.window.makeFirstResponder(field)
     }
 
     func webView(_ webView: WKWebView, runOpenPanelWith: WKOpenPanelParameters, initiatedByFrame: WKFrameInfo, completionHandler: @escaping ([URL]?) -> Void) {
