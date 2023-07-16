@@ -73,7 +73,8 @@ fileprivate class ContentViewDelegate: NSObject, WKScriptMessageHandlerWithReply
             return (nil, "NoMessageHandler")
         }
         do {
-            return (try await handler(message.body as? NSObject ?? NSNull()), nil)
+            let result = try await handler(message.body as? NSObject ?? NSNull())
+            return (result is Void ? nil : result, nil)
         }
         catch {
             return (nil, String(describing: error))

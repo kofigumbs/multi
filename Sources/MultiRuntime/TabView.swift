@@ -1,8 +1,13 @@
 import SwiftUI
+import UserNotifications
 import WebKit
 import MultiSettings
 
 struct TabView: View {
+    struct Error: Swift.Error {
+        let message: String
+    }
+
     let tab: Config.Tab
     let openExternal: OpenExternal
     let onPresent: (NSWindow) -> Void
@@ -22,11 +27,17 @@ struct TabView: View {
     }
 
     var customJs: [WKUserScript] {
-        []
+        tab.customJs.compactMap({ try? String(contentsOf: $0) }).map { js in
+            WKUserScript(source: js, injectionTime: .atDocumentStart, forMainFrameOnly: false)
+        }
     }
 
     var notificationPolyfill: [WKUserScript] {
-        []
+        guard let url = Bundle.multi?.url(forResource: "notification", withExtension: "js"),
+              let js = try? String(contentsOf: url) else {
+            return []
+        }
+        return [WKUserScript(source: js, injectionTime: .atDocumentStart, forMainFrameOnly: false)]
     }
 
     var cookies: [HTTPCookie] {
@@ -60,10 +71,37 @@ struct TabView: View {
                 ui: TabViewUIDelegate(openExternal),
                 navigation: TabViewNavigationDelegate(tab, openExternal),
                 scripts: customCss + customJs + notificationPolyfill,
-                cookies: cookies
-                /// TODO handlers: notifications
+                cookies: cookies,
+                handlers: [
+                    "notificationRequest": notificationRequest,
+                    "notificationShow": notificationShow,
+                    "notificationClose": notificationClose,
+                ]
             )
             .navigationTitle(tab.title)
+    }
+
+    func notificationRequest(_: NSObject) async throws {
+        guard try await UNUserNotificationCenter.current().requestAuthorization() else {
+            throw Error(message: "Notification permission denied")
+        }
+    }
+
+    func notificationShow(message: NSObject) async throws {
+        guard let tag = message.value(forKey: "tag") as? String else {
+            throw Error(message: "Notification tag is required")
+        }
+        let content = UNMutableNotificationContent()
+        content.title = message.value(forKey: "title") as? String ?? ""
+        content.body = message.value(forKey: "body") as? String ?? ""
+        try await UNUserNotificationCenter.current().add(UNNotificationRequest(identifier: tag, content: content, trigger: nil))
+    }
+
+    func notificationClose(message: NSObject) async throws {
+        guard let tag = message.value(forKey: "tag") as? String else {
+            throw Error(message: "Notification tag is required")
+        }
+        UNUserNotificationCenter.current().removeDeliveredNotifications(withIdentifiers: [tag])
     }
 }
 

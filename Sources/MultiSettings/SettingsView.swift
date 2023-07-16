@@ -76,16 +76,15 @@ public struct SettingsView: View {
         return await task.value ?? ""
     }
 
-    func json(message: NSObject) async throws -> Any {
+    func json(message: NSObject) async throws {
         guard let json = message as? String,
               let data = json.data(using: .utf8) else {
             throw Error(message: "JSON Configuration is not UTF8-encoded")
         }
         _ = try JSONDecoder().decode(Config.self, from: data)
-        return 0
     }
 
-    func save(message: NSObject) async throws -> Any {
+    func save(message: NSObject) async throws {
         guard let name = message.value(forKey: "name") as? String,
               let json = message.value(forKey: "json") as? String,
               let createMacApp = Bundle.multi?.url(forResource: "create-mac-app", withExtension: nil) else {
@@ -111,8 +110,7 @@ public struct SettingsView: View {
                 let message = String(data: pipe.fileHandleForReading.availableData, encoding: .utf8)
                 throw Error(message: message ?? "create-mac-app exited with code \(process.terminationStatus)")
             }
-            return process.terminationStatus
         }
-        return try await task.value
+        try await task.value
     }
 }
