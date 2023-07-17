@@ -3,38 +3,27 @@ import WebKit
 import MultiSettings
 
 struct Runtime: App {
+    @NSApplicationDelegateAdaptor(AppDelegate.self)
+    var app
+
     @Environment(\.openWindow)
     var openWindow
 
     let once = Once()
 
-    let config: Config = {
-        guard let url = Bundle.main.url(forResource: "config", withExtension: "json"),
-              let data = try? Data(contentsOf: url),
-              let config = try? JSONDecoder().decode(Config.self, from: data),
-              !config.tabs.isEmpty else {
-            return Config(tabs: [Config.Tab(title: "", url: URL(cannotOpen: "config.json"))])
-        }
-        return config
-    }()
-
-    var openExternal: OpenExternal {
-        OpenExternal(config: config)
-    }
-
     var body: some Scene {
         WindowGroup(for: Int.self) { $index in
-            TabView(tab: config.tabs[index], openExternal: openExternal) { window in
+            TabView(tab: app.config.tabs[index], app: app) { window in
                 once {
-                    for i in config.tabs.indices {
+                    for i in app.config.tabs.indices {
                         openWindow(value: i)
                     }
                     window.makeKeyAndOrderFront(nil)
                 }
-                if config.alwaysOnTop {
+                if app.config.alwaysOnTop {
                     window.level = .floating
                 }
-                if !config.windowed {
+                if !app.config.windowed {
                     NSApp.keyWindow?.tabGroup?.addWindow(window)
                 }
                 window.isExcludedFromWindowsMenu = true
@@ -45,8 +34,8 @@ struct Runtime: App {
             .commands {
                 CommandGroup(replacing: .newItem) {}
                 CommandGroup(after: .singleWindowList) {
-                    ForEach(0 ..< min(config.tabs.count, 9), id: \.self) { index in
-                        Button(config.tabs[index].title) {
+                    ForEach(0 ..< min(app.config.tabs.count, 9), id: \.self) { index in
+                        Button(app.config.tabs[index].title) {
                             openWindow(value: index)
                         }
                             .keyboardShortcut(KeyEquivalent((index+1).description.first!))
