@@ -5,6 +5,6 @@
 /*.xcodeproj
 
 /Multi
-Multi.app/Contents/MacOS/App
-Multi.app/Contents/Resources/Runtime
+Multi.app/Contents/MacOS/
+Multi.app/Contents/Frameworks/
 Multi.app/Contents/_CodeSignature/

@@ -34,13 +34,14 @@ then
   fi
 
 else
-  echo "Creating \"$MULTI_APP_LOCATION\" ..."
+  echo "Creating bundle ..."
   mkdir -p "$MULTI_APP_LOCATION/Contents/Resources"
   chmod +x "$MULTI_APP_LOCATION"
 fi
 
-echo "Generating Multi artifacts ..."
-ln -fs "$MULTI_RESOURCES/Runtime" "$MULTI_APP_LOCATION/Stub"
+echo "Generating bundle contents ..."
+mkdir -p "$MULTI_APP_LOCATION/Contents/MacOS"
+cp "$MULTI_RESOURCES/../MacOS/Stub" "$MULTI_APP_LOCATION/Contents/MacOS/Stub"
 cp "$MULTI_RESOURCES/Stub.plist" "$MULTI_APP_LOCATION/Contents/Info.plist"
 sed -e "s/{{name}}/$MULTI_APP_NAME/g" -e "s/{{id}}/$MULTI_APP_BUNDLE_ID/g" -i '' "$MULTI_APP_LOCATION/Contents/Info.plist"
 echo "$MULTI_JSON_CONFIG" > "$MULTI_APP_LOCATION/Contents/Resources/config.json"
@@ -66,9 +67,12 @@ else
   echo "WARNING: Skipping icon creation because no PNG or ICNS provided ..."
 fi
 
+echo "Signing bundle ..."
+codesign --sign - --force "$MULTI_APP_LOCATION"
+
 if [[ ! -z "$MULTI_RELAUNCH_PID" ]]
 then
-  echo "Launching ..."
+  echo "Launching app ..."
   kill "$MULTI_RELAUNCH_PID"
   open -n "$MULTI_APP_LOCATION" || true
 fi

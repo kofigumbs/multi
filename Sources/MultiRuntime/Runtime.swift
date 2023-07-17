@@ -2,9 +2,6 @@ import SwiftUI
 import WebKit
 import MultiSettings
 
-import os
-
-@main
 struct Runtime: App {
     @Environment(\.openWindow)
     var openWindow
@@ -76,4 +73,9 @@ struct Runtime: App {
             SettingsView(newApp: false)
         }
     }
+}
+
+@_cdecl("RuntimeMain")
+public func RuntimeMain() {
+    Runtime.main()
 }

@@ -8,14 +8,16 @@ let package = Package(
         .macOS(.v13),
     ],
     products: [
-        .executable(name: "App",     targets: ["MultiApp"]),
-        .executable(name: "Runtime", targets: ["MultiRuntime"]),
+        .executable(name: "App", targets: ["MultiApp"]),
+        .executable(name: "Stub", targets: ["MultiStub"]),
+        .library(name: "Runtime", type: .dynamic, targets: ["MultiRuntime"]),
     ],
     dependencies: [
     ],
     targets: [
-        .executableTarget(name: "MultiApp",     dependencies: ["MultiSettings"]),
-        .executableTarget(name: "MultiRuntime", dependencies: ["MultiSettings"]),
+        .executableTarget(name: "MultiApp", dependencies: ["MultiSettings"]),
+        .executableTarget(name: "MultiStub"),
+        .target(name: "MultiRuntime", dependencies: ["MultiSettings"]),
         .target(name: "MultiSettings"),
     ]
 )
