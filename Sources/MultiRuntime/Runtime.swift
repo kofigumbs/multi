@@ -9,8 +9,6 @@ struct Runtime: App {
     @Environment(\.openWindow)
     var openWindow
 
-    let once = Once()
-
     var body: some Scene {
         WindowGroup(for: Int.self) { $index in
             TabView(tab: app.config.tabs[index], index: index, app: app) { window in
@@ -43,25 +41,29 @@ struct Runtime: App {
                     }
                 }
                 CommandGroup(after: .sidebar) {
-                    Button("Reload Page", #selector(WKWebView.reload(_:)))
+                    Button("Reload Page", action: send(#selector(WKWebView.reload(_:))))
                         .keyboardShortcut("R")
-                    Button("Actual Size", #selector(WKWebView.actualSize(_:)))
+                    Button("Actual Size", action: send(#selector(WKWebView.actualSize(_:))))
                         .keyboardShortcut("0")
-                    Button("Zoom In", #selector(WKWebView.zoomIn(_:)))
+                    Button("Zoom In", action: send(#selector(WKWebView.zoomIn(_:))))
                         .keyboardShortcut("+")
-                    Button("Zoom Out", #selector(WKWebView.zoomOut(_:)))
+                    Button("Zoom Out", action: send(#selector(WKWebView.zoomOut(_:))))
                         .keyboardShortcut("-")
                 }
                 CommandMenu("History") {
-                    Button("Back", #selector(WKWebView.goBack(_:)))
+                    Button("Back", action: send(#selector(WKWebView.goBack(_:))))
                         .keyboardShortcut("[")
-                    Button("Forward", #selector(WKWebView.goForward(_:)))
+                    Button("Forward", action: send(#selector(WKWebView.goForward(_:))))
                         .keyboardShortcut("]")
                 }
             }
         Settings {
-            SettingsView(newApp: false)
+            SettingsView()
         }
+    }
+
+    func send(_ selector: Selector) -> () -> Void {
+        { NSApp.sendAction(selector, to: nil, from: nil) }
     }
 }
 

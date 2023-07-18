@@ -34,7 +34,7 @@ struct TabView: View {
     }
 
     var notificationPolyfill: [WKUserScript] {
-        guard let url = Bundle.multi?.url(forResource: "notification", withExtension: "js"),
+        guard let url = SettingsView.url(forResource: "notification.js"),
               let js = try? String(contentsOf: url) else {
             return []
         }

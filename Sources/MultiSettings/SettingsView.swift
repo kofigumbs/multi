@@ -6,14 +6,13 @@ public struct SettingsView: View {
         let message: String
     }
 
-    private let newApp: Bool
-    private let file = Bundle.multi?.url(forResource: "settings", withExtension: "html")
+    private let newApp = Bundle.main.bundleIdentifier == "llc.gumbs.multi"
+    private let file = SettingsView.url(forResource: "settings.html")
 
-    public init(newApp: Bool) {
-        self.newApp = newApp
+    public init() {
     }
 
-    var scripts: [WKUserScript] {
+    private var scripts: [WKUserScript] {
         if newApp {
             return [WKUserScript(
                 source: """
@@ -32,7 +31,7 @@ public struct SettingsView: View {
         }
         else if let configFile = Bundle.main.url(forResource: "config", withExtension: "json"),
                 let configContent = try? String(contentsOf: configFile),
-                let name = try? JSONEncoder().encode(Bundle.main.title ?? ""),
+                let name = try? JSONEncoder().encode(Bundle.main.object(forInfoDictionaryKey: "CFBundleName") as? String ?? ""),
                 let json = try? JSONEncoder().encode(configContent) {
             return [WKUserScript(
                 source: """
@@ -56,7 +55,7 @@ public struct SettingsView: View {
                 webView.loadFileURL(file, allowingReadAccessTo: file)
             }
             else {
-                webView.load(URLRequest(url: URL(cannotOpen: "settings.html")))
+                webView.load(URLRequest(url: SettingsView.url(cannotOpenResource: "settings.html")))
             }
         }
             .with(
@@ -65,7 +64,7 @@ public struct SettingsView: View {
             )
     }
 
-    func icon(_: NSObject) async throws -> Any {
+    private func icon(_: NSObject) async throws -> String {
         let task = Task { @MainActor in
             let openPanel = NSOpenPanel()
             openPanel.canChooseFiles = true
@@ -76,7 +75,7 @@ public struct SettingsView: View {
         return await task.value ?? ""
     }
 
-    func json(message: NSObject) async throws {
+    private func json(message: NSObject) async throws {
         guard let json = message as? String,
               let data = json.data(using: .utf8) else {
             throw Error(message: "JSON Configuration is not UTF8-encoded")
@@ -84,10 +83,10 @@ public struct SettingsView: View {
         _ = try JSONDecoder().decode(Config.self, from: data)
     }
 
-    func save(message: NSObject) async throws {
+    private func save(message: NSObject) async throws {
         guard let name = message.value(forKey: "name") as? String,
               let json = message.value(forKey: "json") as? String,
-              let createMacApp = Bundle.multi?.url(forResource: "create-mac-app", withExtension: nil) else {
+              let createMacApp = SettingsView.url(forResource: "create-mac-app") else {
             throw Error(message: "App Name and JSON Configuration are required to run create-mac-app")
         }
         let task = Task.detached(priority: .userInitiated) {
@@ -112,5 +111,20 @@ public struct SettingsView: View {
             }
         }
         try await task.value
+    }
+
+    public static func url(forResource filename: String) -> URL? {
+        NSWorkspace.shared
+            .urlForApplication(withBundleIdentifier: "llc.gumbs.multi")
+            .flatMap { Bundle(url: $0) }?
+            .url(forResource: filename, withExtension: nil)
+    }
+
+    public static func url(cannotOpenResource filename: String) -> URL {
+        let html = """
+        <!DOCTYPE html>
+        Cannot open <code>\(filename)</code>
+        """
+        return URL(string: "data:text/html;charset=utf-8,\(html.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!)")!
     }
 }

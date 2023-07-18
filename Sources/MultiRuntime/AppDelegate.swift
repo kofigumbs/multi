@@ -12,7 +12,7 @@ class AppDelegate: NSObject {
               let data = try? Data(contentsOf: url),
               let config = try? JSONDecoder().decode(Config.self, from: data),
               !config.tabs.isEmpty else {
-            return Config(tabs: [Config.Tab(url: URL(cannotOpen: "config.json"))])
+            return Config(tabs: [Config.Tab(url: SettingsView.url(cannotOpenResource: "config.json"))])
         }
         return config
     }()

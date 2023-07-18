@@ -9,7 +9,7 @@ VERSION=$(shell plutil -extract CFBundleVersion raw Multi.app/Contents/Info.plis
 .PHONY: default
 default:
 	swift build $(SWIFT_ARCH) --configuration $(SWIFT_CONFIGURATION)
-	mkdir -p Multi.app/Contents/MacOS Multi.app/Contents/Frameworks
+	mkdir -p Multi.app/Contents/Frameworks Multi.app/Contents/MacOS
 	cp $(SWIFT_BUILD_PATH)/libRuntime.dylib Multi.app/Contents/Frameworks/
 	cp $(SWIFT_BUILD_PATH)/{Stub,App} Multi.app/Contents/MacOS/
 
