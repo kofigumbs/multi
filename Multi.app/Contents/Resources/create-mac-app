@@ -26,20 +26,18 @@ then
   if [[ "$MULTI_OVERWRITE" -ne "1" ]]
   then
     echo "ERROR: \"$MULTI_APP_LOCATION\" already exists!"
-    if [[ -z "$MULTI_UI" ]];
-    then echo "Rerun with MULTI_OVERWRITE=1 to replace it."
-    else echo "You can make this change via the preferences in \"$MULTI_APP_NAME\""
+    if [[ -z "$MULTI_UI" ]]
+      then echo "Rerun with MULTI_OVERWRITE=1 to replace it."
+      else echo "You can make this change via the preferences in \"$MULTI_APP_NAME\""
     fi
     exit 1
   fi
 
 else
-  echo "Creating bundle ..."
   mkdir -p "$MULTI_APP_LOCATION/Contents/Resources"
   chmod +x "$MULTI_APP_LOCATION"
 fi
 
-echo "Generating bundle contents ..."
 mkdir -p "$MULTI_APP_LOCATION/Contents/MacOS"
 cp "$MULTI_RESOURCES/../MacOS/Stub" "$MULTI_APP_LOCATION/Contents/MacOS/Stub"
 cp "$MULTI_RESOURCES/Stub.plist" "$MULTI_APP_LOCATION/Contents/Info.plist"
@@ -47,7 +45,7 @@ sed -e "s/{{name}}/$MULTI_APP_NAME/g" -e "s/{{id}}/$MULTI_APP_BUNDLE_ID/g" -i ''
 
 if [[ -z "$MULTI_JSON_CONFIG" ]]
 then
-  echo "WARNING: Skipping config update because no JSON provided ..."
+  echo "Skipping config update because no JSON provided"
 else
   echo "$MULTI_JSON_CONFIG" > "$MULTI_APP_LOCATION/Contents/Resources/config.json"
 fi
@@ -70,17 +68,13 @@ then
   sips -z 1024 1024 "$MULTI_ICON_PATH" --out "$MULTI_ICON_TMP_DIR/icon_512x512@2x.png" > /dev/null
   iconutil -c icns --output "$MULTI_APP_LOCATION/Contents/Resources/Icon.icns" "$MULTI_ICON_TMP_DIR"
 else
-  echo "WARNING: Skipping icon creation because no PNG or ICNS provided ..."
+  echo "Skipping icon creation because no PNG or ICNS provided"
 fi
 
-echo "Signing bundle ..."
 codesign --sign - --force "$MULTI_APP_LOCATION"
 
 if [[ ! -z "$MULTI_RELAUNCH_PID" ]]
 then
-  echo "Launching app ..."
   kill "$MULTI_RELAUNCH_PID"
   open -n "$MULTI_APP_LOCATION" || true
 fi
-
-echo "Done!"
