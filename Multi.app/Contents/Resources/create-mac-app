@@ -44,7 +44,13 @@ mkdir -p "$MULTI_APP_LOCATION/Contents/MacOS"
 cp "$MULTI_RESOURCES/../MacOS/Stub" "$MULTI_APP_LOCATION/Contents/MacOS/Stub"
 cp "$MULTI_RESOURCES/Stub.plist" "$MULTI_APP_LOCATION/Contents/Info.plist"
 sed -e "s/{{name}}/$MULTI_APP_NAME/g" -e "s/{{id}}/$MULTI_APP_BUNDLE_ID/g" -i '' "$MULTI_APP_LOCATION/Contents/Info.plist"
-echo "$MULTI_JSON_CONFIG" > "$MULTI_APP_LOCATION/Contents/Resources/config.json"
+
+if [[ -z "$MULTI_JSON_CONFIG" ]]
+then
+  echo "WARNING: Skipping config update because no JSON provided ..."
+else
+  echo "$MULTI_JSON_CONFIG" > "$MULTI_APP_LOCATION/Contents/Resources/config.json"
+fi
 
 if [[ "$MULTI_ICON_PATH" == *.icns ]]
 then
