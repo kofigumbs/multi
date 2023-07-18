@@ -13,11 +13,12 @@ struct Runtime: App {
 
     var body: some Scene {
         WindowGroup(for: Int.self) { $index in
-            TabView(tab: app.config.tabs[index], app: app) { window in
+            TabView(tab: app.config.tabs[index], index: index, app: app) { window in
                 once {
                     for i in app.config.tabs.indices {
                         openWindow(value: i)
                     }
+                    app.openWindow = openWindow
                     window.makeKeyAndOrderFront(nil)
                 }
                 if app.config.alwaysOnTop {

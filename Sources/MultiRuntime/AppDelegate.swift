@@ -5,6 +5,8 @@ import UserNotifications
 import MultiSettings
 
 class AppDelegate: NSObject {
+    var openWindow: OpenWindowAction?
+
     let config: Config = {
         guard let url = Bundle.main.url(forResource: "config", withExtension: "json"),
               let data = try? Data(contentsOf: url),
@@ -28,8 +30,27 @@ class AppDelegate: NSObject {
 }
 
 extension AppDelegate: NSApplicationDelegate {
+    public func applicationDidFinishLaunching(_ notification: Notification) {
+        UNUserNotificationCenter.current().delegate = self
+    }
+
     public func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool {
         return !config.keepOpenAfterWindowClosed
+    }
+}
+
+extension AppDelegate: UNUserNotificationCenterDelegate {
+    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse) async {
+        guard let index = response.notification.request.content.userInfo["tab"] as? Int else {
+            return
+        }
+        DispatchQueue.main.async {
+            self.openWindow?(value: index)
+        }
+    }
+
+    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification) async -> UNNotificationPresentationOptions {
+        config.alwaysNotify ? .banner : []
     }
 }
 

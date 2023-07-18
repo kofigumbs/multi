@@ -9,6 +9,7 @@ struct TabView: View {
     }
 
     let tab: Config.Tab
+    let index: Int
     let app: AppDelegate
     let onPresent: (NSWindow) -> Void
 
@@ -94,6 +95,7 @@ struct TabView: View {
         let content = UNMutableNotificationContent()
         content.title = message.value(forKey: "title") as? String ?? ""
         content.body = message.value(forKey: "body") as? String ?? ""
+        content.userInfo = ["tab": index]
         try await UNUserNotificationCenter.current().add(UNNotificationRequest(identifier: tag, content: content, trigger: nil))
     }
 
