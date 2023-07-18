@@ -35,7 +35,7 @@ extension AppDelegate: NSApplicationDelegate {
     }
 
     public func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool {
-        return !config.keepOpenAfterWindowClosed
+        return config.terminateAfterLastWindowClosed
     }
 }
 

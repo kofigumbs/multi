@@ -55,15 +55,15 @@ Multi apps store their configuration in a single JSON file.
 If your app is named `Test`, then you'll find that file at `/Applications/Multi/Test.app/Contents/Resources/config.json`.
 The JSON configuration uses the following top-level fields:
 
-| Field Name                   | Type                                 | Description                                                          |
-|------------------------------|--------------------------------------|----------------------------------------------------------------------|
-| `tabs`                       | Array (Required)                     | Titles and URLs of tabs for this app                                 |
-| `windowed`                   | Boolean (Optional, default `false`)  | Start the app with each tab in its own window                        |
-| `keepOpenAfterWindowClosed`  | Boolean (Optional, default `false`)  | Prevents app from quitting when the last window is closed            |
-| `alwaysNotify`               | Boolean (Optional, default `false`)  | Show macOS notifications even if your app is currently focused       |
-| `alwaysOnTop`                | Boolean (Optional, default `false`)  | Position this app's window on top of all others                      |
-| `openNewWindowsWith`         | String (Optional)                    | Override system default browser for external links — value is a _bundle identifier_ like `com.apple.Safari`, `com.google.Chrome`, or `com.mozilla.firefox` |
-| `openNewWindowsInBackground` | Boolean (Optional, default `false`)  | Determines if browser app becomes active when opening external links |
+| Field Name                       | Type                                 | Description                                                          |
+|----------------------------------|--------------------------------------|----------------------------------------------------------------------|
+| `tabs`                           | Array (Required)                     | Titles and URLs of tabs for this app                                 |
+| `windowed`                       | Boolean (Optional, default `false`)  | Start this app with each tab in its own window                       |
+| `alwaysNotify`                   | Boolean (Optional, default `false`)  | Show macOS notifications even if this app is currently focused       |
+| `alwaysOnTop`                    | Boolean (Optional, default `false`)  | Position this app's window on top of all others                      |
+| `terminateAfterLastWindowClosed` | Boolean (Optional, default `false`)  | Determine if this app closes once all tabs/windows are closed        |
+| `openNewWindowsInBackground`     | Boolean (Optional, default `false`)  | Determines if browser app becomes active when opening external links |
+| `openNewWindowsWith`             | String (Optional)                    | Override system default browser for external links — value is a _bundle identifier_ like `com.apple.Safari`, `com.google.Chrome`, or `com.mozilla.firefox` |
 
 The `tabs` field is an array of objects with the following fields:
 
@@ -112,11 +112,11 @@ Here's a fancier example that uses the optional fields referenced above:
     }
   ],
   "windowed": true,
-  "keepOpenAfterWindowClosed": true,
   "alwaysNotify": true,
   "alwaysOnTop": true,
-  "openNewWindowsWith": "com.apple.Safari",
-  "openNewWindowsInBackground": true
+  "terminateAfterLastWindowClosed": true,
+  "openNewWindowsInBackground": true,
+  "openNewWindowsWith": "com.apple.Safari"
 }
 ```
 

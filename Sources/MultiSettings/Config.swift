@@ -45,13 +45,13 @@ public struct Config: Decodable {
     @DecodableDefault.False
     public var windowed: Bool
     @DecodableDefault.False
-    public var keepOpenAfterWindowClosed: Bool
-    @DecodableDefault.False
     public var alwaysNotify: Bool
     @DecodableDefault.False
     public var alwaysOnTop: Bool
     @DecodableDefault.False
     public var openNewWindowsInBackground: Bool
+    @DecodableDefault.False
+    public var terminateAfterLastWindowClosed: Bool
 
     public init(tabs: [Tab]) {
         self.tabs = tabs
