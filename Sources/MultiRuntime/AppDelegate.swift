@@ -41,7 +41,8 @@ extension AppDelegate: NSApplicationDelegate {
 
 extension AppDelegate: UNUserNotificationCenterDelegate {
     func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse) async {
-        guard let index = response.notification.request.content.userInfo["tab"] as? Int else {
+        guard let index = response.notification.request.content.userInfo["tab"] as? Int,
+              config.tabs.indices.contains(index) else {
             return
         }
         DispatchQueue.main.async {
