@@ -2,10 +2,11 @@ import Foundation
 
 public struct Config: Decodable {
     public struct Tab: Decodable {
-        public var title: String
         public var url: URL
         public var userAgent: String?
 
+        @DecodableDefault.EmptyString
+        public var title: String
         @DecodableDefault.EmptyString
         public var basicAuthUser: String
         @DecodableDefault.EmptyString
@@ -17,8 +18,7 @@ public struct Config: Decodable {
         @DecodableDefault.EmptyList
         public var customCookies: [Cookie]
 
-        public init(title: String, url: URL) {
-            self.title = title
+        public init(url: URL) {
             self.url = url
         }
     }

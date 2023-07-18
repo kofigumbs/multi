@@ -55,22 +55,22 @@ Multi apps store their configuration in a single JSON file.
 If your app is named `Test`, then you'll find that file at `/Applications/Multi/Test.app/Contents/Resources/config.json`.
 The JSON configuration uses the following top-level fields:
 
-| Field Name                       | Type                                 | Description                                                          |
-|----------------------------------|--------------------------------------|----------------------------------------------------------------------|
-| `tabs`                           | Array (Required)                     | Titles and URLs of tabs for this app                                 |
-| `windowed`                       | Boolean (Optional, default `false`)  | Start this app with each tab in its own window                       |
-| `alwaysNotify`                   | Boolean (Optional, default `false`)  | Show macOS notifications even if this app is currently focused       |
-| `alwaysOnTop`                    | Boolean (Optional, default `false`)  | Position this app's window on top of all others                      |
-| `terminateAfterLastWindowClosed` | Boolean (Optional, default `false`)  | Determine if this app closes once all tabs/windows are closed        |
-| `openNewWindowsInBackground`     | Boolean (Optional, default `false`)  | Determines if browser app becomes active when opening external links |
+| Field Name                       | Type                                 | Description                                                                                                                                                |
+|----------------------------------|--------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `tabs`                           | Array (Required)                     | Titles and URLs of tabs for this app                                                                                                                       |
+| `windowed`                       | Boolean (Optional, default `false`)  | Start this app with each tab in its own window                                                                                                             |
+| `alwaysNotify`                   | Boolean (Optional, default `false`)  | Show macOS notifications even if this app is currently focused                                                                                             |
+| `alwaysOnTop`                    | Boolean (Optional, default `false`)  | Position this app's window on top of all others                                                                                                            |
+| `terminateAfterLastWindowClosed` | Boolean (Optional, default `false`)  | Determine if this app closes once all tabs/windows are closed                                                                                              |
+| `openNewWindowsInBackground`     | Boolean (Optional, default `false`)  | Determines if browser app becomes active when opening external links                                                                                       |
 | `openNewWindowsWith`             | String (Optional)                    | Override system default browser for external links — value is a _bundle identifier_ like `com.apple.Safari`, `com.google.Chrome`, or `com.mozilla.firefox` |
 
 The `tabs` field is an array of objects with the following fields:
 
 | Field Name          | Type                        | Description                                                                                                              |
 |---------------------|-----------------------------|--------------------------------------------------------------------------------------------------------------------------|
-| `title`             | String (Required)           | Whatever you want to call this tab                                                                                       |
 | `url`               | String (Required)           | Starting page for this tab                                                                                               |
+| `title`             | String (Optional)           | Name for this tab                                                                                                        |
 | `customJs`          | Array of Strings (Optional) | Custom JS URLs (see [Custom JS/CSS](#custom-jscss))                                                                      |
 | `customCss`         | Array of Strings (Optional) | Custom CSS URLs (see [Custom JS/CSS](#custom-jscss))                                                                     |
 | `customCookies`     | Array of Objects (Optional) | Custom cookies using [HTTPCookiePropertyKey](https://developer.apple.com/documentation/foundation/httpcookiepropertykey) |
@@ -78,10 +78,10 @@ The `tabs` field is an array of objects with the following fields:
 | `basicAuthPassword` | String (Optional)           | Password credential for requests that use basic access authentication                                                    |
 | `userAgent`         | String (Optional)           | Override the default WebKit user agent header                                                                            |
 
-Here's the bare minimum example used in the Slack demo video above:
+Here's a bare minimum example to recreate the Slack demo video above:
 
 ```json
-{ "tabs": [{ "title": "Slack Lite", "url": "https://app.slack.com/client" }] }
+{ "tabs": [{ "url": "https://app.slack.com/client" }] }
 ```
 
 Here's a fancier example that uses the optional fields referenced above:
