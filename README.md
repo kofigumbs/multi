@@ -21,7 +21,6 @@ Watch me create a Slack clone from scratch in 30 seconds (<a href="https://kofi.
 
  - [Installation](#installation)
  - [JSON configuration](#json-configuration)
-   - [User-agent tip](#user-agent-tip)
  - [Using the CLI: `create-mac-app`](#using-the-cli-create-mac-app)
  - [Custom JS/CSS](#custom-jscss)
    - [Fix links in GMail and Google Calendar](#fix-links-in-gmail-and-google-calendar)
@@ -55,28 +54,28 @@ Multi apps store their configuration in a single JSON file.
 If your app is named `Test`, then you'll find that file at `/Applications/Multi/Test.app/Contents/Resources/config.json`.
 The JSON configuration uses the following top-level fields:
 
-| Field Name                   | Type                                 | Description                                                                                                                                                |
-|------------------------------|--------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `tabs`                       | Array (Required)                     | Titles and URLs of tabs for this app                                                                                                                       |
-| `windowed`                   | Boolean (Optional, default `false`)  | Start this app with each tab in its own window                                                                                                             |
-| `alwaysNotify`               | Boolean (Optional, default `false`)  | Show macOS notifications even if this app is currently focused                                                                                             |
-| `alwaysOnTop`                | Boolean (Optional, default `false`)  | Position this app's window on top of all others                                                                                                            |
-| `terminateWithLastWindow`    | Boolean (Optional, default `false`)  | Determine if this app closes once all tabs/windows are closed                                                                                              |
-| `openNewWindowsInBackground` | Boolean (Optional, default `false`)  | Determines if browser app becomes active when opening external links                                                                                       |
-| `openNewWindowsWith`         | String (Optional)                    | Override system default browser for external links — value is a _bundle identifier_ like `com.apple.Safari`, `com.google.Chrome`, or `com.mozilla.firefox` |
+| Field Name                   | Type    | Description                                                                                                                                                |
+|------------------------------|---------|------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `tabs`                       | Array   | Titles and URLs of tabs for this app **(Required)**                                                                                                        |
+| `windowed`                   | Boolean | Start this app with each tab in its own window                                                                                                             |
+| `alwaysNotify`               | Boolean | Show macOS notifications even if this app is currently focused                                                                                             |
+| `alwaysOnTop`                | Boolean | Position this app's window on top of all others                                                                                                            |
+| `terminateWithLastWindow`    | Boolean | Determine if this app closes once all tabs/windows are closed                                                                                              |
+| `openNewWindowsInBackground` | Boolean | Determines if browser app becomes active when opening external links                                                                                       |
+| `openNewWindowsWith`         | String  | Override system default browser for external links — value is a _bundle identifier_ like `com.apple.Safari`, `com.google.Chrome`, or `com.mozilla.firefox` |
 
 The `tabs` field is an array of objects with the following fields:
 
-| Field Name          | Type                        | Description                                                                                                              |
-|---------------------|-----------------------------|--------------------------------------------------------------------------------------------------------------------------|
-| `url`               | String (Required)           | Starting page for this tab                                                                                               |
-| `title`             | String (Optional)           | Name for this tab                                                                                                        |
-| `customJs`          | Array of Strings (Optional) | Custom JS URLs (see [Custom JS/CSS](#custom-jscss))                                                                      |
-| `customCss`         | Array of Strings (Optional) | Custom CSS URLs (see [Custom JS/CSS](#custom-jscss))                                                                     |
-| `customCookies`     | Array of Objects (Optional) | Custom cookies using [HTTPCookiePropertyKey](https://developer.apple.com/documentation/foundation/httpcookiepropertykey) |
-| `basicAuthUser`     | String (Optional)           | User name credential for requests that use basic access authentication                                                   |
-| `basicAuthPassword` | String (Optional)           | Password credential for requests that use basic access authentication                                                    |
-| `userAgent`         | String (Optional)           | Override the default WebKit user agent header                                                                            |
+| Field Name          | Type             | Description                                                                                                              |
+|---------------------|------------------|--------------------------------------------------------------------------------------------------------------------------|
+| `url`               | String           | Starting page for this tab **(Required)**                                                                                |
+| `title`             | String           | Name for this tab                                                                                                        |
+| `customJs`          | Array of Strings | Custom JS URLs (see [Custom JS/CSS](#custom-jscss))                                                                      |
+| `customCss`         | Array of Strings | Custom CSS URLs (see [Custom JS/CSS](#custom-jscss))                                                                     |
+| `customCookies`     | Array of Objects | Custom cookies using [HTTPCookiePropertyKey](https://developer.apple.com/documentation/foundation/httpcookiepropertykey) |
+| `basicAuthUser`     | String           | User name credential for requests that use basic access authentication                                                   |
+| `basicAuthPassword` | String           | Password credential for requests that use basic access authentication                                                    |
+| `userAgent`         | String           | Override the default WebKit user agent header                                                                            |
 
 Here's a bare minimum example to recreate the Slack demo video above:
 
@@ -120,17 +119,8 @@ Here's a fancier example that uses the optional fields referenced above:
 }
 ```
 
-If your configuration file fails to decode for any reason, your Multi app will open to the preferences window, where you can fix any issues.
-
-
-#### User-agent tip
-
-Before v2.2.0, Multi included a hard-coded user-agent that made it appear like Safari.
-This behavior caused [subtle issues](https://github.com/kofigumbs/multi/issues/84) and [confusion](https://github.com/kofigumbs/multi/issues/83) when the hard-coded user-agent didn't reflect the system WebKit version.
-Recent Multi versions remove the hard-coded user-agent, but now sites like Slack and WhatsApp complain that your browser is out of date.
-(Ideally these sites would use [feature detection](https://developer.mozilla.org/en-US/docs/Learn/Tools_and_testing/Cross_browser_testing/Feature_detection) instead of user-agent sniffing to gracefully degrade behavior; alas, the world does not work ideally.)
-
-If your site doesn't work because it thinks you're using an outdated browser, try setting the `userAgent` config to match your Safari version.
+If your configuration file fails to decode, you can use the settings window to fix the issues.
+Optional fields will always default to "empty" values (i.e. `false`, `""`, `[]`).
 
 
 ## Using the CLI: `create-mac-app`
@@ -168,7 +158,7 @@ It lets the main project stay small and focused, while letting you extend it wit
 If you have a neat JS/CSS snippet, you'd like to share, please open an Issue or Pull Request!
 Here are a few that have come up before:
 
-#### Fix links in GMail and Google Calendar
+### Fix links in GMail and Google Calendar
 
 Google seems to be doing some trickery here.
 Instead of allowing the browser to handle the <a target=_blank> links, they use JS to open a blank popup window, then dynamically set the URL to google.com/url?q=REAL_URL_HERE.
@@ -187,7 +177,7 @@ Custom JS solution:
 })();
 ```
 
-#### Reload Slack when it disconnects
+### Reload Slack when it disconnects
 
 Sometimes Slack's WebSocket disconnects and stops loading new messages.
 It seems like this is either an issue with [WebKit](https://bugs.webkit.org/show_bug.cgi?id=149551) or [Slack.com](https://slack.com/help/articles/205138367-Troubleshoot-connection-issues#websocket-trouble).
@@ -200,7 +190,7 @@ setInterval(() => {
 }, 90000);
 ```
 
-#### Find in page
+### Find in page
 
 Multi doesn't include any search functionality (Cmd-F).
 Custom JS solution:
@@ -269,7 +259,7 @@ Custom JS solution:
 })();
 ```
 
-#### Drag-and-drop to open URLs
+### Drag-and-drop to open URLs
 
 Sometimes you have a URL outside of Multi (maybe in an email), and you want to open it in Multi.
 Custom JS solution:
@@ -278,7 +268,7 @@ Custom JS solution:
 document.addEventListener("dragover", e => e.preventDefault());
 ```
 
-#### Preview link targets
+### Preview link targets
 
 Multi doesn't include any hover-to-preview-link-target functionality.
 Custom CSS solution:
