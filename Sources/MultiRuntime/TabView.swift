@@ -10,7 +10,7 @@ struct TabView: View {
 
     let tab: Config.Tab
     let index: Int
-    let app: AppDelegate
+    let appDelegate: AppDelegate
     let onPresent: (NSWindow) -> Void
 
     var customCss: [WKUserScript] {
@@ -69,8 +69,8 @@ struct TabView: View {
         }
             .with(
                 userAgent: tab.userAgent,
-                ui: app,
-                navigation: TabDelegate(tab, app),
+                ui: appDelegate,
+                navigation: TabDelegate(tab, appDelegate),
                 scripts: customCss + customJs + notificationPolyfill,
                 cookies: cookies,
                 handlers: [

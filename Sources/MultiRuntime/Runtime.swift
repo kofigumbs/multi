@@ -4,25 +4,25 @@ import MultiSettings
 
 struct Runtime: App {
     @NSApplicationDelegateAdaptor(AppDelegate.self)
-    var app
+    var delegate
 
     @Environment(\.openWindow)
     var openWindow
 
     var body: some Scene {
         WindowGroup(for: Int.self) { $index in
-            TabView(tab: app.config.tabs[index], index: index, app: app) { window in
+            TabView(tab: delegate.config.tabs[index], index: index, appDelegate: delegate) { window in
                 once {
-                    for i in app.config.tabs.indices {
+                    for i in delegate.config.tabs.indices {
                         openWindow(value: i)
                     }
-                    app.openWindow = openWindow
+                    delegate.openWindow = openWindow
                     window.makeKeyAndOrderFront(nil)
                 }
-                if app.config.alwaysOnTop {
+                if delegate.config.alwaysOnTop {
                     window.level = .floating
                 }
-                if !app.config.windowed {
+                if !delegate.config.windowed {
                     NSApp.keyWindow?.tabGroup?.addWindow(window)
                 }
                 window.isExcludedFromWindowsMenu = true
@@ -33,27 +33,27 @@ struct Runtime: App {
             .commands {
                 CommandGroup(replacing: .newItem) {}
                 CommandGroup(after: .singleWindowList) {
-                    ForEach(0 ..< min(app.config.tabs.count, 9), id: \.self) { index in
-                        Button(app.config.tabs[index].title) {
+                    ForEach(0 ..< min(delegate.config.tabs.count, 9), id: \.self) { index in
+                        Button(delegate.config.tabs[index].title) {
                             openWindow(value: index)
                         }
                             .keyboardShortcut(KeyEquivalent((index+1).description.first!))
                     }
                 }
                 CommandGroup(after: .sidebar) {
-                    Button("Reload Page", action: send(#selector(WKWebView.reload(_:))))
+                    button("Reload Page", #selector(WKWebView.reload(_:)))
                         .keyboardShortcut("R")
-                    Button("Actual Size", action: send(#selector(WKWebView.actualSize(_:))))
+                    button("Actual Size", #selector(WKWebView.actualSize(_:)))
                         .keyboardShortcut("0")
-                    Button("Zoom In", action: send(#selector(WKWebView.zoomIn(_:))))
+                    button("Zoom In", #selector(WKWebView.zoomIn(_:)))
                         .keyboardShortcut("+")
-                    Button("Zoom Out", action: send(#selector(WKWebView.zoomOut(_:))))
+                    button("Zoom Out", #selector(WKWebView.zoomOut(_:)))
                         .keyboardShortcut("-")
                 }
                 CommandMenu("History") {
-                    Button("Back", action: send(#selector(WKWebView.goBack(_:))))
+                    button("Back", #selector(WKWebView.goBack(_:)))
                         .keyboardShortcut("[")
-                    Button("Forward", action: send(#selector(WKWebView.goForward(_:))))
+                    button("Forward", #selector(WKWebView.goForward(_:)))
                         .keyboardShortcut("]")
                 }
             }
@@ -62,8 +62,10 @@ struct Runtime: App {
         }
     }
 
-    func send(_ selector: Selector) -> () -> Void {
-        { NSApp.sendAction(selector, to: nil, from: nil) }
+    func button(_ text: String, _ selector: Selector) -> Button<Text> {
+        Button(text) {
+            NSApp.sendAction(selector, to: nil, from: nil)
+        }
     }
 }
 

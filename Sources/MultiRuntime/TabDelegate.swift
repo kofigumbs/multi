@@ -3,11 +3,11 @@ import MultiSettings
 
 class TabDelegate: NSObject, WKNavigationDelegate {
     let tab: Config.Tab
-    let app: AppDelegate
+    let appDelegate: AppDelegate
 
-    init(_ tab: Config.Tab, _ app: AppDelegate) {
+    init(_ tab: Config.Tab, _ appDelegate: AppDelegate) {
         self.tab = tab
-        self.app = app
+        self.appDelegate = appDelegate
     }
 
     func webView(_: WKWebView, decidePolicyFor: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) -> () {
@@ -16,7 +16,7 @@ class TabDelegate: NSObject, WKNavigationDelegate {
         }
         else {
             decisionHandler(.cancel)
-            _ = decidePolicyFor.request.url.map(app.openExternal)
+            _ = decidePolicyFor.request.url.map(appDelegate.openExternal)
         }
     }
 
