@@ -10,9 +10,8 @@ class AppDelegate: NSObject {
     let config: Config = {
         guard let url = Bundle.main.url(forResource: "config", withExtension: "json"),
               let data = try? Data(contentsOf: url),
-              let config = try? JSONDecoder().decode(Config.self, from: data),
-              !config.tabs.isEmpty else {
-            return Config(tabs: [Config.Tab(url: SettingsView.url(cannotOpenResource: "config.json"))])
+              let config = try? JSONDecoder().decode(Config.self, from: data) else {
+            return Config(tabs: [])
         }
         return config
     }()

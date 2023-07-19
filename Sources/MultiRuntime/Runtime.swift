@@ -11,21 +11,30 @@ struct Runtime: App {
 
     var body: some Scene {
         WindowGroup(for: Int.self) { $index in
-            TabView(tab: delegate.config.tabs[index], index: index, appDelegate: delegate) { window in
-                once {
-                    for i in delegate.config.tabs.indices {
-                        openWindow(value: i)
+            if delegate.config.tabs.isEmpty {
+                let _ = DispatchQueue.main.async {
+                    let window = NSApp.keyWindow
+                    NSApp.sendAction(Selector(("showSettingsWindow:")), to: nil, from: nil)
+                    window?.close()
+                }
+            }
+            else {
+                TabView(tab: delegate.config.tabs[index], index: index, appDelegate: delegate) { window in
+                    once {
+                        for i in delegate.config.tabs.indices {
+                            openWindow(value: i)
+                        }
+                        delegate.openWindow = openWindow
+                        window.makeKeyAndOrderFront(nil)
                     }
-                    delegate.openWindow = openWindow
-                    window.makeKeyAndOrderFront(nil)
+                    if delegate.config.alwaysOnTop {
+                        window.level = .floating
+                    }
+                    if !delegate.config.windowed {
+                        NSApp.keyWindow?.tabGroup?.addWindow(window)
+                    }
+                    window.isExcludedFromWindowsMenu = true
                 }
-                if delegate.config.alwaysOnTop {
-                    window.level = .floating
-                }
-                if !delegate.config.windowed {
-                    NSApp.keyWindow?.tabGroup?.addWindow(window)
-                }
-                window.isExcludedFromWindowsMenu = true
             }
         } defaultValue: {
             0

@@ -55,7 +55,13 @@ public struct SettingsView: View {
                 webView.loadFileURL(file, allowingReadAccessTo: file)
             }
             else {
-                webView.load(URLRequest(url: SettingsView.url(cannotOpenResource: "settings.html")))
+                webView.loadHTMLString(
+                    """
+                    <!DOCTYPE html>
+                    Cannot open <code>settings.html</code>
+                    """,
+                    baseURL: nil
+                )
             }
         }
             .with(
@@ -118,13 +124,5 @@ public struct SettingsView: View {
             .urlForApplication(withBundleIdentifier: "llc.gumbs.multi")
             .flatMap { Bundle(url: $0) }?
             .url(forResource: filename, withExtension: nil)
-    }
-
-    public static func url(cannotOpenResource filename: String) -> URL {
-        let html = """
-        <!DOCTYPE html>
-        Cannot open <code>\(filename)</code>
-        """
-        return URL(string: "data:text/html;charset=utf-8,\(html.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!)")!
     }
 }
