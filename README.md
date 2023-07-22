@@ -28,13 +28,17 @@ Watch me create a Slack clone from scratch in 30 seconds (<a href="https://kofi.
    - [Find in page](#find-in-page)
    - [Drag-and-drop to open URLs](#drag-and-drop-to-open-urls)
    - [Preview link targets](#preview-link-targets)
- - [Donating](#donating)
 
 I've also written a few blog posts that discuss some of the decisions behind Multi:
 
  - Motivation: <https://kofi.sexy/blog/multi>
  - Performance: <https://kofi.sexy/blog/slack-app-fewer-resources>
- - Retrospective: <https://kofi.sexy/blog/multi-retrospective>
+ - Removing paid licenses: <https://kofi.sexy/blog/multi-retrospective>
+ - 3.0 rewrite: <https://kofi.sexy/blog/multi-3>
+
+If you enjoy using Multi, please consider showing your appreciation with a donation!
+
+<a href='https://ko-fi.com/P5P5GCTKI' target='_blank'><img height='36' style='border:0px;height:36px;' src='https://storage.ko-fi.com/cdn/kofi3.png?v=3' border='0' alt='Buy Me a Coffee at ko-fi.com' /></a>
 
 
 ## Installation
@@ -56,7 +60,7 @@ The JSON configuration uses the following top-level fields:
 
 | Field Name                   | Type    | Description                                                                                                                                            |
 |------------------------------|---------|--------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `tabs`                       | Array   | Titles and URLs of tabs for this app **(Required)**                                                                                                    |
+| `tabs`                       | Array   | Titles and URLs of tabs for this app ***(Required)***                                                                                                  |
 | `windowed`                   | Boolean | Start this app with each tab in its own window                                                                                                         |
 | `alwaysNotify`               | Boolean | Show macOS notifications even if this app is currently focused                                                                                         |
 | `alwaysOnTop`                | Boolean | Position this app's window on top of all others                                                                                                        |
@@ -68,7 +72,7 @@ The `tabs` field is an array of objects with the following fields:
 
 | Field Name          | Type             | Description                                                                                                              |
 |---------------------|------------------|--------------------------------------------------------------------------------------------------------------------------|
-| `url`               | String           | Starting page for this tab **(Required)**                                                                                |
+| `url`               | String           | Starting page for this tab ***(Required)***                                                                              |
 | `title`             | String           | Name for this tab                                                                                                        |
 | `customJs`          | Array of Strings | Custom JS URLs (see [Custom JS/CSS](#custom-jscss))                                                                      |
 | `customCss`         | Array of Strings | Custom CSS URLs (see [Custom JS/CSS](#custom-jscss))                                                                     |
@@ -275,8 +279,3 @@ a:hover::after {
   border-radius: 1px;
 }
 ```
-
-
-## Donating
-
-<a href='https://ko-fi.com/P5P5GCTKI' target='_blank'><img height='36' style='border:0px;height:36px;' src='https://storage.ko-fi.com/cdn/kofi3.png?v=3' border='0' alt='Buy Me a Coffee at ko-fi.com' /></a>
