@@ -1,10 +1,9 @@
 SHELL=/bin/bash
 
-GITHUB_USER:=kofigumbs
 SWIFT_ARCH:=
 SWIFT_CONFIGURATION:=debug
 SWIFT_BUILD_PATH:=.build/debug
-VERSION=$(shell plutil -extract CFBundleVersion raw Multi.app/Contents/Info.plist )
+VERSION=$(shell plutil -extract CFBundleVersion raw Multi.app/Contents/Info.plist)
 
 .PHONY: default
 default:
@@ -24,7 +23,4 @@ release:
 
 .PHONY: cask
 cask:
-	brew bump-cask-pr --no-fork --write-only --commit --version ${VERSION} multi
-	git -C /usr/local/Homebrew/Library/Taps/homebrew/homebrew-cask push ${GITHUB_USER} HEAD:bump-multi-${VERSION}
-	git -C /usr/local/Homebrew/Library/Taps/homebrew/homebrew-cask reset --hard origin/HEAD
-	open 'https://github.com/Homebrew/homebrew-cask/compare/master...kofigumbs:homebrew-cask:bump-multi-${VERSION}?body=Created with `brew bump-cask-pr`'
+	brew bump-cask-pr --version ${VERSION} multi
