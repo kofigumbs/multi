@@ -9,7 +9,7 @@ struct TabView: View {
     }
 
     let index: Int
-    let delegate: TabDelegate
+    let delegate: TabViewDelegate
     let onPresent: (NSWindow) -> Void
 
     var customCss: [WKUserScript] {

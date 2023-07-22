@@ -4,7 +4,7 @@ import WebKit
 import UserNotifications
 import MultiSettings
 
-class AppDelegate: NSObject {
+class RuntimeDelegate: NSObject {
     var openWindow: OpenWindowAction?
 
     let config: Config = {
@@ -28,7 +28,7 @@ class AppDelegate: NSObject {
     }
 }
 
-extension AppDelegate: NSApplicationDelegate {
+extension RuntimeDelegate: NSApplicationDelegate {
     public func applicationDidFinishLaunching(_ notification: Notification) {
         UNUserNotificationCenter.current().delegate = self
     }
@@ -38,7 +38,7 @@ extension AppDelegate: NSApplicationDelegate {
     }
 }
 
-extension AppDelegate: UNUserNotificationCenterDelegate {
+extension RuntimeDelegate: UNUserNotificationCenterDelegate {
     func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse) async {
         guard let index = response.notification.request.content.userInfo["tab"] as? Int,
               config.tabs.indices.contains(index) else {
@@ -54,7 +54,7 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
     }
 }
 
-extension AppDelegate: WKUIDelegate {
+extension RuntimeDelegate: WKUIDelegate {
     func webView(_: WKWebView, createWebViewWith: WKWebViewConfiguration, for navigationAction: WKNavigationAction, windowFeatures: WKWindowFeatures) -> WKWebView? {
         _ = navigationAction.request.url.map(openExternal)
         return nil

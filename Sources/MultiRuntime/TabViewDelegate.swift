@@ -1,11 +1,11 @@
 import WebKit
 import MultiSettings
 
-class TabDelegate: NSObject, WKNavigationDelegate {
+class TabViewDelegate: NSObject, WKNavigationDelegate {
     let tab: Config.Tab
-    let appDelegate: AppDelegate
+    let appDelegate: RuntimeDelegate
 
-    init(_ tab: Config.Tab, _ appDelegate: AppDelegate) {
+    init(_ tab: Config.Tab, _ appDelegate: RuntimeDelegate) {
         self.tab = tab
         self.appDelegate = appDelegate
     }

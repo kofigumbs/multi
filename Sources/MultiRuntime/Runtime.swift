@@ -3,7 +3,7 @@ import WebKit
 import MultiSettings
 
 struct Runtime: App {
-    @NSApplicationDelegateAdaptor(AppDelegate.self)
+    @NSApplicationDelegateAdaptor(RuntimeDelegate.self)
     var delegate
 
     @Environment(\.openWindow)
