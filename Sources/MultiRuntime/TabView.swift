@@ -8,13 +8,12 @@ struct TabView: View {
         let message: String
     }
 
-    let tab: Config.Tab
     let index: Int
-    let appDelegate: AppDelegate
+    let delegate: TabDelegate
     let onPresent: (NSWindow) -> Void
 
     var customCss: [WKUserScript] {
-        tab.customCss.compactMap({ try? Data(contentsOf: $0).base64EncodedString() }).map { css in
+        delegate.tab.customCss.compactMap({ try? Data(contentsOf: $0).base64EncodedString() }).map { css in
             WKUserScript(
                 source: """
                 document.documentElement.prepend(
@@ -28,7 +27,7 @@ struct TabView: View {
     }
 
     var customJs: [WKUserScript] {
-        tab.customJs.compactMap({ try? String(contentsOf: $0) }).map { js in
+        delegate.tab.customJs.compactMap({ try? String(contentsOf: $0) }).map { js in
             WKUserScript(source: js, injectionTime: .atDocumentStart, forMainFrameOnly: false)
         }
     }
@@ -42,7 +41,7 @@ struct TabView: View {
     }
 
     var cookies: [HTTPCookie] {
-        tab.customCookies.compactMap { cookie in
+        delegate.tab.customCookies.compactMap { cookie in
             let properties: [HTTPCookiePropertyKey: Any?] = [
                 .name: cookie.name,
                 .path: cookie.path,
@@ -65,12 +64,12 @@ struct TabView: View {
     var body: some View {
         ContentView { webView in
             onPresent(webView.window!)
-            webView.load(URLRequest(url: tab.url))
+            webView.load(URLRequest(url: delegate.tab.url))
         }
             .with(
-                userAgent: tab.userAgent,
-                ui: appDelegate,
-                navigation: TabDelegate(tab, appDelegate),
+                userAgent: delegate.tab.userAgent,
+                ui: delegate.appDelegate,
+                navigation: delegate,
                 scripts: customCss + customJs + notificationPolyfill,
                 cookies: cookies,
                 handlers: [
@@ -79,7 +78,7 @@ struct TabView: View {
                     "notificationClose": notificationClose,
                 ]
             )
-            .navigationTitle(tab.title)
+            .navigationTitle(delegate.tab.title)
     }
 
     func notificationRequest(_: NSObject) async throws {

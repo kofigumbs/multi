@@ -11,7 +11,7 @@ class TabDelegate: NSObject, WKNavigationDelegate {
     }
 
     func webView(_: WKWebView, decidePolicyFor: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) -> () {
-        if decidePolicyFor.targetFrame != nil || decidePolicyFor.request.url?.scheme == "about" {
+        if let _ = decidePolicyFor.targetFrame {
             decisionHandler(.allow)
         }
         else {

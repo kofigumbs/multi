@@ -19,7 +19,7 @@ struct Runtime: App {
                 }
             }
             else {
-                TabView(tab: delegate.config.tabs[index], index: index, appDelegate: delegate) { window in
+                TabView(index: index, delegate: .init(delegate.config.tabs[index], delegate)) { window in
                     once {
                         for i in delegate.config.tabs.indices {
                             openWindow(value: i)
