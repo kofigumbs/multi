@@ -26,9 +26,13 @@ class MultiNotification {
     webkit.messageHandlers.notificationShow.postMessage(message)
     return new Proxy(notification, {
       get(_, prop) {
-        return prop === "close"
-          ? () => webkit.messageHandlers.notificationClose.postMessage(message)
-          : Reflect.get(...arguments)
+        if (prop === "close")
+          return () => {
+            webkit.messageHandlers.notificationClose.postMessage(message)
+            notification.close()
+          }
+        else
+          return Reflect.get(...arguments)
       },
     })
   }
