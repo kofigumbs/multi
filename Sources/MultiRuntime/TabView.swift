@@ -12,6 +12,14 @@ struct TabView: View {
     let delegate: TabViewDelegate
     let onPresent: (NSWindow) -> Void
 
+    var notificationPolyfill: [WKUserScript] {
+        guard let url = SettingsView.url(forResource: "notification.js"),
+              let js = try? String(contentsOf: url) else {
+            return []
+        }
+        return [WKUserScript(source: js, injectionTime: .atDocumentStart, forMainFrameOnly: false)]
+    }
+
     var customCss: [WKUserScript] {
         delegate.tab.customCss.compactMap({ try? Data(contentsOf: $0).base64EncodedString() }).map { css in
             WKUserScript(
@@ -30,14 +38,6 @@ struct TabView: View {
         delegate.tab.customJs.compactMap({ try? String(contentsOf: $0) }).map { js in
             WKUserScript(source: js, injectionTime: .atDocumentStart, forMainFrameOnly: false)
         }
-    }
-
-    var notificationPolyfill: [WKUserScript] {
-        guard let url = SettingsView.url(forResource: "notification.js"),
-              let js = try? String(contentsOf: url) else {
-            return []
-        }
-        return [WKUserScript(source: js, injectionTime: .atDocumentStart, forMainFrameOnly: false)]
     }
 
     var cookies: [HTTPCookie] {
@@ -70,7 +70,7 @@ struct TabView: View {
                 userAgent: delegate.tab.userAgent,
                 ui: delegate.appDelegate,
                 navigation: delegate,
-                scripts: customCss + customJs + notificationPolyfill,
+                scripts: notificationPolyfill + customCss + customJs,
                 cookies: cookies,
                 handlers: [
                     "notificationRequest": notificationRequest,
