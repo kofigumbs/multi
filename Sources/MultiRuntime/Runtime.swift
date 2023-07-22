@@ -21,7 +21,7 @@ struct Runtime: App {
             else {
                 TabView(index: index, delegate: .init(delegate.config.tabs[index], delegate)) { window in
                     once {
-                        for i in delegate.config.tabs.indices {
+                        for i in delegate.config.tabs.indices.reversed() {
                             openWindow(value: i)
                         }
                         delegate.openWindow = openWindow
@@ -31,7 +31,7 @@ struct Runtime: App {
                         window.level = .floating
                     }
                     if !delegate.config.windowed {
-                        NSApp.keyWindow?.tabGroup?.addWindow(window)
+                        NSApp.keyWindow?.tabGroup?.insertWindow(window, at: 1)
                     }
                     window.isExcludedFromWindowsMenu = true
                 }
