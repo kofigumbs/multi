@@ -166,28 +166,14 @@ Presumably all of this is so that they can track you for a few moments on your w
 Custom JS solution:
 
 ```js
-(() => {
+window.addEventListener("DOMContentLoaded", () => {
   const listener = e => e.stopPropagation();
   const query = () => document.querySelectorAll('a[target=_blank]').forEach(a => {
     a.removeEventListener('click', listener);
     a.addEventListener('click', listener, true);
   });
-  query();
   setInterval(query, 400); // wait time between DOM queries, in milliseconds
-})();
-```
-
-### Reload Slack when it disconnects
-
-Sometimes Slack's WebSocket disconnects and stops loading new messages.
-It seems like this is either an issue with [WebKit](https://bugs.webkit.org/show_bug.cgi?id=149551) or [Slack.com](https://slack.com/help/articles/205138367-Troubleshoot-connection-issues#websocket-trouble).
-Custom JS solution:
-
-```js
-setInterval(() => {
-  if (document.body.innerText.includes('Load new messages.'))
-    window.location.reload();
-}, 90000);
+});
 ```
 
 ### Find in page
@@ -196,7 +182,7 @@ Multi doesn't include any search functionality (Cmd-F).
 Custom JS solution:
 
 ```js
-(() => {
+window.addEventListener("DOMContentLoaded", () => {
   const highlightResults = (text, color) => {
     document.designMode = "on"; // https://stackoverflow.com/a/5887719
     var selection = window.getSelection();
@@ -256,12 +242,12 @@ Custom JS solution:
       input.focus();
     }
   });
-})();
+});
 ```
 
 ### Drag-and-drop to open URLs
 
-Sometimes you have a URL outside of Multi (maybe in an email), and you want to open it in Multi.
+Say you have a URL outside of Multi (maybe in an email), and you want to open it in Multi.
 Custom JS solution:
 
 ```js
