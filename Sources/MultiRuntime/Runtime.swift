@@ -50,30 +50,24 @@ struct Runtime: App {
                     }
                 }
                 CommandGroup(after: .sidebar) {
-                    button("Reload Page", #selector(WKWebView.reload(_:)))
+                    Button("Reload Page", #selector(WKWebView.reload(_:)))
                         .keyboardShortcut("R")
-                    button("Actual Size", #selector(WKWebView.actualSize(_:)))
+                    Button("Actual Size", #selector(WKWebView.actualSize(_:)))
                         .keyboardShortcut("0")
-                    button("Zoom In", #selector(WKWebView.zoomIn(_:)))
+                    Button("Zoom In", #selector(WKWebView.zoomIn(_:)))
                         .keyboardShortcut("+")
-                    button("Zoom Out", #selector(WKWebView.zoomOut(_:)))
+                    Button("Zoom Out", #selector(WKWebView.zoomOut(_:)))
                         .keyboardShortcut("-")
                 }
                 CommandMenu("History") {
-                    button("Back", #selector(WKWebView.goBack(_:)))
+                    Button("Back", #selector(WKWebView.goBack(_:)))
                         .keyboardShortcut("[")
-                    button("Forward", #selector(WKWebView.goForward(_:)))
+                    Button("Forward", #selector(WKWebView.goForward(_:)))
                         .keyboardShortcut("]")
                 }
             }
         Settings {
             SettingsView()
-        }
-    }
-
-    func button(_ text: String, _ selector: Selector) -> Button<Text> {
-        Button(text) {
-            NSApp.sendAction(selector, to: nil, from: nil)
         }
     }
 }
