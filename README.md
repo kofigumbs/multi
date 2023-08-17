@@ -1,5 +1,5 @@
 
-<img align="left" src="./Assets/logo.png" alt="Multi logo" style="width: 80px; height: 80px;" width="80px" height="80px" />
+<img align="left" src="./Docs/logo.png" alt="Multi logo" style="width: 80px; height: 80px;" width="80px" height="80px" />
 
 # Multi
 
@@ -13,7 +13,7 @@ Create a custom, lightweight macOS app from a group of websites, complete with:
 Watch me create a Slack clone from scratch in 30 seconds (<a href="https://kofi.sexy/slack-app-fewer-resources/demo.mp4" target="_blank">high res video</a>):
 
 <p align="center">
- <img src="./Assets/demo.gif" alt="Demo GIF">
+ <img src="./Docs/demo.gif" alt="Demo GIF">
 </p>
 
 
