@@ -3,34 +3,31 @@ import SwiftUI
 import WebKit
 
 public struct ContentView: View, NSViewRepresentable {
-    private var userAgent: String?
-    private var ui: WKUIDelegate?
-    private var navigation: WKNavigationDelegate?
-    private var scripts: [WKUserScript] = []
-    private var cookies: [HTTPCookie] = []
-    private var delegate = ContentViewDelegate()
+    private let userAgent: String?
+    private let ui: WKUIDelegate?
+    private let navigation: WKNavigationDelegate?
+    private let scripts: [WKUserScript]
+    private let cookies: [HTTPCookie]
     private let onPresent: (WKWebView) -> Void
 
-    public init(onPresent: @escaping (WKWebView) -> Void) {
-        self.onPresent = onPresent
-    }
+    private let delegate = ContentViewDelegate()
 
-    public func with(
+    public init(
         userAgent: String? = nil,
         ui: WKUIDelegate? = nil,
         navigation: WKNavigationDelegate? = nil,
         scripts: [WKUserScript] = [],
         cookies: [HTTPCookie] = [],
-        handlers: [String: (NSObject) async throws -> Any] = [:]
-    ) -> ContentView {
-        var this = self
-        this.userAgent = userAgent
-        this.ui = ui
-        this.navigation = navigation
-        this.scripts = scripts
-        this.cookies = cookies
-        this.delegate.handlers = handlers
-        return this
+        handlers: [String: (NSObject) async throws -> Any] = [:],
+        onPresent: @escaping (WKWebView) -> Void
+    ) {
+        self.userAgent = userAgent
+        self.ui = ui
+        self.navigation = navigation
+        self.scripts = scripts
+        self.cookies = cookies
+        self.delegate.handlers = handlers
+        self.onPresent = onPresent
     }
 
     public func makeNSView(context: NSViewRepresentableContext<ContentView>) -> WKWebView {

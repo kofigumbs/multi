@@ -62,22 +62,21 @@ struct TabView: View {
     }
 
     var body: some View {
-        ContentView { webView in
+        ContentView(
+            userAgent: delegate.tab.userAgent,
+            ui: delegate.appDelegate,
+            navigation: delegate,
+            scripts: notificationPolyfill + customCss + customJs,
+            cookies: cookies,
+            handlers: [
+                "notificationRequest": notificationRequest,
+                "notificationShow": notificationShow,
+                "notificationClose": notificationClose,
+            ]
+        ) { webView in
             onPresent(webView.window!)
             webView.load(URLRequest(url: delegate.tab.url))
         }
-            .with(
-                userAgent: delegate.tab.userAgent,
-                ui: delegate.appDelegate,
-                navigation: delegate,
-                scripts: notificationPolyfill + customCss + customJs,
-                cookies: cookies,
-                handlers: [
-                    "notificationRequest": notificationRequest,
-                    "notificationShow": notificationShow,
-                    "notificationClose": notificationClose,
-                ]
-            )
             .navigationTitle(delegate.tab.title)
     }
 

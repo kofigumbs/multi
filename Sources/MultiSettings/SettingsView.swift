@@ -50,7 +50,10 @@ public struct SettingsView: View {
     }
 
     public var body: some View {
-        ContentView { webView in
+        ContentView(
+            scripts: scripts,
+            handlers: ["icon": icon, "json": json, "save": save]
+        ) { webView in
             if let file = file {
                 webView.loadFileURL(file, allowingReadAccessTo: file)
             }
@@ -64,10 +67,6 @@ public struct SettingsView: View {
                 )
             }
         }
-            .with(
-                scripts: scripts,
-                handlers: ["icon": icon, "json": json, "save": save]
-            )
     }
 
     private func icon(_: NSObject) async throws -> String {
