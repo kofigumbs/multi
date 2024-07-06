@@ -71,6 +71,7 @@ else
   echo "Skipping icon creation because no PNG or ICNS provided"
 fi
 
+touch "$MULTI_APP_LOCATION"
 codesign --sign - --force "$MULTI_APP_LOCATION"
 
 if [[ ! -z "$MULTI_RELAUNCH_PID" ]]
