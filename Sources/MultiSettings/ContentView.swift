@@ -53,7 +53,7 @@ public struct ContentView: View, NSViewRepresentable {
         webView.navigationDelegate = navigation
         DispatchQueue.main.async {
             onPresent(webView)
-            webView.window!.contentView = webView
+            webView.window?.contentView = webView
         }
         return webView
     }
